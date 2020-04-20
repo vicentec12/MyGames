@@ -1,12 +1,51 @@
 <resources>
+
     <string name="app_name">MyGames</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
+    <!-- Validations -->
+    <string name="error_message_empty_field">Favor, preencher campo \"%s\".</string>
+    <string name="error_message_invalid_date">A data informada é INVÁLIDA!</string>
+    <string name="error_message_invalid_time">O horário informado é INVÁLIDO.</string>
+    <string name="error_message_invalid_cpf">O CPF informado é INVÁLIDO!</string>
+    <string name="error_message_invalid_cnpj">O CNPJ informado é INVÁLIDO!</string>
+    <string name="error_message_invalid_value">O VALOR informado é INVÁLIDO!</string>
+    <string name="error_message_invalid_num_characters">Quantidade de caracteres do campo "%1$s" não pode ser menor que %2$d!</string>
+
+    <!-- Alert Dialogs Titles -->
+    <string name="title_alert_erro">Erro</string>
+    <string name="title_alert_aviso">Aviso</string>
+    <string name="title_alert_confirmacao">Confirmação</string>
+    <string name="title_alert_informacoes">Informações</string>
+    <string name="title_alert_classifique_conteudo">Classifique este conteúdo</string>
+    <string name="label_alert_button_ok">OK</string>
+    <string name="label_alert_button_sim">Sim</string>
+    <string name="label_alert_button_nao">Não</string>
+    <string name="label_alert_button_cancelar">Cancelar</string>
+    <string name="label_alert_button_confirmar">Confirmar</string>
+    <string name="label_alert_button_configurar">Configurar</string>
+    <string name="label_alert_button_enviar">Enviar</string>
+
+    <!-- Messages -->
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="error_message_insert_game_null">Erro ao inserir pois o jogo está nulo. Entre em contato com o suporte.</string>
+    <string name="message_game_inserted">Jogo gravado com sucesso!</string>
+    <string name="message_game_updated">Jogo atualizado com sucesso!</string>
+    <string name="error_message_game_insert">Erro ao inserir jogo!</string>
+    <string name="error_message_game_update">Erro ao atualizar jogo!</string>
+    <string name="message_game_deleted">Jogo exluído com sucesso!</string>
+    <string name="error_message_game_delete">Erro ao excluir jogo(s)!</string>
+    <string name="message_games_empty">Nenhum jogo foi encontrado.</string>
+    <string name="title_activity_add_games">Adicionar Jogo</string>
+    <string name="text_game_name">Nome do Jogo</string>
+    <string name="text_game_year">Ano de Lançamento</string>
+    <string name="title_activity_main">Meus Jogos</string>
+
+    <!-- Plurals -->
+    <plurals name="message_games_deleted">
+        <item quantity="one">%d jogo foi excluído com sucesso!</item>
+        <item quantity="many">%d jogos foram excluídos com sucesso!</item>
+    </plurals>
+
 </resources>
