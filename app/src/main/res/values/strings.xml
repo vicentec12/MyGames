@@ -41,11 +41,22 @@
     <string name="text_game_name">Nome do Jogo</string>
     <string name="text_game_year">Ano de Lançamento</string>
     <string name="title_activity_main">Meus Jogos</string>
+    <string name="text_delete">Excluir</string>
+    <string name="text_select_all">Selecionar tudo</string>
+    <string name="message_no_game_select">"Favor, selecione pelo menos um jogo para realizar a exclusão. "</string>
 
     <!-- Plurals -->
     <plurals name="message_games_deleted">
         <item quantity="one">%d jogo foi excluído com sucesso!</item>
-        <item quantity="many">%d jogos foram excluídos com sucesso!</item>
+        <item quantity="other">%d jogos foram excluídos com sucesso!</item>
+    </plurals>
+    <plurals name="text_selected_games">
+        <item quantity="one">%1$d jogo selecionado</item>
+        <item quantity="other">%1$d jogos selecionados</item>
+    </plurals>
+    <plurals name="message_warning_delete_game">
+        <item quantity="one">Deseja realmente excluir o jogo selecionado?</item>
+        <item quantity="other">Deseja realmente excluir os %1$s jogos selecionados?</item>
     </plurals>
 
 </resources>

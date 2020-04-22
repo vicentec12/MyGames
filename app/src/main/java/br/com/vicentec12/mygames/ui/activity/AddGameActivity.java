@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
@@ -20,6 +21,11 @@ public class AddGameActivity extends AppCompatActivity {
 
     private TextInputLayout _tilName;
     private TextInputLayout _tilYear;
+    private FloatingActionButton _fabAddGame;
+
+    private boolean isUpdate;
+    private Game mSelectedGame;
+    private GameRepository mGameRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +37,22 @@ public class AddGameActivity extends AppCompatActivity {
     private void init() {
         _tilName = findViewById(R.id.til_add_game_name);
         _tilYear = findViewById(R.id.til_add_game_year);
+        _fabAddGame = findViewById(R.id.fab_add_game);
         config();
     }
 
     private void config() {
+        configUpdate();
+    }
 
+    private void configUpdate() {
+        mSelectedGame = (Game) getIntent().getSerializableExtra("game");
+        if (mSelectedGame != null) {
+            isUpdate = true;
+            _tilName.getEditText().setText(mSelectedGame.getName());
+            _tilYear.getEditText().setText(mSelectedGame.getYear());
+            _fabAddGame.setImageResource(R.drawable.ic_edit);
+        }
     }
 
     private boolean validateFields() {
@@ -52,28 +69,57 @@ public class AddGameActivity extends AppCompatActivity {
         ValidationUtil.removeErrorTextInputLayout(_tilYear);
     }
 
-    public void saveGame(View view) {
+    public void fabEvent(View view) {
         if (validateFields()) {
             String name = _tilName.getEditText().getText().toString();
             String year = _tilYear.getEditText().getText().toString();
-            Game game = new Game(name, year);
-            GameRepository mGameRepository = InstantiateUtil.instantialeGameRepository(this);
-            mGameRepository.insert(this, game, new Callbacks.OnLocalCallback() {
-                @Override
-                public void onSuccess(String message) {
-                    _tilName.getEditText().setText("");
-                    _tilYear.getEditText().setText("");
-                    Snackbar.make(_tilName, message, BaseTransientBottomBar.LENGTH_LONG)
-                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-                }
-
-                @Override
-                public void onFailure(String message) {
-                    Snackbar.make(_tilName, message, BaseTransientBottomBar.LENGTH_LONG)
-                            .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-                }
-            });
+            mGameRepository = InstantiateUtil.instantialeGameRepository(this);
+            if (isUpdate) {
+                mSelectedGame.setName(name);
+                mSelectedGame.setYear(year);
+                updateGame(mSelectedGame);
+            } else {
+                Game game = new Game(name, year);
+                insertGame(game);
+            }
         }
+    }
+
+    private void insertGame(Game game) {
+        GameRepository mGameRepository = InstantiateUtil.instantialeGameRepository(this);
+        mGameRepository.insert(this, game, new Callbacks.OnLocalCallback() {
+            @Override
+            public void onSuccess(String message) {
+                setResult(RESULT_OK);
+                _tilName.getEditText().setText("");
+                _tilYear.getEditText().setText("");
+                Snackbar.make(_tilName, message, BaseTransientBottomBar.LENGTH_LONG)
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Snackbar.make(_tilName, message, BaseTransientBottomBar.LENGTH_LONG)
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+            }
+        });
+    }
+
+    private void updateGame(Game game) {
+        mGameRepository.update(this, game, new Callbacks.OnLocalCallback() {
+            @Override
+            public void onSuccess(String message) {
+                setResult(RESULT_OK);
+                Snackbar.make(_tilName, message, BaseTransientBottomBar.LENGTH_LONG)
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Snackbar.make(_tilName, message, BaseTransientBottomBar.LENGTH_LONG)
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+            }
+        });
     }
 
 }
