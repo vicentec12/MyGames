@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/shrine_tall_toolbar_height"
+    android:fitsSystemWindows="true"
+    android:theme="@style/AppTheme.AppBarOverlay">
+
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/toolbar_collapsing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:fitsSystemWindows="true"
+        app:contentScrim="@color/colorPrimary"
+        app:expandedTitleGravity="start|bottom"
+        app:expandedTitleTextAppearance="@style/TreinAgoraCollapsingToolbarExpandedTextStyle"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/toolbar_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:scaleType="centerCrop"
+            app:layout_collapseMode="parallax"
+            app:layout_collapseParallaxMultiplier="0.5" />
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:fitsSystemWindows="true"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+</com.google.android.material.appbar.AppBarLayout>

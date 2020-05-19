@@ -12,4 +12,8 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="TreinAgoraCollapsingToolbarExpandedTextStyle" parent="AppTheme">
+        <item name="android:textColor">@color/colorTransparent</item>
+    </style>
+
 </resources>

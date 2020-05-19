@@ -5,4 +5,6 @@
     <dimen name="minor_spacing">4dp</dimen>
     <dimen name="corner_radius_cardview">4dp</dimen>
     <dimen name="activity_with_fab">96dp</dimen>
+    <!-- Toolbar dimensions by Android Design guidelines. -->
+    <dimen name="shrine_tall_toolbar_height">224dp</dimen>
 </resources>
