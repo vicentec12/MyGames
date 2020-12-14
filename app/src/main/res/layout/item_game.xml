@@ -1,50 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:orientation="vertical">
+<layout>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_item_game_name"
-        android:layout_width="0dp"
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="game"
+            type="br.com.vicentec12.mygames.data.model.Game" />
+
+        <variable
+            name="isSelectionMode"
+            type="Boolean" />
+
+        <variable
+            name="isSelected"
+            type="Boolean" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/default_spacing"
-        android:layout_marginTop="@dimen/half_spacing"
-        android:layout_marginRight="@dimen/default_spacing"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@id/tv_item_game_year"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/cb_item_game_checked"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        tools:text="The Legend of Zelda" />
+        android:background="?attr/selectableItemBackground"
+        android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_item_game_year"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/default_spacing"
-        android:layout_marginRight="@dimen/default_spacing"
-        android:layout_marginBottom="@dimen/half_spacing"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/cb_item_game_checked"
-        app:layout_constraintTop_toBottomOf="@id/tv_item_game_name"
-        tools:text="1986" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvw_item_game_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_spacing"
+            android:layout_marginTop="@dimen/half_spacing"
+            android:layout_marginRight="@dimen/default_spacing"
+            android:text="@{game.name}"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toTopOf="@id/tvw_item_game_year"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/cbx_item_game_checked"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="The Legend of Zelda" />
 
-    <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/cb_item_game_checked"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:checked="false"
-        android:clickable="false"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvw_item_game_year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_spacing"
+            android:layout_marginRight="@dimen/default_spacing"
+            android:layout_marginBottom="@dimen/half_spacing"
+            android:text="@{game.year}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/cbx_item_game_checked"
+            app:layout_constraintTop_toBottomOf="@id/tvw_item_game_name"
+            tools:text="1986" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cbx_item_game_checked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:checked="@{isSelected}"
+            android:clickable="false"
+            android:visibility="@{isSelectionMode ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

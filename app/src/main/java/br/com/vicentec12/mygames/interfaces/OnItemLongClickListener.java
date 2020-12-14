@@ -8,6 +8,6 @@ import android.view.View;
 
 public interface OnItemLongClickListener {
 
-    void onItemLongClickListener(View view, int position, Object item);
+    void onItemLongClick(View view, Object item, int position);
 
 }

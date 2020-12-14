@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.data.source.local;
+package br.com.vicentec12.mygames.data.source;
 
 import android.content.Context;
 
@@ -7,8 +7,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import br.com.vicentec12.mygames.data.model.Game;
-import br.com.vicentec12.mygames.data.source.local.dao.GameDao;
-import br.com.vicentec12.mygames.util.AppExecutors;
+import br.com.vicentec12.mygames.data.source.game.GameDao;
+import br.com.vicentec12.mygames.extensions.AppExecutors;
 
 @Database(entities = {Game.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {

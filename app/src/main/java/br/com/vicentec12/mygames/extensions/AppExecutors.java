@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.util;
+package br.com.vicentec12.mygames.extensions;
 
 import android.os.Handler;
 import android.os.Looper;

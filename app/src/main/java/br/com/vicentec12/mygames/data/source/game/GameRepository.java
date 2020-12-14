@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.data.source.repository;
+package br.com.vicentec12.mygames.data.source.game;
 
 import android.content.Context;
 
@@ -7,10 +7,7 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import br.com.vicentec12.mygames.data.model.Game;
-import br.com.vicentec12.mygames.data.source.Callbacks;
-import br.com.vicentec12.mygames.data.source.GameDataSource;
-
-import static com.google.android.gms.internal.zzdog.checkNotNull;
+import br.com.vicentec12.mygames.interfaces.Callbacks;
 
 public class GameRepository implements GameDataSource {
 
@@ -19,7 +16,7 @@ public class GameRepository implements GameDataSource {
     private final GameDataSource gameLocalDataSource;
 
     private GameRepository(@NonNull GameDataSource gameLocalDataSource) {
-        this.gameLocalDataSource = checkNotNull(gameLocalDataSource);
+        this.gameLocalDataSource = gameLocalDataSource;
     }
 
     public static GameRepository getInstance(GameDataSource gameLocalDataSource) {
@@ -49,13 +46,8 @@ public class GameRepository implements GameDataSource {
     }
 
     @Override
-    public void delete(Context context, @NonNull Game game, Callbacks.OnLocalCallback callback) {
-        gameLocalDataSource.delete(context, game, callback);
-    }
-
-    @Override
-    public void delete(Context context, @NonNull List<Game> games, Callbacks.OnLocalCallback callback) {
-        gameLocalDataSource.delete(context, games, callback);
+    public void delete(@NonNull List<Game> games, OnGameDeletedCallback callback) {
+        gameLocalDataSource.delete(games, callback);
     }
 
     @Override

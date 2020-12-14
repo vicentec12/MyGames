@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.data.source.local.data_source;
+package br.com.vicentec12.mygames.data.source.game;
 
 import android.content.Context;
 
@@ -8,10 +8,9 @@ import java.util.List;
 
 import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.data.model.Game;
-import br.com.vicentec12.mygames.data.source.Callbacks;
-import br.com.vicentec12.mygames.data.source.GameDataSource;
-import br.com.vicentec12.mygames.data.source.local.AppDatabase;
-import br.com.vicentec12.mygames.util.AppExecutors;
+import br.com.vicentec12.mygames.data.source.AppDatabase;
+import br.com.vicentec12.mygames.interfaces.Callbacks;
+import br.com.vicentec12.mygames.extensions.AppExecutors;
 
 public class GameLocalDataSource implements GameDataSource {
 
@@ -69,9 +68,9 @@ public class GameLocalDataSource implements GameDataSource {
             long rowIds = appDatabase.getGameDao().insert(game);
             appExecutors.mainThread().execute(() -> {
                 if (rowIds > 0)
-                    callback.onSuccess(context.getString(R.string.message_game_inserted));
+                    callback.onSuccess(R.string.message_game_inserted);
                 else
-                    callback.onFailure(context.getString(R.string.error_message_game_insert));
+                    callback.onFailure(R.string.error_message_game_insert);
             });
         };
         appExecutors.diskIO().execute(insert);
@@ -83,37 +82,23 @@ public class GameLocalDataSource implements GameDataSource {
             int numUpdated = appDatabase.getGameDao().update(game);
             appExecutors.mainThread().execute(() -> {
                 if (numUpdated > 0)
-                    callback.onSuccess(context.getString(R.string.message_game_updated));
+                    callback.onSuccess(R.string.message_game_updated);
                 else
-                    callback.onFailure(context.getString(R.string.error_message_game_update));
+                    callback.onFailure(R.string.error_message_game_update);
             });
         };
         appExecutors.diskIO().execute(update);
     }
 
     @Override
-    public void delete(Context context, @NonNull Game game, Callbacks.OnLocalCallback callback) {
-        Runnable delete = () -> {
-            int numDeleted = appDatabase.getGameDao().delete(game);
-            appExecutors.mainThread().execute(() -> {
-                if (numDeleted > 0)
-                    callback.onSuccess(context.getString(R.string.message_game_deleted));
-                else
-                    callback.onFailure(context.getString(R.string.error_message_game_delete));
-            });
-        };
-        appExecutors.diskIO().execute(delete);
-    }
-
-    @Override
-    public void delete(Context context, @NonNull List<Game> games, Callbacks.OnLocalCallback callback) {
+    public void delete(@NonNull List<Game> games, OnGameDeletedCallback callback) {
         Runnable delete = () -> {
             int numDeleted = appDatabase.getGameDao().delete(games);
             appExecutors.mainThread().execute(() -> {
                 if (numDeleted > 0)
-                    callback.onSuccess(context.getResources().getQuantityString(R.plurals.message_games_deleted, numDeleted, numDeleted));
+                    callback.onSuccess(R.plurals.message_games_deleted, numDeleted);
                 else
-                    callback.onFailure(context.getString(R.string.error_message_game_delete));
+                    callback.onFailure(R.string.error_message_game_delete);
             });
         };
         appExecutors.diskIO().execute(delete);

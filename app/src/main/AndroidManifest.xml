@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.game.GameActivity"
             android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.AddGameActivity"
+            android:name=".ui.add_game.AddGameActivity"
             android:label="@string/title_activity_add_games" />
     </application>
 

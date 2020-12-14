@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.data.source.local.dao;
+package br.com.vicentec12.mygames.data.source.game;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

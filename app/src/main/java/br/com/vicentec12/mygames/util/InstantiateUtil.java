@@ -2,9 +2,10 @@ package br.com.vicentec12.mygames.util;
 
 import android.content.Context;
 
-import br.com.vicentec12.mygames.data.source.local.AppDatabase;
-import br.com.vicentec12.mygames.data.source.local.data_source.GameLocalDataSource;
-import br.com.vicentec12.mygames.data.source.repository.GameRepository;
+import br.com.vicentec12.mygames.data.source.AppDatabase;
+import br.com.vicentec12.mygames.data.source.game.GameLocalDataSource;
+import br.com.vicentec12.mygames.data.source.game.GameRepository;
+import br.com.vicentec12.mygames.extensions.AppExecutors;
 
 public class InstantiateUtil {
 

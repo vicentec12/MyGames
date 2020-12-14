@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.ui.activity;
+package br.com.vicentec12.mygames.ui.add_game;
 
 import android.os.Bundle;
 import android.view.View;
@@ -12,8 +12,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.data.model.Game;
-import br.com.vicentec12.mygames.data.source.Callbacks;
-import br.com.vicentec12.mygames.data.source.repository.GameRepository;
+import br.com.vicentec12.mygames.data.source.game.GameRepository;
+import br.com.vicentec12.mygames.interfaces.Callbacks;
 import br.com.vicentec12.mygames.util.InstantiateUtil;
 import br.com.vicentec12.mygames.util.ValidationUtil;
 
@@ -89,17 +89,17 @@ public class AddGameActivity extends AppCompatActivity {
         GameRepository mGameRepository = InstantiateUtil.instantialeGameRepository(this);
         mGameRepository.insert(this, game, new Callbacks.OnLocalCallback() {
             @Override
-            public void onSuccess(String message) {
+            public void onSuccess(int mMessage) {
                 setResult(RESULT_OK);
                 _tilName.getEditText().setText("");
                 _tilYear.getEditText().setText("");
-                Snackbar.make(_tilName, message, BaseTransientBottomBar.LENGTH_LONG)
+                Snackbar.make(_tilName, mMessage, BaseTransientBottomBar.LENGTH_LONG)
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }
 
             @Override
-            public void onFailure(String message) {
-                Snackbar.make(_tilName, message, BaseTransientBottomBar.LENGTH_LONG)
+            public void onFailure(int mMessage) {
+                Snackbar.make(_tilName, mMessage, BaseTransientBottomBar.LENGTH_LONG)
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }
         });
@@ -108,15 +108,15 @@ public class AddGameActivity extends AppCompatActivity {
     private void updateGame(Game game) {
         mGameRepository.update(this, game, new Callbacks.OnLocalCallback() {
             @Override
-            public void onSuccess(String message) {
+            public void onSuccess(int mMessage) {
                 setResult(RESULT_OK);
-                Snackbar.make(_tilName, message, BaseTransientBottomBar.LENGTH_LONG)
+                Snackbar.make(_tilName, mMessage, BaseTransientBottomBar.LENGTH_LONG)
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }
 
             @Override
-            public void onFailure(String message) {
-                Snackbar.make(_tilName, message, BaseTransientBottomBar.LENGTH_LONG)
+            public void onFailure(int mMessage) {
+                Snackbar.make(_tilName, mMessage, BaseTransientBottomBar.LENGTH_LONG)
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }
         });

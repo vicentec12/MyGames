@@ -38,24 +38,6 @@ public class ValidationUtil {
         return true;
     }
 
-    public static boolean validateCpfField(Context context, TextInputLayout _tilText) {
-        if (_tilText == null) return false;
-        if (!CPFUtil.validarCPF(_tilText.getEditText().getText().toString())) {
-            createError(_tilText, context.getString(R.string.error_message_invalid_cpf));
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean validateCnpjField(Context context, TextInputLayout _tilText) {
-        if (_tilText == null) return false;
-        if (!CNPJUtil.validarCNPJ(_tilText.getEditText().getText().toString())) {
-            createError(_tilText, context.getString(R.string.error_message_invalid_cnpj));
-            return false;
-        }
-        return true;
-    }
-
     public static boolean validateFloatField(Context context, TextInputLayout _tilText) {
         if (_tilText == null) return false;
         try {
