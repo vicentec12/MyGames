@@ -26,8 +26,8 @@ public class GameRepository implements GameDataSource {
     }
 
     @Override
-    public void list(OnGamesListedCallback callback) {
-        gameLocalDataSource.list(callback);
+    public void list(int sortBy, OnGamesListedCallback callback) {
+        gameLocalDataSource.list(sortBy, callback);
     }
 
     @Override
@@ -36,13 +36,13 @@ public class GameRepository implements GameDataSource {
     }
 
     @Override
-    public void insert(Context context, @NonNull Game game, Callbacks.OnLocalCallback callback) {
-        gameLocalDataSource.insert(context, game, callback);
+    public void insert(@NonNull Game game, Callbacks.OnLocalCallback callback) {
+        gameLocalDataSource.insert(game, callback);
     }
 
     @Override
-    public void update(Context context, @NonNull Game game, Callbacks.OnLocalCallback callback) {
-        gameLocalDataSource.update(context, game, callback);
+    public void update(@NonNull Game game, Callbacks.OnLocalCallback callback) {
+        gameLocalDataSource.update(game, callback);
     }
 
     @Override
@@ -54,4 +54,5 @@ public class GameRepository implements GameDataSource {
     public void deleteAll() {
         gameLocalDataSource.deleteAll();
     }
+
 }

@@ -12,6 +12,7 @@ import java.util.List;
 
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.data.source.game.GameDataSource;
+import br.com.vicentec12.mygames.data.source.game.GameLocalDataSource;
 import br.com.vicentec12.mygames.data.source.game.GameRepository;
 import br.com.vicentec12.mygames.extensions.Event;
 
@@ -24,6 +25,7 @@ public class GameViewModel extends ViewModel {
 
     // Activity
     private final MutableLiveData<List<Game>> mMutableGames = new MutableLiveData<>();
+    private final MutableLiveData<Integer> mMutableOrderBySelection = new MutableLiveData<>();
     private final MutableLiveData<Integer> mMutableViewFlipperChild = new MutableLiveData<>();
     private final MutableLiveData<Event<Integer>> mMutableMessage = new MutableLiveData<>();
     private final MutableLiveData<Event<List<Integer>>> mMutablePluralMessage = new MutableLiveData<>();
@@ -46,10 +48,17 @@ public class GameViewModel extends ViewModel {
         return mPluralMessage;
     }
 
-    public void listSavedGames() {
-        mGameRepository.list(new GameDataSource.OnGamesListedCallback() {
+    public int getOrderBySelection() {
+        if (mMutableOrderBySelection.getValue() != null)
+            return mMutableOrderBySelection.getValue();
+        return GameLocalDataSource.SORT_BY_NAME;
+    }
+
+    public void listSavedGames(int sortBy) {
+        mGameRepository.list(sortBy, new GameDataSource.OnGamesListedCallback() {
             @Override
             public void onSuccess(List<Game> games) {
+                mMutableOrderBySelection.setValue(sortBy);
                 mMutableViewFlipperChild.setValue(CHILD_RECYCLER);
                 mMutableGames.setValue(games);
             }
@@ -88,6 +97,10 @@ public class GameViewModel extends ViewModel {
 
     public MutableLiveData<List<Game>> getMutableGames() {
         return mMutableGames;
+    }
+
+    public MutableLiveData<Integer> getMutableOrderBySelection() {
+        return mMutableOrderBySelection;
     }
 
     public MutableLiveData<Integer> getMutableViewFlipperChild() {
@@ -201,6 +214,7 @@ public class GameViewModel extends ViewModel {
             this.mGameRepository = mGameRepository;
         }
 
+        @SuppressWarnings("unchecked")
         @NonNull
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {

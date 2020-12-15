@@ -1,72 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.add_game.AddGameActivity">
+<layout>
 
-    <ScrollView
+    <data>
+
+        <import type="br.com.vicentec12.mygames.R" />
+
+        <variable
+            name="viewModel"
+            type="br.com.vicentec12.mygames.ui.add_game.AddGameViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.add_game.AddGameActivity">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_add_game_name"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/default_spacing"
-                android:hint="@string/text_game_name"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_add_game_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
-                    android:inputType="textCapWords" />
+                    android:layout_margin="@dimen/default_spacing"
+                    android:hint="@string/text_game_name"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:text="@={viewModel.mutableGame.name}" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_add_game_year"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/default_spacing"
-                android:layout_marginTop="@dimen/half_spacing"
-                android:layout_marginRight="@dimen/default_spacing"
-                android:layout_marginBottom="@dimen/half_spacing"
-                android:hint="@string/text_game_year"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_add_game_name">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_add_game_year"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:maxLength="4" />
+                    android:layout_marginLeft="@dimen/default_spacing"
+                    android:layout_marginTop="@dimen/half_spacing"
+                    android:layout_marginRight="@dimen/default_spacing"
+                    android:layout_marginBottom="@dimen/half_spacing"
+                    android:hint="@string/text_game_year"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_add_game_name">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:text="@={viewModel.mutableGame.year}" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+                </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_game"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/default_spacing"
-        android:onClick="fabEvent"
-        app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_save"
-        app:tint="@android:color/white" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_add_game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/default_spacing"
+            android:onClick="fabEvent"
+            app:backgroundTint="@color/colorPrimary"
+            app:srcVector="@{viewModel.mutableGame.id == 0 ? R.drawable.ic_save : R.drawable.ic_edit}"
+            app:tint="@android:color/white" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

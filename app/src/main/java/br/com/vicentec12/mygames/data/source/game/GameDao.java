@@ -17,6 +17,9 @@ public interface GameDao {
     @Query("SELECT * FROM game ORDER BY name")
     List<Game> list();
 
+    @Query("SELECT * FROM game ORDER BY year")
+    List<Game> listByYear();
+
     @Query("SELECT * FROM game WHERE _id = :id")
     Game get(int id);
 

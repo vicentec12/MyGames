@@ -28,6 +28,10 @@ public class Game implements Serializable {
     }
 
     @Ignore
+    public Game() {
+    }
+
+    @Ignore
     public Game(String name, String year) {
         this.name = name;
         this.year = year;

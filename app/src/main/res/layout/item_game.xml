@@ -10,12 +10,16 @@
             type="br.com.vicentec12.mygames.data.model.Game" />
 
         <variable
-            name="isSelectionMode"
-            type="Boolean" />
+            name="viewModel"
+            type="br.com.vicentec12.mygames.ui.game.GameViewModel" />
 
         <variable
-            name="isSelected"
-            type="Boolean" />
+            name="position"
+            type="int" />
+
+        <variable
+            name="onItemClickListener"
+            type="br.com.vicentec12.mygames.interfaces.OnItemClickListener" />
 
     </data>
 
@@ -25,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
+        android:onClick="@{(view) -> onItemClickListener.onItemClick(view, game, position)}"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -62,9 +67,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:checked="@{isSelected}"
+            android:checked="@{viewModel.isGameSelected(position)}"
             android:clickable="false"
-            android:visibility="@{isSelectionMode ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.mutableSelectionMode ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

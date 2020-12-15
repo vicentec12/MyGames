@@ -9,10 +9,13 @@ import java.util.List;
 import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.data.source.AppDatabase;
-import br.com.vicentec12.mygames.interfaces.Callbacks;
 import br.com.vicentec12.mygames.extensions.AppExecutors;
+import br.com.vicentec12.mygames.interfaces.Callbacks;
 
 public class GameLocalDataSource implements GameDataSource {
+
+    public static final int SORT_BY_NAME = 0;
+    public static final int SORT_BY_YEAR = 1;
 
     private static volatile GameLocalDataSource INSTANCE;
 
@@ -35,9 +38,13 @@ public class GameLocalDataSource implements GameDataSource {
     }
 
     @Override
-    public void list(OnGamesListedCallback callback) {
+    public void list(int sortBy, OnGamesListedCallback callback) {
         Runnable list = () -> {
-            List<Game> games = appDatabase.getGameDao().list();
+            List<Game> games;
+            if (sortBy == SORT_BY_NAME)
+                games = appDatabase.getGameDao().list();
+            else
+                games = appDatabase.getGameDao().listByYear();
             appExecutors.mainThread().execute(() -> {
                 if (games.isEmpty())
                     callback.onFailure();
@@ -63,7 +70,7 @@ public class GameLocalDataSource implements GameDataSource {
     }
 
     @Override
-    public void insert(Context context, @NonNull Game game, Callbacks.OnLocalCallback callback) {
+    public void insert(@NonNull Game game, Callbacks.OnLocalCallback callback) {
         Runnable insert = () -> {
             long rowIds = appDatabase.getGameDao().insert(game);
             appExecutors.mainThread().execute(() -> {
@@ -77,7 +84,7 @@ public class GameLocalDataSource implements GameDataSource {
     }
 
     @Override
-    public void update(Context context, @NonNull Game game, Callbacks.OnLocalCallback callback) {
+    public void update(@NonNull Game game, Callbacks.OnLocalCallback callback) {
         Runnable update = () -> {
             int numUpdated = appDatabase.getGameDao().update(game);
             appExecutors.mainThread().execute(() -> {

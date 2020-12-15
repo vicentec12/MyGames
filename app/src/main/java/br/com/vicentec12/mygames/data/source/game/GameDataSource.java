@@ -36,13 +36,13 @@ public interface GameDataSource {
 
     }
 
-    void list(OnGamesListedCallback callback);
+    void list(int sortBy, OnGamesListedCallback callback);
 
     void get(int id, OnGameGetedCallback callback);
 
-    void insert(Context context, @NonNull Game game, Callbacks.OnLocalCallback callback);
+    void insert(@NonNull Game game, Callbacks.OnLocalCallback callback);
 
-    void update(Context context, @NonNull Game game, Callbacks.OnLocalCallback callback);
+    void update(@NonNull Game game, Callbacks.OnLocalCallback callback);
 
     void delete(@NonNull List<Game> games, OnGameDeletedCallback callback);
 

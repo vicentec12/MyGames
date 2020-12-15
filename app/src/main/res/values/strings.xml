@@ -44,6 +44,10 @@
     <string name="text_delete">Excluir</string>
     <string name="text_select_all">Selecionar tudo</string>
     <string name="message_no_game_select">"Favor, selecione pelo menos um jogo para realizar a exclusão. "</string>
+    <string name="action_about">Sobre</string>
+    <string name="action_sort">Ordenar</string>
+    <string name="title_alert_select_a_option">Selecione uma opção</string>
+    <string name="title_alert_order_by">Ordenar por</string>
 
     <!-- Plurals -->
     <plurals name="message_games_deleted">

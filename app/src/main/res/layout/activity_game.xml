@@ -1,48 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.game.GameActivity">
+<layout>
 
-    <ViewFlipper
-        android:id="@+id/vwf_game"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="br.com.vicentec12.mygames.ui.game.GameViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.game.GameActivity">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvw_game"
+        <ViewFlipper
+            android:id="@+id/vwf_game"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/activity_with_fab"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_game" />
+            android:inAnimation="@android:anim/fade_in"
+            app:displayedChild="@{viewModel.mutableViewFlipperChild}">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvw_game_error_message"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="@dimen/default_spacing"
-            android:text="@string/message_games_empty"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvw_game"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/activity_with_fab_spacing"
+                app:items="@{viewModel.mutableGames}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_game" />
 
-    </ViewFlipper>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvw_game_error_message"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="@dimen/default_spacing"
+                android:text="@string/message_games_empty"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
+        </ViewFlipper>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_game_add_games"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/default_spacing"
-        android:onClick="openAddGame"
-        app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_add"
-        app:tint="@android:color/white" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_game_add_games"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/default_spacing"
+            android:onClick="openAddGame"
+            app:backgroundTint="@color/colorPrimary"
+            app:srcCompat="@drawable/ic_add"
+            app:tint="@android:color/white" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

@@ -4,122 +4,88 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputLayout;
 
-import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.data.source.game.GameRepository;
-import br.com.vicentec12.mygames.interfaces.Callbacks;
+import br.com.vicentec12.mygames.databinding.ActivityAddGameBinding;
 import br.com.vicentec12.mygames.util.InstantiateUtil;
 import br.com.vicentec12.mygames.util.ValidationUtil;
 
 public class AddGameActivity extends AppCompatActivity {
 
-    private TextInputLayout _tilName;
-    private TextInputLayout _tilYear;
-    private FloatingActionButton _fabAddGame;
+    private ActivityAddGameBinding mBinding;
 
-    private boolean isUpdate;
     private Game mSelectedGame;
-    private GameRepository mGameRepository;
+    private AddGameViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_game);
+        mBinding = ActivityAddGameBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
         init();
     }
 
     private void init() {
-        _tilName = findViewById(R.id.til_add_game_name);
-        _tilYear = findViewById(R.id.til_add_game_year);
-        _fabAddGame = findViewById(R.id.fab_add_game);
-        config();
-    }
-
-    private void config() {
-        configUpdate();
-    }
-
-    private void configUpdate() {
         mSelectedGame = (Game) getIntent().getSerializableExtra("game");
-        if (mSelectedGame != null) {
-            isUpdate = true;
-            _tilName.getEditText().setText(mSelectedGame.getName());
-            _tilYear.getEditText().setText(mSelectedGame.getYear());
-            _fabAddGame.setImageResource(R.drawable.ic_edit);
-        }
+        setupViewModel();
+        setupMessage();
+        setupEventDatabase();
+    }
+
+    private void setupViewModel() {
+        AddGameViewModel.AddGameViewModelFactory mFactory =
+                new AddGameViewModel.AddGameViewModelFactory(InstantiateUtil.instantialeGameRepository(this));
+        mViewModel = ViewModelProviders.of(this, mFactory).get(AddGameViewModel.class);
+        mViewModel.setGame(mSelectedGame);
+        mBinding.setViewModel(mViewModel);
+        mBinding.setLifecycleOwner(this);
+    }
+
+    private void setupMessage() {
+        mViewModel.getMutableMessage().observe(this, integerEvent -> {
+            Integer mMessage = integerEvent.getContentIfNotHandled();
+            if (mMessage != null)
+                Snackbar.make(mBinding.tilAddGameName, getText(mMessage), BaseTransientBottomBar.LENGTH_LONG)
+                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
+        });
+    }
+
+    private void setupEventDatabase() {
+        mViewModel.getMutableEventDatabase().observe(this, booleanEvent -> {
+            Boolean mMessage = booleanEvent.getContentIfNotHandled();
+            if (mMessage != null) {
+                setResult(RESULT_OK);
+                if (mViewModel.hasInsert()) {
+                    mBinding.tilAddGameName.getEditText().setText("");
+                    mBinding.tilAddGameYear.getEditText().setText("");
+                    mBinding.tilAddGameName.requestFocus();
+                }
+            }
+        });
     }
 
     private boolean validateFields() {
         removeFieldErrors();
-        if (!ValidationUtil.validateEmptyField(this, _tilName))
+        if (!ValidationUtil.validateEmptyField(this, mBinding.tilAddGameName))
             return false;
-        if (!ValidationUtil.validateEmptyField(this, _tilYear))
+        if (!ValidationUtil.validateEmptyField(this, mBinding.tilAddGameYear))
             return false;
         return true;
     }
 
     private void removeFieldErrors() {
-        ValidationUtil.removeErrorTextInputLayout(_tilName);
-        ValidationUtil.removeErrorTextInputLayout(_tilYear);
+        ValidationUtil.removeErrorTextInputLayout(mBinding.tilAddGameName);
+        ValidationUtil.removeErrorTextInputLayout(mBinding.tilAddGameYear);
     }
 
     public void fabEvent(View view) {
-        if (validateFields()) {
-            String name = _tilName.getEditText().getText().toString();
-            String year = _tilYear.getEditText().getText().toString();
-            mGameRepository = InstantiateUtil.instantialeGameRepository(this);
-            if (isUpdate) {
-                mSelectedGame.setName(name);
-                mSelectedGame.setYear(year);
-                updateGame(mSelectedGame);
-            } else {
-                Game game = new Game(name, year);
-                insertGame(game);
-            }
-        }
-    }
-
-    private void insertGame(Game game) {
-        GameRepository mGameRepository = InstantiateUtil.instantialeGameRepository(this);
-        mGameRepository.insert(this, game, new Callbacks.OnLocalCallback() {
-            @Override
-            public void onSuccess(int mMessage) {
-                setResult(RESULT_OK);
-                _tilName.getEditText().setText("");
-                _tilYear.getEditText().setText("");
-                Snackbar.make(_tilName, mMessage, BaseTransientBottomBar.LENGTH_LONG)
-                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-            }
-
-            @Override
-            public void onFailure(int mMessage) {
-                Snackbar.make(_tilName, mMessage, BaseTransientBottomBar.LENGTH_LONG)
-                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-            }
-        });
-    }
-
-    private void updateGame(Game game) {
-        mGameRepository.update(this, game, new Callbacks.OnLocalCallback() {
-            @Override
-            public void onSuccess(int mMessage) {
-                setResult(RESULT_OK);
-                Snackbar.make(_tilName, mMessage, BaseTransientBottomBar.LENGTH_LONG)
-                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-            }
-
-            @Override
-            public void onFailure(int mMessage) {
-                Snackbar.make(_tilName, mMessage, BaseTransientBottomBar.LENGTH_LONG)
-                        .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
-            }
-        });
+        if (validateFields())
+            mViewModel.databaseEvent();
     }
 
 }

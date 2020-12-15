@@ -34,7 +34,7 @@ public class GameAdapter extends ListAdapter<Game, GameHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull GameHolder holder, int position) {
-        holder.bindGame(getItem(position), mViewModel.isSelectionModeVisible(), mViewModel.isGameSelected(position));
+        holder.bindGame(getItem(position), mViewModel);
     }
 
     // Responsável por resolver glichs quando notifyDataSetChange era chamado

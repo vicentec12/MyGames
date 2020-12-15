@@ -4,6 +4,6 @@
     <dimen name="half_spacing">8dp</dimen>
     <dimen name="minor_spacing">4dp</dimen>
     <dimen name="corner_radius_cardview">4dp</dimen>
-    <dimen name="activity_with_fab">96dp</dimen>
+    <dimen name="activity_with_fab_spacing">96dp</dimen>
     <dimen name="shrine_tall_toolbar_height">224dp</dimen>
 </resources>

@@ -21,6 +21,7 @@ import java.util.List;
 
 import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.data.model.Game;
+import br.com.vicentec12.mygames.data.source.game.GameLocalDataSource;
 import br.com.vicentec12.mygames.databinding.ActivityGameBinding;
 import br.com.vicentec12.mygames.interfaces.OnItemClickListener;
 import br.com.vicentec12.mygames.interfaces.OnItemLongClickListener;
@@ -61,62 +62,49 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_sort) {
+            String[] options = {getString(R.string.text_game_name), getString(R.string.text_game_year)};
+            new AlertDialog.Builder(this).setTitle(R.string.title_alert_order_by)
+                    .setItems(options, (dialog, which) -> mViewModel.listSavedGames(which)).show();
             return true;
-        }
+        } else if (id == R.id.action_about)
+            return true;
         return super.onOptionsItemSelected(item);
     }
 
     private void init() {
         setupViewModel();
         setupRecyclerView();
-        setupViewFlipper();
-        setupSelectionModeVisible();
         setupSelectedItems();
         setupMessage();
         setupPluralMessage();
         setupHasActionModeFinish();
-        mViewModel.listSavedGames();
+        mViewModel.listSavedGames(mViewModel.getOrderBySelection());
     }
 
     private void setupViewModel() {
         GameViewModel.GameViewModelFactory mFactory =
                 new GameViewModel.GameViewModelFactory(InstantiateUtil.instantialeGameRepository(this));
         mViewModel = ViewModelProviders.of(this, mFactory).get(GameViewModel.class);
+        mBinding.setViewModel(mViewModel);
+        mBinding.setLifecycleOwner(this);
     }
 
     private void setupRecyclerView() {
-        mViewModel.getMutableGames().observe(this, games -> {
-            if (mGameAdapter == null) {
-                mGameAdapter = new GameAdapter(mViewModel);
-                mGameAdapter.setHasStableIds(true); // Responsável por resolver glichs quando notifyDataSetChange era chamado
-                mGameAdapter.setOnItemClickListener(this);
-                mGameAdapter.setOnItemLongClickListener(this);
-                if (mBinding.rvwGame.getItemDecorationCount() == 0)
-                    mBinding.rvwGame.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-                mBinding.rvwGame.setAdapter(mGameAdapter);
-                mBinding.rvwGame.setHasFixedSize(true);
-            }
-            mGameAdapter.submitList(games);
-        });
-    }
-
-    private void setupSelectionModeVisible() {
-        mViewModel.getMutableSelectionMode().observe(this, aBoolean ->
-                mBinding.rvwGame.post(() -> mGameAdapter.notifyDataSetChanged()));
+        mGameAdapter = new GameAdapter(mViewModel);
+        mGameAdapter.setHasStableIds(true); // Responsável por resolver glichs quando notifyDataSetChange era chamado
+        mGameAdapter.setOnItemClickListener(this);
+        mGameAdapter.setOnItemLongClickListener(this);
+        if (mBinding.rvwGame.getItemDecorationCount() == 0)
+            mBinding.rvwGame.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mBinding.rvwGame.setAdapter(mGameAdapter);
+        mBinding.rvwGame.setHasFixedSize(true);
     }
 
     private void setupSelectedItems() {
         mViewModel.getMutableSelectedItems().observe(this, integers -> {
             setTitleActionMode(integers.size());
             mBinding.rvwGame.post(() -> mGameAdapter.notifyDataSetChanged());
-        });
-    }
-
-    private void setupViewFlipper() {
-        mViewModel.getMutableViewFlipperChild().observe(this, integer -> {
-            if (mBinding.vwfGame.getDisplayedChild() != integer)
-                mBinding.vwfGame.setDisplayedChild(integer);
         });
     }
 
@@ -166,7 +154,7 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CODE_OPERATION_SUCCESS) {
             if (resultCode == RESULT_OK)
-                mViewModel.listSavedGames();
+                mViewModel.listSavedGames(mViewModel.getOrderBySelection());
         }
     }
 
