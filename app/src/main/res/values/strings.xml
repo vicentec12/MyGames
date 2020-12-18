@@ -5,30 +5,27 @@
 
     <!-- Validations -->
     <string name="error_message_empty_field">Favor, preencher campo \"%s\".</string>
-    <string name="error_message_invalid_date">A data informada é INVÁLIDA!</string>
-    <string name="error_message_invalid_time">O horário informado é INVÁLIDO.</string>
-    <string name="error_message_invalid_cpf">O CPF informado é INVÁLIDO!</string>
-    <string name="error_message_invalid_cnpj">O CNPJ informado é INVÁLIDO!</string>
-    <string name="error_message_invalid_value">O VALOR informado é INVÁLIDO!</string>
+    <string name="error_message_invalid_date">A data informada é inválida!</string>
+    <string name="error_message_invalid_time">O horário informado é inválido.</string>
+    <string name="error_message_invalid_cpf">O CPF informado é inválido!</string>
+    <string name="error_message_invalid_cnpj">O CNPJ informado é inválido!</string>
+    <string name="error_message_invalid_value">O VALOR informado é inválido!</string>
     <string name="error_message_invalid_num_characters">Quantidade de caracteres do campo "%1$s" não pode ser menor que %2$d!</string>
 
     <!-- Alert Dialogs Titles -->
-    <string name="title_alert_erro">Erro</string>
-    <string name="title_alert_aviso">Aviso</string>
-    <string name="title_alert_confirmacao">Confirmação</string>
-    <string name="title_alert_informacoes">Informações</string>
-    <string name="title_alert_classifique_conteudo">Classifique este conteúdo</string>
+    <string name="title_alert_error">Erro</string>
+    <string name="title_alert_warning">Aviso</string>
+    <string name="title_alert_confirm">Confirmação</string>
+    <string name="title_alert_info">Informações</string>
     <string name="label_alert_button_ok">OK</string>
-    <string name="label_alert_button_sim">Sim</string>
-    <string name="label_alert_button_nao">Não</string>
-    <string name="label_alert_button_cancelar">Cancelar</string>
-    <string name="label_alert_button_confirmar">Confirmar</string>
-    <string name="label_alert_button_configurar">Configurar</string>
-    <string name="label_alert_button_enviar">Enviar</string>
+    <string name="label_alert_button_yes">Sim</string>
+    <string name="label_alert_button_no">Não</string>
+    <string name="label_alert_button_cancel">Cancelar</string>
+    <string name="label_alert_button_confirm">Confirmar</string>
+    <string name="label_alert_button_config">Configurar</string>
+    <string name="label_alert_button_send">Enviar</string>
 
     <!-- Messages -->
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="error_message_insert_game_null">Erro ao inserir pois o jogo está nulo. Entre em contato com o suporte.</string>
     <string name="message_game_inserted">Jogo gravado com sucesso!</string>
     <string name="message_game_updated">Jogo atualizado com sucesso!</string>
@@ -48,19 +45,28 @@
     <string name="action_sort">Ordenar</string>
     <string name="title_alert_select_a_option">Selecione uma opção</string>
     <string name="title_alert_order_by">Ordenar por</string>
+    <string name="message_consoles_listed">Consoles buscados com sucesso!</string>
+    <string name="error_message_consoles_listed">Nenhum console encontrado!</string>
+    <string name="message_consoles_inserted">Consoles inseridos com sucesso!</string>
+    <string name="message_console_deleted">Console excluído com sucesso!</string>
+    <string name="error_message_console_delete">Erro ao excluir console.</string>
 
     <!-- Plurals -->
-    <plurals name="message_games_deleted">
+    <plurals name="plural_message_games_deleted">
         <item quantity="one">%d jogo foi excluído com sucesso!</item>
         <item quantity="other">%d jogos foram excluídos com sucesso!</item>
     </plurals>
-    <plurals name="text_selected_games">
+    <plurals name="plural_message_warning_delete_game">
+        <item quantity="one">Deseja realmente excluir o jogo selecionado?</item>
+        <item quantity="other">Deseja realmente excluir os %1$s jogos selecionados?</item>
+    </plurals>
+    <plurals name="plural_selected_games">
         <item quantity="one">%1$d jogo selecionado</item>
         <item quantity="other">%1$d jogos selecionados</item>
     </plurals>
-    <plurals name="message_warning_delete_game">
-        <item quantity="one">Deseja realmente excluir o jogo selecionado?</item>
-        <item quantity="other">Deseja realmente excluir os %1$s jogos selecionados?</item>
+    <plurals name="plural_games">
+        <item quantity="one">%1$d jogo</item>
+        <item quantity="other">%1$d jogos</item>
     </plurals>
 
 </resources>

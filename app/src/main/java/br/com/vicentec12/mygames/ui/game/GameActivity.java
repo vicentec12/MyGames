@@ -1,5 +1,6 @@
 package br.com.vicentec12.mygames.ui.game;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,11 +18,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.Serializable;
 import java.util.List;
 
 import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.data.model.Game;
-import br.com.vicentec12.mygames.data.source.game.GameLocalDataSource;
 import br.com.vicentec12.mygames.databinding.ActivityGameBinding;
 import br.com.vicentec12.mygames.interfaces.OnItemClickListener;
 import br.com.vicentec12.mygames.interfaces.OnItemLongClickListener;
@@ -31,12 +32,19 @@ import br.com.vicentec12.mygames.util.InstantiateUtil;
 public class GameActivity extends AppCompatActivity implements ActionMode.Callback, OnItemClickListener, OnItemLongClickListener {
 
     public static final int CODE_OPERATION_SUCCESS = 2907;
+    private static final String EXTRA_GAMES = "games";
 
     private ActivityGameBinding mBinding;
 
     private ActionMode mActionMode;
     private GameAdapter mGameAdapter;
     private GameViewModel mViewModel;
+
+    public static Intent newIntentInstance(Context context, List<Game> games) {
+        Intent mIntent = new Intent(context, GameActivity.class);
+        mIntent.putExtra(EXTRA_GAMES, (Serializable) games);
+        return mIntent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,20 +82,26 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
 
     private void init() {
         setupViewModel();
+        setupToolbar();
         setupRecyclerView();
         setupSelectedItems();
         setupMessage();
         setupPluralMessage();
         setupHasActionModeFinish();
-        mViewModel.listSavedGames(mViewModel.getOrderBySelection());
+        List<Game> games = (List<Game>) getIntent().getSerializableExtra(EXTRA_GAMES);
+        mViewModel.listSavedGames(games);
     }
 
     private void setupViewModel() {
-        GameViewModel.GameViewModelFactory mFactory =
-                new GameViewModel.GameViewModelFactory(InstantiateUtil.instantialeGameRepository(this));
+        GameViewModelFactory mFactory =
+                new GameViewModelFactory(InstantiateUtil.initGameRepository(this));
         mViewModel = ViewModelProviders.of(this, mFactory).get(GameViewModel.class);
         mBinding.setViewModel(mViewModel);
         mBinding.setLifecycleOwner(this);
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(mBinding.lytToolbar.toolbar);
     }
 
     private void setupRecyclerView() {
@@ -139,7 +153,7 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
 
     private void setTitleActionMode(int selectedItemsCount) {
         if (mActionMode != null)
-            mActionMode.setTitle(getResources().getQuantityString(R.plurals.text_selected_games,
+            mActionMode.setTitle(getResources().getQuantityString(R.plurals.plural_selected_games,
                     selectedItemsCount, selectedItemsCount));
     }
 
@@ -161,11 +175,8 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
     @Override
     public void onItemClick(View view, Object item, int position) {
         if (mActionMode == null) {
-            Game game = (Game) item;
-            Intent intent = new Intent(this, AddGameActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent.putExtra("game", game);
-            startActivityForResult(intent, CODE_OPERATION_SUCCESS);
+            Game mGame = (Game) item;
+            startActivityForResult(AddGameActivity.newIntentInstance(this, mGame), CODE_OPERATION_SUCCESS);
         } else
             mViewModel.select(position);
     }
@@ -198,10 +209,10 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
         } else if (item.getItemId() == R.id.action_main_delete) {
             int mSelectedItemCount = mViewModel.getSelectedItemCount();
             if (mSelectedItemCount > 0)
-                new AlertDialog.Builder(GameActivity.this).setTitle(R.string.title_alert_aviso)
-                        .setMessage(getResources().getQuantityString(R.plurals.message_warning_delete_game, mSelectedItemCount, mSelectedItemCount))
-                        .setPositiveButton(R.string.label_alert_button_sim, (dialog, which) -> mViewModel.deleteGames())
-                        .setNegativeButton(R.string.label_alert_button_nao, null).show();
+                new AlertDialog.Builder(GameActivity.this).setTitle(R.string.title_alert_warning)
+                        .setMessage(getResources().getQuantityString(R.plurals.plural_message_warning_delete_game, mSelectedItemCount, mSelectedItemCount))
+                        .setPositiveButton(R.string.label_alert_button_yes, (dialog, which) -> mViewModel.deleteGames())
+                        .setNegativeButton(R.string.label_alert_button_no, null).show();
             else
                 Snackbar.make(mBinding.fabGameAddGames, R.string.message_no_game_select, BaseTransientBottomBar.LENGTH_LONG)
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();

@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="br.com.vicentec12.mygames.ui.game.GameViewModel" />
+            type="br.com.vicentec12.mygames.ui.console.ConsoleViewModel" />
 
     </data>
 
@@ -14,32 +14,35 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.game.GameActivity">
+        tools:context=".ui.console.ConsoleActivity">
 
         <include
             android:id="@+id/lyt_toolbar"
             layout="@layout/layout_toolbar" />
 
         <ViewFlipper
-            android:id="@+id/vwf_game"
+            android:id="@+id/vwf_console"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inAnimation="@android:anim/fade_in"
-            app:displayedChild="@{viewModel.mutableViewFlipperChild}"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvw_game"
+                android:id="@+id/rvw_console"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorBackgroundRecycler"
                 android:clipToPadding="false"
+                android:paddingHorizontal="@dimen/minor_spacing"
+                android:paddingTop="@dimen/minor_spacing"
                 android:paddingBottom="@dimen/activity_with_fab_spacing"
-                app:items="@{viewModel.mutableGames}"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_game" />
+                app:items="@{viewModel.mutableConsoles}"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/item_console" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvw_game_error_message"
+                android:id="@+id/tvw_console_error_message"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -52,7 +55,7 @@
         </ViewFlipper>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_game_add_games"
+            android:id="@+id/fab_console_add_games"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"

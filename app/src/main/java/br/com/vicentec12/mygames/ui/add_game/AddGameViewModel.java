@@ -86,20 +86,4 @@ public class AddGameViewModel extends ViewModel {
         return mMutableMessage;
     }
 
-    public static class AddGameViewModelFactory implements ViewModelProvider.Factory {
-
-        private GameRepository mGameRepository;
-
-        public AddGameViewModelFactory(GameRepository mGameRepository) {
-            this.mGameRepository = mGameRepository;
-        }
-
-        @SuppressWarnings("unchecked")
-        @NonNull
-        @Override
-        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new AddGameViewModel(mGameRepository);
-        }
-    }
-
 }

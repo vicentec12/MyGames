@@ -15,13 +15,11 @@ import java.util.Objects;
         foreignKeys = @ForeignKey(
                 entity = Console.class,
                 childColumns = "id_console",
-                parentColumns = "_id",
-                onDelete = ForeignKey.CASCADE)
-)
+                parentColumns = "id",
+                onDelete = ForeignKey.CASCADE))
 public class Game implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "_id")
     private int id;
 
     @NonNull
@@ -32,11 +30,10 @@ public class Game implements Serializable {
     @ColumnInfo(name = "id_console")
     private int idConsole;
 
-    public Game(int id, @NonNull String name, String year, int idConsole) {
+    public Game(int id, @NonNull String name, String year) {
         this.id = id;
         this.name = name;
         this.year = year;
-        this.idConsole = idConsole;
     }
 
     @Ignore

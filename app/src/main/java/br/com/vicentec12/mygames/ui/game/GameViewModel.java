@@ -54,6 +54,12 @@ public class GameViewModel extends ViewModel {
         return GameLocalDataSource.SORT_BY_NAME;
     }
 
+    public void listSavedGames(List<Game> games) {
+        mMutableOrderBySelection.setValue(GameLocalDataSource.SORT_BY_NAME);
+        mMutableViewFlipperChild.setValue(CHILD_RECYCLER);
+        mMutableGames.setValue(games);
+    }
+
     public void listSavedGames(int sortBy) {
         mGameRepository.list(sortBy, new GameDataSource.OnGamesListedCallback() {
             @Override
@@ -204,22 +210,6 @@ public class GameViewModel extends ViewModel {
 
     public MutableLiveData<SparseBooleanArray> getMutableSelectedItems() {
         return mMutableSelectedItems;
-    }
-
-    public static class GameViewModelFactory implements ViewModelProvider.Factory {
-
-        private final GameRepository mGameRepository;
-
-        public GameViewModelFactory(GameRepository mGameRepository) {
-            this.mGameRepository = mGameRepository;
-        }
-
-        @SuppressWarnings("unchecked")
-        @NonNull
-        @Override
-        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new GameViewModel(mGameRepository);
-        }
     }
 
 }

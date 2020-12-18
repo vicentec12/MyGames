@@ -1,9 +1,10 @@
 package br.com.vicentec12.mygames.data.model;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -13,15 +14,23 @@ import java.util.Objects;
 public class Console implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "_id")
     private int id;
 
     @NonNull
     private String name;
 
-    public Console(int id, @NonNull String name) {
+    private int image;
+
+    public Console(int id, @NonNull String name, int image) {
         this.id = id;
         this.name = name;
+        this.image = image;
+    }
+
+    @Ignore
+    public Console(@NonNull String name, int image) {
+        this.name = name;
+        this.image = image;
     }
 
     public int getId() {
@@ -41,7 +50,15 @@ public class Console implements Serializable {
         this.name = name;
     }
 
-    public DiffUtil.ItemCallback<Console> getDiffItemCallback() {
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
+    }
+
+    public static DiffUtil.ItemCallback<Console> getDiffItemCallback() {
         return new DiffUtil.ItemCallback<Console>() {
             @Override
             public boolean areItemsTheSame(@NonNull Console oldItem, @NonNull Console newItem) {
@@ -61,12 +78,13 @@ public class Console implements Serializable {
         if (!(o instanceof Console)) return false;
         Console console = (Console) o;
         return getId() == console.getId() &&
-                Objects.equals(getName(), console.getName());
+                getImage() == console.getImage() &&
+                getName().equals(console.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName());
+        return Objects.hash(getId(), getName(), getImage());
     }
 
 }

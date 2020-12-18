@@ -2,15 +2,15 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "6ef2e89925b63f10bec0e3b33ad6463a",
+    "identityHash": "b30a8512dd51c53446346b3a16d229a4",
     "entities": [
       {
         "tableName": "console",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `image` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "_id",
+            "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -19,11 +19,17 @@
             "columnName": "name",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "_id"
+            "id"
           ],
           "autoGenerate": true
         },
@@ -32,11 +38,11 @@
       },
       {
         "tableName": "game",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `year` TEXT, `id_console` INTEGER NOT NULL, FOREIGN KEY(`id_console`) REFERENCES `console`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `year` TEXT, `id_console` INTEGER NOT NULL, FOREIGN KEY(`id_console`) REFERENCES `console`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "_id",
+            "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -61,7 +67,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "_id"
+            "id"
           ],
           "autoGenerate": true
         },
@@ -75,7 +81,7 @@
               "id_console"
             ],
             "referencedColumns": [
-              "_id"
+              "id"
             ]
           }
         ]
@@ -84,7 +90,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6ef2e89925b63f10bec0e3b33ad6463a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b30a8512dd51c53446346b3a16d229a4')"
     ]
   }
 }

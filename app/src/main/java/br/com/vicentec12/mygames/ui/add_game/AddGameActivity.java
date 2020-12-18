@@ -1,5 +1,7 @@
 package br.com.vicentec12.mygames.ui.add_game;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -10,17 +12,25 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import br.com.vicentec12.mygames.data.model.Game;
-import br.com.vicentec12.mygames.data.source.game.GameRepository;
 import br.com.vicentec12.mygames.databinding.ActivityAddGameBinding;
 import br.com.vicentec12.mygames.util.InstantiateUtil;
 import br.com.vicentec12.mygames.util.ValidationUtil;
 
 public class AddGameActivity extends AppCompatActivity {
 
+    private static final String EXTRA_GAME = "game";
+
     private ActivityAddGameBinding mBinding;
 
     private Game mSelectedGame;
     private AddGameViewModel mViewModel;
+
+    public static Intent newIntentInstance(Context context, Game mGame) {
+        Intent mIntent = new Intent(context, AddGameActivity.class);
+        mIntent.putExtra(EXTRA_GAME, mGame);
+        mIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        return mIntent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +41,24 @@ public class AddGameActivity extends AppCompatActivity {
     }
 
     private void init() {
-        mSelectedGame = (Game) getIntent().getSerializableExtra("game");
+        mSelectedGame = (Game) getIntent().getSerializableExtra(EXTRA_GAME);
         setupViewModel();
+        setupToolbar();
         setupMessage();
         setupEventDatabase();
     }
 
     private void setupViewModel() {
-        AddGameViewModel.AddGameViewModelFactory mFactory =
-                new AddGameViewModel.AddGameViewModelFactory(InstantiateUtil.instantialeGameRepository(this));
+        AddGameViewModelFactory mFactory =
+                new AddGameViewModelFactory(InstantiateUtil.initGameRepository(this));
         mViewModel = ViewModelProviders.of(this, mFactory).get(AddGameViewModel.class);
         mViewModel.setGame(mSelectedGame);
         mBinding.setViewModel(mViewModel);
         mBinding.setLifecycleOwner(this);
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(mBinding.lytToolbar.toolbar);
     }
 
     private void setupMessage() {

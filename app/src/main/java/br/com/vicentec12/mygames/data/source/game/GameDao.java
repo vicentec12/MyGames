@@ -20,7 +20,7 @@ public interface GameDao {
     @Query("SELECT * FROM game ORDER BY year")
     List<Game> listByYear();
 
-    @Query("SELECT * FROM game WHERE _id = :id")
+    @Query("SELECT * FROM game WHERE id = :id")
     Game get(int id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="position"
+            type="int" />
+
+        <variable
+            name="consoleWithGames"
+            type="br.com.vicentec12.mygames.data.model.ConsoleWithGames" />
+
+        <variable
+            name="onItemClickListener"
+            type="br.com.vicentec12.mygames.interfaces.OnItemClickListener" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/minor_spacing"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{(v) -> onItemClickListener.onItemClick(v, consoleWithGames, position)}"
+        app:cardCornerRadius="@dimen/corner_radius_cardview">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/default_spacing">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivw_item_console_image"
+                android:layout_width="match_parent"
+                android:layout_height="164dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                app:srcVector="@{consoleWithGames.console.image}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/minor_spacing"
+                android:gravity="center"
+                android:text="@{consoleWithGames.console.name}"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="Super Nintendo" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{@plurals/plural_games(consoleWithGames.games.size, consoleWithGames.games.size)}"
+                android:textSize="16sp"
+                tools:text="100 jogos" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
