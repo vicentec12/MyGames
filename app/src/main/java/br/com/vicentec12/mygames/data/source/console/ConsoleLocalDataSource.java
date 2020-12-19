@@ -34,7 +34,20 @@ public class ConsoleLocalDataSource implements ConsoleDataSource {
     }
 
     @Override
-    public void listConsolesWithGames(OnConsolesListedCallback callback) {
+    public void listConsoles(OnConsolesListedCallback callback) {
+        appExecutors.diskIO().execute(() -> {
+            List<Console> consoles = appDatabase.getConsoleDao().list();
+            appExecutors.mainThread().execute(() -> {
+                if (consoles.size() > 0)
+                    callback.onSucess(R.string.message_consoles_listed, consoles);
+                else
+                    callback.onErro(R.string.error_message_consoles_listed);
+            });
+        });
+    }
+
+    @Override
+    public void listConsolesWithGames(OnConsolesWithGamesListedCallback callback) {
         appExecutors.diskIO().execute(() -> {
             List<ConsoleWithGames> consolesWithGames = appDatabase.getConsoleDao().listConsolesWithGames();
             appExecutors.mainThread().execute(() -> {

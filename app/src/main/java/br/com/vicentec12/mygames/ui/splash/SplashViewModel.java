@@ -33,7 +33,7 @@ public class SplashViewModel extends ViewModel {
     }
 
     public void loadOrCreateConsoles() {
-        mConsoleRepository.listConsolesWithGames(new ConsoleDataSource.OnConsolesListedCallback() {
+        mConsoleRepository.listConsolesWithGames(new ConsoleDataSource.OnConsolesWithGamesListedCallback() {
             @Override
             public void onSucess(int message, List<ConsoleWithGames> consolesWithGames) {
                 mutableHasFinish.setValue(new Event<>(true));

@@ -50,6 +50,8 @@
     <string name="message_consoles_inserted">Consoles inseridos com sucesso!</string>
     <string name="message_console_deleted">Console excluído com sucesso!</string>
     <string name="error_message_console_delete">Erro ao excluir console.</string>
+    <string name="text_console">Console</string>
+    <string name="text_select">Selecione</string>
 
     <!-- Plurals -->
     <plurals name="plural_message_games_deleted">

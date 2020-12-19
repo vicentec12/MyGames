@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.interfaces.Callbacks;
 
@@ -34,7 +35,7 @@ public interface GameDataSource {
 
     }
 
-    void list(int sortBy, OnGamesListedCallback callback);
+    void list(@NonNull Console console, int sortBy, OnGamesListedCallback callback);
 
     void get(int id, OnGameGetedCallback callback);
 

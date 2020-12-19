@@ -8,7 +8,7 @@ import br.com.vicentec12.mygames.interfaces.Callbacks;
 
 public interface ConsoleDataSource {
 
-    interface OnConsolesListedCallback {
+    interface OnConsolesWithGamesListedCallback {
 
         void onSucess(int message, List<ConsoleWithGames> consolesWithGames);
 
@@ -16,7 +16,17 @@ public interface ConsoleDataSource {
 
     }
 
-    void listConsolesWithGames(OnConsolesListedCallback callback);
+    interface OnConsolesListedCallback {
+
+        void onSucess(int message, List<Console> consoles);
+
+        void onErro(int message);
+
+    }
+
+    void listConsoles(OnConsolesListedCallback callback);
+
+    void listConsolesWithGames(OnConsolesWithGamesListedCallback callback);
 
     void insertConsoles(List<Console> consoles, Callbacks.OnLocalCallback callback);
 

@@ -2,14 +2,13 @@ package br.com.vicentec12.mygames.ui.game;
 
 import android.util.SparseBooleanArray;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.data.source.game.GameDataSource;
 import br.com.vicentec12.mygames.data.source.game.GameLocalDataSource;
@@ -25,6 +24,7 @@ public class GameViewModel extends ViewModel {
 
     // Activity
     private final MutableLiveData<List<Game>> mMutableGames = new MutableLiveData<>();
+    private final MutableLiveData<Console> mMutableConsole = new MutableLiveData<>();
     private final MutableLiveData<Integer> mMutableOrderBySelection = new MutableLiveData<>();
     private final MutableLiveData<Integer> mMutableViewFlipperChild = new MutableLiveData<>();
     private final MutableLiveData<Event<Integer>> mMutableMessage = new MutableLiveData<>();
@@ -41,27 +41,18 @@ public class GameViewModel extends ViewModel {
 
     // Activity
 
-    private List<Integer> createPluralMessage(int mMessage, int mQuantity) {
-        List<Integer> mPluralMessage = new ArrayList<>();
-        mPluralMessage.add(mMessage);
-        mPluralMessage.add(mQuantity);
-        return mPluralMessage;
+    public void setConsole(Console console) {
+        mMutableConsole.setValue(console);
     }
 
     public int getOrderBySelection() {
         if (mMutableOrderBySelection.getValue() != null)
             return mMutableOrderBySelection.getValue();
-        return GameLocalDataSource.SORT_BY_NAME;
-    }
-
-    public void listSavedGames(List<Game> games) {
-        mMutableOrderBySelection.setValue(GameLocalDataSource.SORT_BY_NAME);
-        mMutableViewFlipperChild.setValue(CHILD_RECYCLER);
-        mMutableGames.setValue(games);
+        return GameLocalDataSource.ORDER_BY_NAME;
     }
 
     public void listSavedGames(int sortBy) {
-        mGameRepository.list(sortBy, new GameDataSource.OnGamesListedCallback() {
+        mGameRepository.list(mMutableConsole.getValue(), sortBy, new GameDataSource.OnGamesListedCallback() {
             @Override
             public void onSuccess(List<Game> games) {
                 mMutableOrderBySelection.setValue(sortBy);
@@ -101,6 +92,13 @@ public class GameViewModel extends ViewModel {
         });
     }
 
+    private List<Integer> createPluralMessage(int mMessage, int mQuantity) {
+        List<Integer> mPluralMessage = new ArrayList<>();
+        mPluralMessage.add(mMessage);
+        mPluralMessage.add(mQuantity);
+        return mPluralMessage;
+    }
+
     public MutableLiveData<List<Game>> getMutableGames() {
         return mMutableGames;
     }
@@ -123,6 +121,10 @@ public class GameViewModel extends ViewModel {
 
     public MutableLiveData<Event<Boolean>> getMutableHasActionModeFinish() {
         return mMutableHasActionModeFinish;
+    }
+
+    public MutableLiveData<Console> getMutableConsole() {
+        return mMutableConsole;
     }
 
     // Adapter

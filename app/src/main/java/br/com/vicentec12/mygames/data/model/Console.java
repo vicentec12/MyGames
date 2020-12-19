@@ -1,6 +1,5 @@
 package br.com.vicentec12.mygames.data.model;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.room.Entity;
@@ -21,14 +20,18 @@ public class Console implements Serializable {
 
     private int image;
 
-    public Console(int id, @NonNull String name, int image) {
-        this.id = id;
-        this.name = name;
-        this.image = image;
+    @Ignore
+    public Console() {
     }
 
     @Ignore
     public Console(@NonNull String name, int image) {
+        this.name = name;
+        this.image = image;
+    }
+
+    public Console(int id, @NonNull String name, int image) {
+        this.id = id;
         this.name = name;
         this.image = image;
     }
@@ -85,6 +88,11 @@ public class Console implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getName(), getImage());
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
 }

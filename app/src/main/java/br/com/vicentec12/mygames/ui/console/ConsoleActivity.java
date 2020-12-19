@@ -63,7 +63,8 @@ public class ConsoleActivity extends AppCompatActivity implements OnItemClickLis
     }
 
     public void openAddGame(View v) {
-        startActivityForResult(new Intent(getApplicationContext(), AddGameActivity.class), CODE_OPERATION_SUCCESS);
+        startActivityForResult(AddGameActivity.newIntentInstance(this, null, null),
+                CODE_OPERATION_SUCCESS);
     }
 
     @Override
@@ -78,7 +79,7 @@ public class ConsoleActivity extends AppCompatActivity implements OnItemClickLis
     @Override
     public void onItemClick(View view, Object item, int position) {
         ConsoleWithGames consoleWithGames = (ConsoleWithGames) item;
-        startActivity(GameActivity.newIntentInstance(this, consoleWithGames.getGames()));
+        startActivity(GameActivity.newIntentInstance(this, consoleWithGames.getConsole()));
     }
 
 }

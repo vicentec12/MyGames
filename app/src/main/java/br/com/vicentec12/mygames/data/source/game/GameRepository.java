@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.interfaces.Callbacks;
 
@@ -24,8 +25,8 @@ public class GameRepository implements GameDataSource {
     }
 
     @Override
-    public void list(int sortBy, OnGamesListedCallback callback) {
-        gameLocalDataSource.list(sortBy, callback);
+    public void list(@NonNull Console console, int sortBy, OnGamesListedCallback callback) {
+        gameLocalDataSource.list(console, sortBy, callback);
     }
 
     @Override

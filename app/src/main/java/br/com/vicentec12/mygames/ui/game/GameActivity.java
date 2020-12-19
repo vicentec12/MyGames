@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
@@ -22,7 +21,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import br.com.vicentec12.mygames.R;
+import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
+import br.com.vicentec12.mygames.data.source.game.GameLocalDataSource;
 import br.com.vicentec12.mygames.databinding.ActivityGameBinding;
 import br.com.vicentec12.mygames.interfaces.OnItemClickListener;
 import br.com.vicentec12.mygames.interfaces.OnItemLongClickListener;
@@ -32,7 +33,7 @@ import br.com.vicentec12.mygames.util.InstantiateUtil;
 public class GameActivity extends AppCompatActivity implements ActionMode.Callback, OnItemClickListener, OnItemLongClickListener {
 
     public static final int CODE_OPERATION_SUCCESS = 2907;
-    private static final String EXTRA_GAMES = "games";
+    private static final String EXTRA_CONSOLE = "console";
 
     private ActivityGameBinding mBinding;
 
@@ -40,9 +41,9 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
     private GameAdapter mGameAdapter;
     private GameViewModel mViewModel;
 
-    public static Intent newIntentInstance(Context context, List<Game> games) {
+    public static Intent newIntentInstance(Context context, Console console) {
         Intent mIntent = new Intent(context, GameActivity.class);
-        mIntent.putExtra(EXTRA_GAMES, (Serializable) games);
+        mIntent.putExtra(EXTRA_CONSOLE, (Serializable) console);
         return mIntent;
     }
 
@@ -88,8 +89,9 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
         setupMessage();
         setupPluralMessage();
         setupHasActionModeFinish();
-        List<Game> games = (List<Game>) getIntent().getSerializableExtra(EXTRA_GAMES);
-        mViewModel.listSavedGames(games);
+        Console mConsole = (Console) getIntent().getSerializableExtra(EXTRA_CONSOLE);
+        mViewModel.setConsole(mConsole);
+        mViewModel.listSavedGames(GameLocalDataSource.ORDER_BY_NAME);
     }
 
     private void setupViewModel() {
@@ -126,7 +128,7 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
         mViewModel.getMutableMessage().observe(this, integerEvent -> {
             Integer mMessage = integerEvent.getContentIfNotHandled();
             if (mMessage != null)
-                Snackbar.make(mBinding.fabGameAddGames, mMessage, BaseTransientBottomBar.LENGTH_LONG)
+                Snackbar.make(mBinding.rvwGame, mMessage, BaseTransientBottomBar.LENGTH_LONG)
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
         });
     }
@@ -137,7 +139,7 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
             if (mIntegersMessage != null) {
                 String mMessage = getResources().getQuantityString(mIntegersMessage.get(0), mIntegersMessage.get(1),
                         mIntegersMessage.get(1));
-                Snackbar.make(mBinding.fabGameAddGames, mMessage, BaseTransientBottomBar.LENGTH_LONG)
+                Snackbar.make(mBinding.rvwGame, mMessage, BaseTransientBottomBar.LENGTH_LONG)
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             }
         });
@@ -157,26 +159,12 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
                     selectedItemsCount, selectedItemsCount));
     }
 
-    public void openAddGame(View v) {
-        if (mActionMode != null)
-            mActionMode.finish();
-        startActivityForResult(new Intent(getApplicationContext(), AddGameActivity.class), CODE_OPERATION_SUCCESS);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CODE_OPERATION_SUCCESS) {
-            if (resultCode == RESULT_OK)
-                mViewModel.listSavedGames(mViewModel.getOrderBySelection());
-        }
-    }
-
     @Override
     public void onItemClick(View view, Object item, int position) {
         if (mActionMode == null) {
             Game mGame = (Game) item;
-            startActivityForResult(AddGameActivity.newIntentInstance(this, mGame), CODE_OPERATION_SUCCESS);
+            startActivityForResult(AddGameActivity.newIntentInstance(this, mGame,
+                    mViewModel.getMutableConsole().getValue()), CODE_OPERATION_SUCCESS);
         } else
             mViewModel.select(position);
     }
@@ -214,7 +202,7 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
                         .setPositiveButton(R.string.label_alert_button_yes, (dialog, which) -> mViewModel.deleteGames())
                         .setNegativeButton(R.string.label_alert_button_no, null).show();
             else
-                Snackbar.make(mBinding.fabGameAddGames, R.string.message_no_game_select, BaseTransientBottomBar.LENGTH_LONG)
+                Snackbar.make(mBinding.rvwGame, R.string.message_no_game_select, BaseTransientBottomBar.LENGTH_LONG)
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();
             return true;
         }

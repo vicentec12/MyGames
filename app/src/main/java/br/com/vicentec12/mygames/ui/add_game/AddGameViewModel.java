@@ -1,11 +1,10 @@
 package br.com.vicentec12.mygames.ui.add_game;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 
 import br.com.vicentec12.mygames.data.model.Game;
+import br.com.vicentec12.mygames.data.source.console.ConsoleRepository;
 import br.com.vicentec12.mygames.data.source.game.GameRepository;
 import br.com.vicentec12.mygames.extensions.Event;
 import br.com.vicentec12.mygames.interfaces.Callbacks;
@@ -18,8 +17,11 @@ public class AddGameViewModel extends ViewModel {
 
     private GameRepository mGameRepository;
 
-    public AddGameViewModel(GameRepository mGameRepository) {
+    private ConsoleRepository mConsoleRepository;
+
+    public AddGameViewModel(GameRepository mGameRepository, ConsoleRepository mConsoleRepository) {
         this.mGameRepository = mGameRepository;
+        this.mConsoleRepository = mConsoleRepository;
     }
 
     public void setGame(Game game) {
@@ -30,6 +32,7 @@ public class AddGameViewModel extends ViewModel {
 
     public void databaseEvent() {
         Game game = getMutableGame().getValue();
+        game.setIdConsole(1);
         if (game != null) {
             if (game.getId() > 0)
                 updateGame(game);

@@ -22,7 +22,7 @@ public class ConsoleViewModel extends ViewModel {
     }
 
     public void listConsoles() {
-        mConsoleRepository.listConsolesWithGames(new ConsoleDataSource.OnConsolesListedCallback() {
+        mConsoleRepository.listConsolesWithGames(new ConsoleDataSource.OnConsolesWithGamesListedCallback() {
             @Override
             public void onSucess(int message, List<ConsoleWithGames> consolesWithGames) {
                 mMessage.setValue(new Event<>(message));

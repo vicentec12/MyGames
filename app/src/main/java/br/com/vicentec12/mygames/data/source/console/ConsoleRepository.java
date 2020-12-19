@@ -24,7 +24,12 @@ public class ConsoleRepository implements ConsoleDataSource {
     }
 
     @Override
-    public void listConsolesWithGames(OnConsolesListedCallback callback) {
+    public void listConsoles(OnConsolesListedCallback callback) {
+        consoleLocalDataSource.listConsoles(callback);
+    }
+
+    @Override
+    public void listConsolesWithGames(OnConsolesWithGamesListedCallback callback) {
         consoleLocalDataSource.listConsolesWithGames(callback);
     }
 

@@ -14,11 +14,11 @@ import br.com.vicentec12.mygames.data.model.Game;
 @Dao
 public interface GameDao {
 
-    @Query("SELECT * FROM game ORDER BY name")
-    List<Game> list();
+    @Query("SELECT * FROM game WHERE id_console = :idConsole ORDER BY name")
+    List<Game> list(long idConsole);
 
-    @Query("SELECT * FROM game ORDER BY year")
-    List<Game> listByYear();
+    @Query("SELECT * FROM game WHERE id_console = :idConsole ORDER BY year")
+    List<Game> listByYear(long idConsole);
 
     @Query("SELECT * FROM game WHERE id = :id")
     Game get(int id);

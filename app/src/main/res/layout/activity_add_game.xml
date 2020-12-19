@@ -27,20 +27,19 @@
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/default_spacing">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_add_game_name"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/default_spacing"
-                    android:hint="@string/text_game_name"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_marginBottom="@dimen/half_spacing"
+                    android:hint="@string/text_game_name">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -54,16 +53,10 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_add_game_year"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/default_spacing"
-                    android:layout_marginTop="@dimen/half_spacing"
-                    android:layout_marginRight="@dimen/default_spacing"
                     android:layout_marginBottom="@dimen/half_spacing"
-                    android:hint="@string/text_game_year"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/til_add_game_name">
+                    android:hint="@string/text_game_year">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -74,7 +67,8 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
         </ScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

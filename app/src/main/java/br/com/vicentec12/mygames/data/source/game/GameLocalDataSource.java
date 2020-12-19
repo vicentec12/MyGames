@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import br.com.vicentec12.mygames.R;
+import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.data.source.AppDatabase;
 import br.com.vicentec12.mygames.extensions.AppExecutors;
@@ -12,8 +13,8 @@ import br.com.vicentec12.mygames.interfaces.Callbacks;
 
 public class GameLocalDataSource implements GameDataSource {
 
-    public static final int SORT_BY_NAME = 0;
-    public static final int SORT_BY_YEAR = 1;
+    public static final int ORDER_BY_NAME = 0;
+    public static final int ORDER_BY_YEAR = 1;
 
     private static volatile GameLocalDataSource INSTANCE;
 
@@ -36,13 +37,13 @@ public class GameLocalDataSource implements GameDataSource {
     }
 
     @Override
-    public void list(int sortBy, OnGamesListedCallback callback) {
+    public void list(@NonNull Console console, int sortBy, OnGamesListedCallback callback) {
         appExecutors.diskIO().execute(() -> {
             List<Game> games;
-            if (sortBy == SORT_BY_NAME)
-                games = appDatabase.getGameDao().list();
+            if (sortBy == ORDER_BY_NAME)
+                games = appDatabase.getGameDao().list(console.getId());
             else
-                games = appDatabase.getGameDao().listByYear();
+                games = appDatabase.getGameDao().listByYear(console.getId());
             appExecutors.mainThread().execute(() -> {
                 if (games.isEmpty())
                     callback.onFailure();
