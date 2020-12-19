@@ -17,8 +17,9 @@ import br.com.vicentec12.mygames.extensions.Event;
 
 public class GameViewModel extends ViewModel {
 
-    private final int CHILD_RECYCLER = 0;
-    private final int CHILD_TEXT = 1;
+    private final int CHILD_PROGRESS = 0;
+    private final int CHILD_RECYCLER = 1;
+    private final int CHILD_TEXT = 2;
 
     private final GameRepository mGameRepository;
 
@@ -51,11 +52,11 @@ public class GameViewModel extends ViewModel {
         return GameLocalDataSource.ORDER_BY_NAME;
     }
 
-    public void listSavedGames(int sortBy) {
-        mGameRepository.list(mMutableConsole.getValue(), sortBy, new GameDataSource.OnGamesListedCallback() {
+    public void listSavedGames() {
+        mMutableViewFlipperChild.setValue(CHILD_PROGRESS);
+        mGameRepository.list(mMutableConsole.getValue(), getOrderBySelection(), new GameDataSource.OnGamesListedCallback() {
             @Override
             public void onSuccess(List<Game> games) {
-                mMutableOrderBySelection.setValue(sortBy);
                 mMutableViewFlipperChild.setValue(CHILD_RECYCLER);
                 mMutableGames.setValue(games);
             }
@@ -121,10 +122,6 @@ public class GameViewModel extends ViewModel {
 
     public MutableLiveData<Event<Boolean>> getMutableHasActionModeFinish() {
         return mMutableHasActionModeFinish;
-    }
-
-    public MutableLiveData<Console> getMutableConsole() {
-        return mMutableConsole;
     }
 
     // Adapter

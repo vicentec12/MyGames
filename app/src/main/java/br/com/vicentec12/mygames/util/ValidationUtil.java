@@ -76,7 +76,7 @@ public class ValidationUtil {
         }
     }
 
-    public static boolean validateSpinners(Context context, AppCompatSpinner _spSpinner, String msgError) {
+    public static boolean validateSpinner(Context context, AppCompatSpinner _spSpinner, String msgError) {
         if (_spSpinner == null) return false;
         if (_spSpinner.getSelectedItemPosition() == 0) {
             new AlertDialog.Builder(context).setTitle(R.string.title_alert_warning).setMessage(msgError)

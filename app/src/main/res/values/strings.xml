@@ -1,22 +1,32 @@
 <resources>
 
     <string name="app_name">MyGames</string>
-    <string name="action_settings">Settings</string>
 
-    <!-- Validations -->
-    <string name="error_message_empty_field">Favor, preencher campo \"%s\".</string>
-    <string name="error_message_invalid_date">A data informada é inválida!</string>
-    <string name="error_message_invalid_time">O horário informado é inválido.</string>
-    <string name="error_message_invalid_cpf">O CPF informado é inválido!</string>
-    <string name="error_message_invalid_cnpj">O CNPJ informado é inválido!</string>
-    <string name="error_message_invalid_value">O VALOR informado é inválido!</string>
-    <string name="error_message_invalid_num_characters">Quantidade de caracteres do campo "%1$s" não pode ser menor que %2$d!</string>
+    <!-- Labels -->
+    <string name="text_game_name">Nome do Jogo</string>
+    <string name="text_game_year">Ano de Lançamento</string>
+    <string name="text_delete">Excluir</string>
+    <string name="text_select_all">Selecionar tudo</string>
+    <string name="text_console">Console</string>
+    <string name="text_select">Selecione</string>
 
-    <!-- Alert Dialogs Titles -->
+    <!-- Activities Titles -->
+    <string name="title_activity_add_games">Adicionar Jogo</string>
+    <string name="title_activity_edit_games">Editar Jogo</string>
+    <string name="title_activity_main">Meus Jogos</string>
+
+    <!-- Actions Titles -->
+    <string name="action_about">Sobre</string>
+    <string name="action_sort">Ordenar</string>
+    <string name="action_settings">Configurações</string>
+
+    <!-- Alert Dialogs Titles and Labels -->
     <string name="title_alert_error">Erro</string>
     <string name="title_alert_warning">Aviso</string>
     <string name="title_alert_confirm">Confirmação</string>
     <string name="title_alert_info">Informações</string>
+    <string name="title_alert_select_a_option">Selecione uma opção</string>
+    <string name="title_alert_order_by">Ordenar por</string>
     <string name="label_alert_button_ok">OK</string>
     <string name="label_alert_button_yes">Sim</string>
     <string name="label_alert_button_no">Não</string>
@@ -26,32 +36,30 @@
     <string name="label_alert_button_send">Enviar</string>
 
     <!-- Messages -->
-    <string name="error_message_insert_game_null">Erro ao inserir pois o jogo está nulo. Entre em contato com o suporte.</string>
     <string name="message_game_inserted">Jogo gravado com sucesso!</string>
     <string name="message_game_updated">Jogo atualizado com sucesso!</string>
+    <string name="message_game_deleted">Jogo exluído com sucesso!</string>
+    <string name="message_games_empty">Nenhum jogo foi encontrado.</string>
+    <string name="message_no_game_select">"Por favor, selecione pelo menos um jogo para realizar a exclusão. "</string>
+    <string name="message_consoles_inserted">Consoles inseridos com sucesso!</string>
+    <string name="message_consoles_listed">Consoles buscados com sucesso!</string>
+    <string name="message_console_deleted">Console excluído com sucesso!</string>
+
+    <!-- Error Messages -->
+    <string name="error_message_empty_field">Por favor, preencher o campo \"%s\".</string>
+    <string name="error_message_invalid_date">A data informada é inválida.</string>
+    <string name="error_message_invalid_time">O horário informado é inválido.</string>
+    <string name="error_message_invalid_cpf">O CPF informado é inválido.</string>
+    <string name="error_message_invalid_cnpj">O CNPJ informado é inválido.</string>
+    <string name="error_message_invalid_value">O VALOR informado é inválido.</string>
+    <string name="error_message_invalid_num_characters">Quantidade de caracteres do campo "%1$s" não pode ser menor que %2$d.</string>
+    <string name="error_message_spinner_selection">Por favor, selecione um Console válido.</string>
+    <string name="error_message_insert_game_null">Erro ao inserir pois o jogo está nulo. Entre em contato com o suporte.</string>
     <string name="error_message_game_insert">Erro ao inserir jogo!</string>
     <string name="error_message_game_update">Erro ao atualizar jogo!</string>
-    <string name="message_game_deleted">Jogo exluído com sucesso!</string>
     <string name="error_message_game_delete">Erro ao excluir jogo(s)!</string>
-    <string name="message_games_empty">Nenhum jogo foi encontrado.</string>
-    <string name="title_activity_add_games">Adicionar Jogo</string>
-    <string name="text_game_name">Nome do Jogo</string>
-    <string name="text_game_year">Ano de Lançamento</string>
-    <string name="title_activity_main">Meus Jogos</string>
-    <string name="text_delete">Excluir</string>
-    <string name="text_select_all">Selecionar tudo</string>
-    <string name="message_no_game_select">"Favor, selecione pelo menos um jogo para realizar a exclusão. "</string>
-    <string name="action_about">Sobre</string>
-    <string name="action_sort">Ordenar</string>
-    <string name="title_alert_select_a_option">Selecione uma opção</string>
-    <string name="title_alert_order_by">Ordenar por</string>
-    <string name="message_consoles_listed">Consoles buscados com sucesso!</string>
     <string name="error_message_consoles_listed">Nenhum console encontrado!</string>
-    <string name="message_consoles_inserted">Consoles inseridos com sucesso!</string>
-    <string name="message_console_deleted">Console excluído com sucesso!</string>
     <string name="error_message_console_delete">Erro ao excluir console.</string>
-    <string name="text_console">Console</string>
-    <string name="text_select">Selecione</string>
 
     <!-- Plurals -->
     <plurals name="plural_message_games_deleted">

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -12,13 +11,14 @@ import androidx.lifecycle.ViewModelProviders;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.databinding.ActivityAddGameBinding;
 import br.com.vicentec12.mygames.util.InstantiateUtil;
 import br.com.vicentec12.mygames.util.ValidationUtil;
 
-public class AddGameActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class AddGameActivity extends AppCompatActivity {
 
     private static final String EXTRA_GAME = "game";
     private static final String EXTRA_CONSOLE = "console";
@@ -29,11 +29,9 @@ public class AddGameActivity extends AppCompatActivity implements AdapterView.On
     private Console mSelectedConsole;
     private AddGameViewModel mViewModel;
 
-    public static Intent newIntentInstance(Context context, Game mGame, Console mConsole) {
+    public static Intent newIntentInstance(Context context, Game mGame) {
         Intent mIntent = new Intent(context, AddGameActivity.class);
         mIntent.putExtra(EXTRA_GAME, mGame);
-        mIntent.putExtra(EXTRA_CONSOLE, mConsole);
-        mIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         return mIntent;
     }
 
@@ -47,26 +45,24 @@ public class AddGameActivity extends AppCompatActivity implements AdapterView.On
 
     private void init() {
         mSelectedGame = (Game) getIntent().getSerializableExtra(EXTRA_GAME);
-        mSelectedConsole = (Console) getIntent().getSerializableExtra(EXTRA_CONSOLE);
         setupViewModel();
         setupToolbar();
-//        setupSpinnerConsole();
-//        setupSpinnerConsoleSelected();
         setupMessage();
         setupEventDatabase();
-//        mViewModel.listConsoles(mSelectedConsole);
+        mViewModel.listConsoles(mSelectedGame);
     }
 
     private void setupViewModel() {
         AddGameViewModelFactory mFactory = new AddGameViewModelFactory(InstantiateUtil.initGameRepository(this),
                 InstantiateUtil.initConsoleRepository(this));
         mViewModel = ViewModelProviders.of(this, mFactory).get(AddGameViewModel.class);
-        mViewModel.setGame(mSelectedGame);
         mBinding.setViewModel(mViewModel);
         mBinding.setLifecycleOwner(this);
     }
 
     private void setupToolbar() {
+        mBinding.lytToolbar.toolbar.setTitle(mSelectedGame == null ? R.string.title_activity_add_games
+                : R.string.title_activity_edit_games);
         setSupportActionBar(mBinding.lytToolbar.toolbar);
     }
 
@@ -99,6 +95,8 @@ public class AddGameActivity extends AppCompatActivity implements AdapterView.On
             return false;
         if (!ValidationUtil.validateEmptyField(this, mBinding.tilAddGameYear))
             return false;
+        if (!ValidationUtil.validateSpinner(this, mBinding.spnAddGameConsole, getString(R.string.error_message_spinner_selection)))
+            return false;
         return true;
     }
 
@@ -110,16 +108,6 @@ public class AddGameActivity extends AppCompatActivity implements AdapterView.On
     public void fabEvent(View view) {
         if (validateFields())
             mViewModel.databaseEvent();
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
 }

@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
@@ -23,7 +24,6 @@ import java.util.List;
 import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
-import br.com.vicentec12.mygames.data.source.game.GameLocalDataSource;
 import br.com.vicentec12.mygames.databinding.ActivityGameBinding;
 import br.com.vicentec12.mygames.interfaces.OnItemClickListener;
 import br.com.vicentec12.mygames.interfaces.OnItemLongClickListener;
@@ -74,7 +74,10 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
         if (id == R.id.action_sort) {
             String[] options = {getString(R.string.text_game_name), getString(R.string.text_game_year)};
             new AlertDialog.Builder(this).setTitle(R.string.title_alert_order_by)
-                    .setItems(options, (dialog, which) -> mViewModel.listSavedGames(which)).show();
+                    .setItems(options, (dialog, which) -> {
+                        mViewModel.getMutableOrderBySelection().setValue(which);
+                        mViewModel.listSavedGames();
+                    }).show();
             return true;
         } else if (id == R.id.action_about)
             return true;
@@ -91,7 +94,7 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
         setupHasActionModeFinish();
         Console mConsole = (Console) getIntent().getSerializableExtra(EXTRA_CONSOLE);
         mViewModel.setConsole(mConsole);
-        mViewModel.listSavedGames(GameLocalDataSource.ORDER_BY_NAME);
+        mViewModel.listSavedGames();
     }
 
     private void setupViewModel() {
@@ -160,11 +163,22 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CODE_OPERATION_SUCCESS) {
+            if (resultCode == RESULT_OK) {
+                setResult(RESULT_OK);
+                mViewModel.listSavedGames();
+            }
+        }
+    }
+
+    @Override
     public void onItemClick(View view, Object item, int position) {
         if (mActionMode == null) {
             Game mGame = (Game) item;
-            startActivityForResult(AddGameActivity.newIntentInstance(this, mGame,
-                    mViewModel.getMutableConsole().getValue()), CODE_OPERATION_SUCCESS);
+            startActivityForResult(AddGameActivity.newIntentInstance(this, mGame),
+                    CODE_OPERATION_SUCCESS);
         } else
             mViewModel.select(position);
     }
