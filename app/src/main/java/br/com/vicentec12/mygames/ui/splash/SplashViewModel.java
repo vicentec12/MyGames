@@ -18,10 +18,10 @@ import br.com.vicentec12.mygames.interfaces.Callbacks;
 
 public class SplashViewModel extends ViewModel {
 
-    private MutableLiveData<Event<Boolean>> mutableHasFinish = new MutableLiveData<>();
-    private MutableLiveData<Event<Integer>> mutableMessage = new MutableLiveData<>();
-
     private ConsoleRepository mConsoleRepository;
+
+    private MutableLiveData<Event<Boolean>> mHasFinishLiveData = new MutableLiveData<>();
+    private MutableLiveData<Event<Integer>> mMessageLiveData = new MutableLiveData<>();
 
     public SplashViewModel(ConsoleRepository mConsoleRepository) {
         this.mConsoleRepository = mConsoleRepository;
@@ -36,7 +36,7 @@ public class SplashViewModel extends ViewModel {
         mConsoleRepository.listConsolesWithGames(new ConsoleDataSource.OnConsolesWithGamesListedCallback() {
             @Override
             public void onSucess(int message, List<ConsoleWithGames> consolesWithGames) {
-                mutableHasFinish.setValue(new Event<>(true));
+                mHasFinishLiveData.setValue(new Event<>(true));
             }
 
             @Override
@@ -48,6 +48,7 @@ public class SplashViewModel extends ViewModel {
                 consoles.add(new Console("Nintendo Gamecube", R.drawable.lg_gc));
                 consoles.add(new Console("Nintendo Wii", R.drawable.lg_wii));
                 consoles.add(new Console("Nintendo 3DS", R.drawable.lg_3ds));
+                consoles.add(new Console("Nintendo DS", R.drawable.lg_nds));
                 consoles.add(new Console("Nintendo Switch", R.drawable.lg_switch));
                 consoles.add(new Console("Playstation", R.drawable.lg_ps1));
                 consoles.add(new Console("Playstation 2", R.drawable.lg_ps2));
@@ -59,23 +60,24 @@ public class SplashViewModel extends ViewModel {
                 mConsoleRepository.insertConsoles(consoles, new Callbacks.OnLocalCallback() {
                     @Override
                     public void onSuccess(int mMessage) {
-                        mutableHasFinish.setValue(new Event<>(true));
+                        mHasFinishLiveData.setValue(new Event<>(true));
                     }
 
                     @Override
                     public void onFailure(int mMessage) {
-                        mutableMessage.setValue(new Event<>(mMessage));
+                        mMessageLiveData.setValue(new Event<>(mMessage));
                     }
                 });
             }
         });
     }
 
-    public MutableLiveData<Event<Boolean>> getMutableHasFinish() {
-        return mutableHasFinish;
+    public MutableLiveData<Event<Boolean>> getHasFinishMutable() {
+        return mHasFinishLiveData;
     }
 
-    public MutableLiveData<Event<Integer>> getMutableMessage() {
-        return mutableMessage;
+    public MutableLiveData<Event<Integer>> getMessageLiveData() {
+        return mMessageLiveData;
     }
+
 }

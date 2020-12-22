@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames;
+package br.com.vicentec12.mygames.data.source;
 
 import androidx.room.Room;
 import androidx.room.testing.MigrationTestHelper;

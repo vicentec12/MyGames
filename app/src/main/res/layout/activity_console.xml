@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inAnimation="@android:anim/fade_in"
-            app:displayedChild="@{viewModel.mutableViewFlipperChild}"
+            app:displayedChild="@{viewModel.viewFlipperLiveData}"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <ProgressBar
@@ -42,7 +42,7 @@
                 android:paddingHorizontal="@dimen/minor_spacing"
                 android:paddingTop="@dimen/minor_spacing"
                 android:paddingBottom="@dimen/activity_with_fab_spacing"
-                app:items="@{viewModel.mutableConsoles}"
+                app:items="@{viewModel.consolesLiveData}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
                 tools:listitem="@layout/item_console" />
@@ -53,7 +53,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:padding="@dimen/default_spacing"
-                android:text="@string/message_games_empty"
+                android:text="@{viewModel.messageLiveData}"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />

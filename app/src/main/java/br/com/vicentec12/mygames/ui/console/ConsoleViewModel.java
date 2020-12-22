@@ -8,7 +8,6 @@ import java.util.List;
 import br.com.vicentec12.mygames.data.model.ConsoleWithGames;
 import br.com.vicentec12.mygames.data.source.console.ConsoleDataSource;
 import br.com.vicentec12.mygames.data.source.console.ConsoleRepository;
-import br.com.vicentec12.mygames.extensions.Event;
 
 public class ConsoleViewModel extends ViewModel {
 
@@ -18,36 +17,41 @@ public class ConsoleViewModel extends ViewModel {
 
     private ConsoleRepository mConsoleRepository;
 
-    private MutableLiveData<Event<Integer>> mMessage = new MutableLiveData<>();
-    private MutableLiveData<Integer> mMutableViewFlipperChild = new MutableLiveData<>();
-    private MutableLiveData<List<ConsoleWithGames>> mMutableConsoles = new MutableLiveData<>();
+    private MutableLiveData<Integer> mMessageLiveData = new MutableLiveData<>();
+    private MutableLiveData<Integer> mViewFlipperLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<ConsoleWithGames>> mConsolesLiveData = new MutableLiveData<>();
 
     public ConsoleViewModel(ConsoleRepository mConsoleRepository) {
         this.mConsoleRepository = mConsoleRepository;
     }
 
     public void listConsoles() {
-        mMutableViewFlipperChild.setValue(CHILD_PROGRESS);
+        mViewFlipperLiveData.setValue(CHILD_PROGRESS);
         mConsoleRepository.listConsolesWithGames(new ConsoleDataSource.OnConsolesWithGamesListedCallback() {
             @Override
             public void onSucess(int message, List<ConsoleWithGames> consolesWithGames) {
-                mMessage.setValue(new Event<>(message));
-                mMutableConsoles.setValue(consolesWithGames);
-                mMutableViewFlipperChild.setValue(CHILD_RECYCLER);
+                mConsolesLiveData.setValue(consolesWithGames);
+                mViewFlipperLiveData.setValue(CHILD_RECYCLER);
             }
 
             @Override
             public void onErro(int message) {
-                mMessage.setValue(new Event<>(message));
+                mMessageLiveData.setValue(message);
+                mViewFlipperLiveData.setValue(CHILD_TEXT);
             }
         });
     }
 
-    public MutableLiveData<List<ConsoleWithGames>> getMutableConsoles() {
-        return mMutableConsoles;
+    public MutableLiveData<List<ConsoleWithGames>> getConsolesLiveData() {
+        return mConsolesLiveData;
     }
 
-    public MutableLiveData<Integer> getMutableViewFlipperChild() {
-        return mMutableViewFlipperChild;
+    public MutableLiveData<Integer> getViewFlipperLiveData() {
+        return mViewFlipperLiveData;
     }
+
+    public MutableLiveData<Integer> getMessageLiveData() {
+        return mMessageLiveData;
+    }
+
 }

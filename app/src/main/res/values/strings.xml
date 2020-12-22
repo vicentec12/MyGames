@@ -39,7 +39,8 @@
     <string name="message_game_inserted">Jogo gravado com sucesso!</string>
     <string name="message_game_updated">Jogo atualizado com sucesso!</string>
     <string name="message_game_deleted">Jogo exluído com sucesso!</string>
-    <string name="message_games_empty">Nenhum jogo foi encontrado.</string>
+    <string name="message_games_empty">Nenhum jogo encontrado.</string>
+    <string name="message_consoles_empty">Nenhum console encontrado.</string>
     <string name="message_no_game_select">"Por favor, selecione pelo menos um jogo para realizar a exclusão. "</string>
     <string name="message_consoles_inserted">Consoles inseridos com sucesso!</string>
     <string name="message_consoles_listed">Consoles buscados com sucesso!</string>

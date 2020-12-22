@@ -67,7 +67,7 @@ public class AddGameActivity extends AppCompatActivity {
     }
 
     private void setupMessage() {
-        mViewModel.getMutableMessage().observe(this, integerEvent -> {
+        mViewModel.getMessageLiveData().observe(this, integerEvent -> {
             Integer mMessage = integerEvent.getContentIfNotHandled();
             if (mMessage != null)
                 Snackbar.make(mBinding.tilAddGameName, getText(mMessage), BaseTransientBottomBar.LENGTH_LONG)
@@ -76,7 +76,7 @@ public class AddGameActivity extends AppCompatActivity {
     }
 
     private void setupEventDatabase() {
-        mViewModel.getMutableEventDatabase().observe(this, booleanEvent -> {
+        mViewModel.getEventDatabaseLiveData().observe(this, booleanEvent -> {
             Boolean mMessage = booleanEvent.getContentIfNotHandled();
             if (mMessage != null) {
                 setResult(RESULT_OK);

@@ -46,7 +46,7 @@
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords"
-                        android:text="@={viewModel.mutableGame.name}" />
+                        android:text="@={viewModel.gameLiveData.name}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,7 +63,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:maxLength="4"
-                        android:text="@={viewModel.mutableGame.year}" />
+                        android:text="@={viewModel.gameLiveData.year}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,8 +79,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:spinnerMode="dialog"
-                    app:selection="@={viewModel.mutableGame.idConsole}"
-                    app:items="@{viewModel.mutableConsoles}" />
+                    app:selection="@={viewModel.gameLiveData.idConsole}"
+                    app:items="@{viewModel.consolesLiveData}" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -94,7 +94,7 @@
             android:layout_margin="@dimen/default_spacing"
             android:onClick="fabEvent"
             app:backgroundTint="@color/colorPrimary"
-            app:srcVector="@{viewModel.mutableGame.id == 0 ? R.drawable.ic_save : R.drawable.ic_edit}"
+            app:srcVector="@{viewModel.gameLiveData.id == 0 ? R.drawable.ic_save : R.drawable.ic_edit}"
             app:tint="@android:color/white" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

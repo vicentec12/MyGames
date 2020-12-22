@@ -39,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void setupHasFinish() {
-        mViewModel.getMutableHasFinish().observe(this, booleanEvent -> {
+        mViewModel.getHasFinishMutable().observe(this, booleanEvent -> {
             boolean hasFinish = booleanEvent.getContentIfNotHandled();
             if (hasFinish) {
                 startActivity(ConsoleActivity.newIntentInstance(SplashActivity.this));
@@ -49,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void setupMessage() {
-        mViewModel.getMutableMessage().observe(this, integerEvent -> {
+        mViewModel.getMessageLiveData().observe(this, integerEvent -> {
             int mMessage = integerEvent.getContentIfNotHandled();
             new AlertDialog.Builder(SplashActivity.this).setTitle(R.string.title_alert_error)
                     .setMessage(mMessage).setPositiveButton(R.string.label_alert_button_ok, null).show();

@@ -15,14 +15,13 @@ import br.com.vicentec12.mygames.interfaces.Callbacks;
 
 public class AddGameViewModel extends ViewModel {
 
-    private final MutableLiveData<Game> mMutableGame = new MutableLiveData<>();
-    private final MutableLiveData<List<Console>> mMutableConsoles = new MutableLiveData<>();
-    private final MutableLiveData<List<Integer>> mMutableSpinnerPosition = new MutableLiveData<>();
-    private final MutableLiveData<Event<Integer>> mMutableMessage = new MutableLiveData<>();
-    private final MutableLiveData<Event<Boolean>> mMutableEventDatabase = new MutableLiveData<>();
-
     private GameRepository mGameRepository;
     private ConsoleRepository mConsoleRepository;
+
+    private final MutableLiveData<Game> mGameLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<Console>> mConsolesLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Event<Integer>> mMessageLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Event<Boolean>> mEventDatabaseLiveData = new MutableLiveData<>();
 
     public AddGameViewModel(GameRepository mGameRepository, ConsoleRepository mConsoleRepository) {
         this.mGameRepository = mGameRepository;
@@ -30,7 +29,7 @@ public class AddGameViewModel extends ViewModel {
     }
 
     public void databaseEvent() {
-        Game game = getMutableGame().getValue();
+        Game game = getGameLiveData().getValue();
         if (game != null) {
             if (game.getId() > 0)
                 updateGame(game);
@@ -40,11 +39,11 @@ public class AddGameViewModel extends ViewModel {
     }
 
     public void listConsoles(Game mGame) {
-        if (mMutableConsoles.getValue() == null) {
+        if (mConsolesLiveData.getValue() == null) {
             mConsoleRepository.listConsoles(new ConsoleDataSource.OnConsolesListedCallback() {
                 @Override
                 public void onSucess(int message, List<Console> consoles) {
-                    mMutableConsoles.setValue(consoles);
+                    mConsolesLiveData.setValue(consoles);
                     setGame(mGame);
                 }
 
@@ -60,13 +59,13 @@ public class AddGameViewModel extends ViewModel {
         mGameRepository.insert(game, new Callbacks.OnLocalCallback() {
             @Override
             public void onSuccess(int mMessage) {
-                mMutableEventDatabase.setValue(new Event<>(true));
-                mMutableMessage.setValue(new Event<>(mMessage));
+                mEventDatabaseLiveData.setValue(new Event<>(true));
+                mMessageLiveData.setValue(new Event<>(mMessage));
             }
 
             @Override
             public void onFailure(int mMessage) {
-                mMutableMessage.setValue(new Event<>(mMessage));
+                mMessageLiveData.setValue(new Event<>(mMessage));
             }
         });
     }
@@ -75,60 +74,42 @@ public class AddGameViewModel extends ViewModel {
         mGameRepository.update(game, new Callbacks.OnLocalCallback() {
             @Override
             public void onSuccess(int mMessage) {
-                mMutableEventDatabase.setValue(new Event<>(true));
-                mMutableMessage.setValue(new Event<>(mMessage));
+                mEventDatabaseLiveData.setValue(new Event<>(true));
+                mMessageLiveData.setValue(new Event<>(mMessage));
             }
 
             @Override
             public void onFailure(int mMessage) {
-                mMutableMessage.setValue(new Event<>(mMessage));
+                mMessageLiveData.setValue(new Event<>(mMessage));
             }
         });
     }
 
-    public void setConsoleSelection() {
-        if (mMutableGame.getValue() != null && mMutableGame.getValue().getIdConsole() > 0) {
-
-        }
-    }
-
-    public void setConsoleGame(Console console) {
-        if (mMutableGame.getValue() != null) {
-            Game game = mMutableGame.getValue();
-            game.setIdConsole(console.getId());
-            mMutableGame.setValue(game);
-        }
-    }
-
     public boolean hasInsert() {
-        if (mMutableGame.getValue() != null)
-            return mMutableGame.getValue().getId() == 0;
+        if (mGameLiveData.getValue() != null)
+            return mGameLiveData.getValue().getId() == 0;
         return false;
     }
 
     public void setGame(Game game) {
-        if (mMutableGame.getValue() == null)
-            mMutableGame.postValue(game != null ? game : new Game());
+        if (mGameLiveData.getValue() == null)
+            mGameLiveData.postValue(game != null ? game : new Game());
     }
 
-    public MutableLiveData<Game> getMutableGame() {
-        return mMutableGame;
+    public MutableLiveData<Game> getGameLiveData() {
+        return mGameLiveData;
     }
 
-    public MutableLiveData<List<Console>> getMutableConsoles() {
-        return mMutableConsoles;
+    public MutableLiveData<List<Console>> getConsolesLiveData() {
+        return mConsolesLiveData;
     }
 
-    public MutableLiveData<Event<Boolean>> getMutableEventDatabase() {
-        return mMutableEventDatabase;
+    public MutableLiveData<Event<Boolean>> getEventDatabaseLiveData() {
+        return mEventDatabaseLiveData;
     }
 
-    public MutableLiveData<Event<Integer>> getMutableMessage() {
-        return mMutableMessage;
-    }
-
-    public MutableLiveData<List<Integer>> getMutableSpinnerPosition() {
-        return mMutableSpinnerPosition;
+    public MutableLiveData<Event<Integer>> getMessageLiveData() {
+        return mMessageLiveData;
     }
 
 }
