@@ -18,10 +18,10 @@ import br.com.vicentec12.mygames.interfaces.Callbacks;
 
 public class SplashViewModel extends ViewModel {
 
-    private ConsoleRepository mConsoleRepository;
+    private final MutableLiveData<Event<Integer>> _message = new MutableLiveData<>();
+    private final MutableLiveData<Event<Boolean>> _hasFinish = new MutableLiveData<>();
 
-    private MutableLiveData<Event<Boolean>> mHasFinishLiveData = new MutableLiveData<>();
-    private MutableLiveData<Event<Integer>> mMessageLiveData = new MutableLiveData<>();
+    private final ConsoleRepository mConsoleRepository;
 
     public SplashViewModel(ConsoleRepository mConsoleRepository) {
         this.mConsoleRepository = mConsoleRepository;
@@ -36,7 +36,7 @@ public class SplashViewModel extends ViewModel {
         mConsoleRepository.listConsolesWithGames(new ConsoleDataSource.OnConsolesWithGamesListedCallback() {
             @Override
             public void onSucess(int message, List<ConsoleWithGames> consolesWithGames) {
-                mHasFinishLiveData.setValue(new Event<>(true));
+                _hasFinish.setValue(new Event<>(true));
             }
 
             @Override
@@ -60,24 +60,24 @@ public class SplashViewModel extends ViewModel {
                 mConsoleRepository.insertConsoles(consoles, new Callbacks.OnLocalCallback() {
                     @Override
                     public void onSuccess(int mMessage) {
-                        mHasFinishLiveData.setValue(new Event<>(true));
+                        _hasFinish.setValue(new Event<>(true));
                     }
 
                     @Override
                     public void onFailure(int mMessage) {
-                        mMessageLiveData.setValue(new Event<>(mMessage));
+                        _message.setValue(new Event<>(mMessage));
                     }
                 });
             }
         });
     }
 
-    public MutableLiveData<Event<Boolean>> getHasFinishMutable() {
-        return mHasFinishLiveData;
+    public MutableLiveData<Event<Integer>> getMessage() {
+        return _message;
     }
 
-    public MutableLiveData<Event<Integer>> getMessageLiveData() {
-        return mMessageLiveData;
+    public MutableLiveData<Event<Boolean>> getHasFinish() {
+        return _hasFinish;
     }
 
 }

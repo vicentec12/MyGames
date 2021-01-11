@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -75,7 +75,7 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
             String[] options = {getString(R.string.text_game_name), getString(R.string.text_game_year)};
             new AlertDialog.Builder(this).setTitle(R.string.title_alert_order_by)
                     .setItems(options, (dialog, which) -> {
-                        mViewModel.getOrderByLiveData().setValue(which);
+                        mViewModel.getOrderBy().setValue(which);
                         mViewModel.listSavedGames();
                     }).show();
             return true;
@@ -100,7 +100,7 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
     private void setupViewModel() {
         GameViewModelFactory mFactory =
                 new GameViewModelFactory(InstantiateUtil.initGameRepository(this));
-        mViewModel = ViewModelProviders.of(this, mFactory).get(GameViewModel.class);
+        mViewModel = new ViewModelProvider(this, mFactory).get(GameViewModel.class);
         mBinding.setViewModel(mViewModel);
         mBinding.setLifecycleOwner(this);
     }
@@ -121,14 +121,14 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
     }
 
     private void setupSelectedItems() {
-        mViewModel.getSelectedItemsLiveData().observe(this, integers -> {
+        mViewModel.getSelectedItems().observe(this, integers -> {
             setTitleActionMode(integers.size());
             mBinding.rvwGame.post(() -> mGameAdapter.notifyDataSetChanged());
         });
     }
 
     private void setupMessage() {
-        mViewModel.getMessageLiveData().observe(this, integerEvent -> {
+        mViewModel.getMessage().observe(this, integerEvent -> {
             Integer mMessage = integerEvent.getContentIfNotHandled();
             if (mMessage != null)
                 Snackbar.make(mBinding.rvwGame, mMessage, BaseTransientBottomBar.LENGTH_LONG)
@@ -137,7 +137,7 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
     }
 
     private void setupPluralMessage() {
-        mViewModel.getPluralLiveData().observe(this, integersEvent -> {
+        mViewModel.getPlural().observe(this, integersEvent -> {
             List<Integer> mIntegersMessage = integersEvent.getContentIfNotHandled();
             if (mIntegersMessage != null) {
                 String mMessage = getResources().getQuantityString(mIntegersMessage.get(0), mIntegersMessage.get(1),
@@ -149,7 +149,7 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
     }
 
     private void setupHasActionModeFinish() {
-        mViewModel.getHasActionModeFinishMutable().observe(this, booleanEvent -> {
+        mViewModel.getHasActionModeFinish().observe(this, booleanEvent -> {
             Boolean hasFinished = booleanEvent.getContentIfNotHandled();
             if (hasFinished != null && hasFinished)
                 mActionMode.finish();
@@ -213,8 +213,10 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
             if (mSelectedItemCount > 0)
                 new AlertDialog.Builder(GameActivity.this).setTitle(R.string.title_alert_warning)
                         .setMessage(getResources().getQuantityString(R.plurals.plural_message_warning_delete_game, mSelectedItemCount, mSelectedItemCount))
-                        .setPositiveButton(R.string.label_alert_button_yes, (dialog, which) -> mViewModel.deleteGames())
-                        .setNegativeButton(R.string.label_alert_button_no, null).show();
+                        .setPositiveButton(R.string.label_alert_button_yes, (dialog, which) -> {
+                            mViewModel.deleteGames();
+                            setResult(RESULT_OK);
+                        }).setNegativeButton(R.string.label_alert_button_no, null).show();
             else
                 Snackbar.make(mBinding.rvwGame, R.string.message_no_game_select, BaseTransientBottomBar.LENGTH_LONG)
                         .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show();

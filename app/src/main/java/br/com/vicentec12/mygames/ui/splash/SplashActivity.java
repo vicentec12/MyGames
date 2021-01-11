@@ -4,7 +4,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.databinding.ActivitySplashBinding;
@@ -35,11 +35,11 @@ public class SplashActivity extends AppCompatActivity {
     private void setupViewModel() {
         SplashViewModelFactory mFactory =
                 new SplashViewModelFactory(InstantiateUtil.initConsoleRepository(this));
-        mViewModel = ViewModelProviders.of(this, mFactory).get(SplashViewModel.class);
+        mViewModel = new ViewModelProvider(this, mFactory).get(SplashViewModel.class);
     }
 
     private void setupHasFinish() {
-        mViewModel.getHasFinishMutable().observe(this, booleanEvent -> {
+        mViewModel.getHasFinish().observe(this, booleanEvent -> {
             boolean hasFinish = booleanEvent.getContentIfNotHandled();
             if (hasFinish) {
                 startActivity(ConsoleActivity.newIntentInstance(SplashActivity.this));
@@ -49,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void setupMessage() {
-        mViewModel.getMessageLiveData().observe(this, integerEvent -> {
+        mViewModel.getMessage().observe(this, integerEvent -> {
             int mMessage = integerEvent.getContentIfNotHandled();
             new AlertDialog.Builder(SplashActivity.this).setTitle(R.string.title_alert_error)
                     .setMessage(mMessage).setPositiveButton(R.string.label_alert_button_ok, null).show();

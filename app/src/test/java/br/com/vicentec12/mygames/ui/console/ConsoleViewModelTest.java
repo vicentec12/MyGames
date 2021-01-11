@@ -22,7 +22,6 @@ import br.com.vicentec12.mygames.data.model.ConsoleWithGames;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.data.source.console.ConsoleDataSource;
 import br.com.vicentec12.mygames.data.source.console.ConsoleRepository;
-import br.com.vicentec12.mygames.extensions.Event;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -78,8 +77,8 @@ public class ConsoleViewModelTest {
     public void listConsolesSuccessTest() {
         // Arange
         int message = R.string.message_consoles_listed;
-        mConsoleViewModel.getConsolesLiveData().observeForever(mConsolesLiveDataObserver);
-        mConsoleViewModel.getViewFlipperLiveData().observeForever(mViewFLipperLiveDataObserver);
+        mConsoleViewModel.getConsoles().observeForever(mConsolesLiveDataObserver);
+        mConsoleViewModel.getViewFlipperChild().observeForever(mViewFLipperLiveDataObserver);
 
         // Act
         mConsoleViewModel.listConsoles();
@@ -95,8 +94,8 @@ public class ConsoleViewModelTest {
     public void listConsolesErrorTest() {
         // Arrange
         int message = R.string.message_consoles_empty;
-        mConsoleViewModel.getMessageLiveData().observeForever(mMessageLiveDataObserver);
-        mConsoleViewModel.getViewFlipperLiveData().observeForever(mViewFLipperLiveDataObserver);
+        mConsoleViewModel.getMessage().observeForever(mMessageLiveDataObserver);
+        mConsoleViewModel.getViewFlipperChild().observeForever(mViewFLipperLiveDataObserver);
 
         // Act
         mConsoleViewModel.listConsoles();

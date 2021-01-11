@@ -7,7 +7,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import br.com.vicentec12.mygames.data.model.ConsoleWithGames;
 import br.com.vicentec12.mygames.databinding.ActivityConsoleBinding;
@@ -47,7 +47,7 @@ public class ConsoleActivity extends AppCompatActivity implements OnItemClickLis
     private void setupViewModel() {
         ConsoleViewModelFactory mFactory =
                 new ConsoleViewModelFactory(InstantiateUtil.initConsoleRepository(this));
-        mViewModel = ViewModelProviders.of(this, mFactory).get(ConsoleViewModel.class);
+        mViewModel = new ViewModelProvider(this, mFactory).get(ConsoleViewModel.class);
         mBinding.setViewModel(mViewModel);
         mBinding.setLifecycleOwner(this);
     }

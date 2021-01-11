@@ -15,43 +15,43 @@ public class ConsoleViewModel extends ViewModel {
     private final int CHILD_RECYCLER = 1;
     private final int CHILD_TEXT = 2;
 
-    private ConsoleRepository mConsoleRepository;
+    private final ConsoleRepository mConsoleRepository;
 
-    private MutableLiveData<Integer> mMessageLiveData = new MutableLiveData<>();
-    private MutableLiveData<Integer> mViewFlipperLiveData = new MutableLiveData<>();
-    private MutableLiveData<List<ConsoleWithGames>> mConsolesLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Integer> _message = new MutableLiveData<>();
+    private final MutableLiveData<Integer> _viewFlipperChild = new MutableLiveData<>();
+    private final MutableLiveData<List<ConsoleWithGames>> _consoles = new MutableLiveData<>();
 
     public ConsoleViewModel(ConsoleRepository mConsoleRepository) {
         this.mConsoleRepository = mConsoleRepository;
     }
 
     public void listConsoles() {
-        mViewFlipperLiveData.setValue(CHILD_PROGRESS);
+        _viewFlipperChild.setValue(CHILD_PROGRESS);
         mConsoleRepository.listConsolesWithGames(new ConsoleDataSource.OnConsolesWithGamesListedCallback() {
             @Override
             public void onSucess(int message, List<ConsoleWithGames> consolesWithGames) {
-                mConsolesLiveData.setValue(consolesWithGames);
-                mViewFlipperLiveData.setValue(CHILD_RECYCLER);
+                _consoles.setValue(consolesWithGames);
+                _viewFlipperChild.setValue(CHILD_RECYCLER);
             }
 
             @Override
             public void onErro(int message) {
-                mMessageLiveData.setValue(message);
-                mViewFlipperLiveData.setValue(CHILD_TEXT);
+                _message.setValue(message);
+                _viewFlipperChild.setValue(CHILD_TEXT);
             }
         });
     }
 
-    public MutableLiveData<List<ConsoleWithGames>> getConsolesLiveData() {
-        return mConsolesLiveData;
+    public MutableLiveData<List<ConsoleWithGames>> getConsoles() {
+        return _consoles;
     }
 
-    public MutableLiveData<Integer> getViewFlipperLiveData() {
-        return mViewFlipperLiveData;
+    public MutableLiveData<Integer> getViewFlipperChild() {
+        return _viewFlipperChild;
     }
 
-    public MutableLiveData<Integer> getMessageLiveData() {
-        return mMessageLiveData;
+    public MutableLiveData<Integer> getMessage() {
+        return _message;
     }
 
 }

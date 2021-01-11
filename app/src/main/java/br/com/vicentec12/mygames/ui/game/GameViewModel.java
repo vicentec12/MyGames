@@ -24,17 +24,17 @@ public class GameViewModel extends ViewModel {
     private final GameRepository mGameRepository;
 
     // Activity
-    private final MutableLiveData<List<Game>> mGamesLiveData = new MutableLiveData<>();
-    private final MutableLiveData<Console> mConsoleLiveData = new MutableLiveData<>();
-    private final MutableLiveData<Integer> mOrderByLiveData = new MutableLiveData<>();
-    private final MutableLiveData<Integer> mViewFlipperLiveData = new MutableLiveData<>();
-    private final MutableLiveData<Event<Integer>> mMessageLiveData = new MutableLiveData<>();
-    private final MutableLiveData<Event<List<Integer>>> mPluralMessageLiveData = new MutableLiveData<>();
-    private final MutableLiveData<Event<Boolean>> mHasActionModeFinishLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<Game>> _games = new MutableLiveData<>();
+    private final MutableLiveData<Console> _console = new MutableLiveData<>();
+    private final MutableLiveData<Integer> _orderBy = new MutableLiveData<>();
+    private final MutableLiveData<Integer> _viewFlipper = new MutableLiveData<>();
+    private final MutableLiveData<Event<Integer>> _message = new MutableLiveData<>();
+    private final MutableLiveData<Event<List<Integer>>> _pluralMessage = new MutableLiveData<>();
+    private final MutableLiveData<Event<Boolean>> _hasActionModeFinish = new MutableLiveData<>();
 
     // Adapter
-    private final MutableLiveData<Boolean> mMutableSelectionMode = new MutableLiveData<>();
-    private final MutableLiveData<SparseBooleanArray> mMutableSelectedItems = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> _selectionMode = new MutableLiveData<>();
+    private final MutableLiveData<SparseBooleanArray> _selectedItems = new MutableLiveData<>();
 
     public GameViewModel(GameRepository mGameRepository) {
         this.mGameRepository = mGameRepository;
@@ -43,27 +43,27 @@ public class GameViewModel extends ViewModel {
     // Activity
 
     public void setConsole(Console console) {
-        mConsoleLiveData.setValue(console);
+        _console.setValue(console);
     }
 
     public int getOrderBySelection() {
-        if (mOrderByLiveData.getValue() != null)
-            return mOrderByLiveData.getValue();
+        if (_orderBy.getValue() != null)
+            return _orderBy.getValue();
         return GameLocalDataSource.ORDER_BY_NAME;
     }
 
     public void listSavedGames() {
-        mViewFlipperLiveData.setValue(CHILD_PROGRESS);
-        mGameRepository.list(mConsoleLiveData.getValue(), getOrderBySelection(), new GameDataSource.OnGamesListedCallback() {
+        _viewFlipper.setValue(CHILD_PROGRESS);
+        mGameRepository.list(_console.getValue(), getOrderBySelection(), new GameDataSource.OnGamesListedCallback() {
             @Override
             public void onSuccess(List<Game> games) {
-                mViewFlipperLiveData.setValue(CHILD_RECYCLER);
-                mGamesLiveData.setValue(games);
+                _viewFlipper.setValue(CHILD_RECYCLER);
+                _games.setValue(games);
             }
 
             @Override
             public void onFailure() {
-                mViewFlipperLiveData.setValue(CHILD_TEXT);
+                _viewFlipper.setValue(CHILD_TEXT);
             }
         });
     }
@@ -72,23 +72,23 @@ public class GameViewModel extends ViewModel {
         mGameRepository.delete(getSelectedGames(), new GameDataSource.OnGameDeletedCallback() {
             @Override
             public void onSuccess(int mMessage, int mNumDeleted) {
-                List<Game> games = mGamesLiveData.getValue();
+                List<Game> games = _games.getValue();
                 if (games != null) {
                     List<Integer> selecionados = getSelectedItemsPosition();
                     for (int i = (selecionados.size() - 1); i >= 0; i--) {
                         int position = selecionados.get(i);
                         games.remove(position);
                     }
-                    mGamesLiveData.setValue(games);
-                    if (games.size() == 0) mViewFlipperLiveData.setValue(CHILD_TEXT);
-                    mPluralMessageLiveData.setValue(new Event<>(createPluralMessage(mMessage, mNumDeleted)));
-                    mHasActionModeFinishLiveData.setValue(new Event<>(true));
+                    _games.setValue(games);
+                    if (games.size() == 0) _viewFlipper.setValue(CHILD_TEXT);
+                    _pluralMessage.setValue(new Event<>(createPluralMessage(mMessage, mNumDeleted)));
+                    _hasActionModeFinish.setValue(new Event<>(true));
                 }
             }
 
             @Override
             public void onFailure(int mMessage) {
-                mMessageLiveData.setValue(new Event<>(mMessage));
+                _message.setValue(new Event<>(mMessage));
             }
         });
     }
@@ -100,63 +100,63 @@ public class GameViewModel extends ViewModel {
         return mPluralMessage;
     }
 
-    public MutableLiveData<List<Game>> getGamesLiveData() {
-        return mGamesLiveData;
+    public MutableLiveData<List<Game>> getGames() {
+        return _games;
     }
 
-    public MutableLiveData<Integer> getOrderByLiveData() {
-        return mOrderByLiveData;
+    public MutableLiveData<Integer> getOrderBy() {
+        return _orderBy;
     }
 
-    public MutableLiveData<Integer> getViewFlipperLiveData() {
-        return mViewFlipperLiveData;
+    public MutableLiveData<Integer> getViewFlipper() {
+        return _viewFlipper;
     }
 
-    public MutableLiveData<Event<Integer>> getMessageLiveData() {
-        return mMessageLiveData;
+    public MutableLiveData<Event<Integer>> getMessage() {
+        return _message;
     }
 
-    public MutableLiveData<Event<List<Integer>>> getPluralLiveData() {
-        return mPluralMessageLiveData;
+    public MutableLiveData<Event<List<Integer>>> getPlural() {
+        return _pluralMessage;
     }
 
-    public MutableLiveData<Event<Boolean>> getHasActionModeFinishMutable() {
-        return mHasActionModeFinishLiveData;
+    public MutableLiveData<Event<Boolean>> getHasActionModeFinish() {
+        return _hasActionModeFinish;
     }
 
-    public MutableLiveData<Console> getConsoleLiveData() {
-        return mConsoleLiveData;
+    public MutableLiveData<Console> getConsole() {
+        return _console;
     }
 
     // Adapter
 
     public void clearSelection() {
-        SparseBooleanArray selections = mMutableSelectedItems.getValue();
+        SparseBooleanArray selections = _selectedItems.getValue();
         if (selections != null)
             selections.clear();
-        mMutableSelectedItems.setValue(selections);
+        _selectedItems.setValue(selections);
     }
 
     public void showChecks(boolean isSelectionModeVisible) {
-        mMutableSelectionMode.setValue(isSelectionModeVisible);
+        _selectionMode.setValue(isSelectionModeVisible);
     }
 
     public void select(int position) {
-        if (mMutableSelectedItems.getValue() == null)
-            mMutableSelectedItems.setValue(new SparseBooleanArray());
-        if (mMutableSelectedItems.getValue() != null) {
-            SparseBooleanArray selections = mMutableSelectedItems.getValue();
+        if (_selectedItems.getValue() == null)
+            _selectedItems.setValue(new SparseBooleanArray());
+        if (_selectedItems.getValue() != null) {
+            SparseBooleanArray selections = _selectedItems.getValue();
             if (selections.get(position, false))
                 selections.delete(position);
             else
                 selections.put(position, true);
-            mMutableSelectedItems.setValue(selections);
+            _selectedItems.setValue(selections);
         }
     }
 
     public void selectAll(boolean hasSelectAll) {
-        SparseBooleanArray selections = mMutableSelectedItems.getValue();
-        List<Game> games = mGamesLiveData.getValue();
+        SparseBooleanArray selections = _selectedItems.getValue();
+        List<Game> games = _games.getValue();
         if (selections != null && games != null) {
             if (!hasSelectAll) selections.clear();
             for (int i = 0; i < games.size(); i++) {
@@ -165,15 +165,15 @@ public class GameViewModel extends ViewModel {
                 else
                     selections.put(i, true);
             }
-            mMutableSelectedItems.setValue(selections);
+            _selectedItems.setValue(selections);
         }
     }
 
     public List<Integer> getSelectedItemsPosition() {
         List<Integer> items = new ArrayList<>();
-        if (mMutableSelectedItems.getValue() != null) {
-            for (int i = 0; i < mMutableSelectedItems.getValue().size(); i++) {
-                items.add(mMutableSelectedItems.getValue().keyAt(i));
+        if (_selectedItems.getValue() != null) {
+            for (int i = 0; i < _selectedItems.getValue().size(); i++) {
+                items.add(_selectedItems.getValue().keyAt(i));
             }
         }
         return items;
@@ -181,38 +181,38 @@ public class GameViewModel extends ViewModel {
 
     public List<Game> getSelectedGames() {
         List<Game> selectedGames = new ArrayList<>();
-        if (mMutableSelectedItems.getValue() != null && mGamesLiveData.getValue() != null) {
-            for (int i = 0; i < mMutableSelectedItems.getValue().size(); i++) {
-                selectedGames.add(mGamesLiveData.getValue().get(mMutableSelectedItems.getValue().keyAt(i)));
+        if (_selectedItems.getValue() != null && _games.getValue() != null) {
+            for (int i = 0; i < _selectedItems.getValue().size(); i++) {
+                selectedGames.add(_games.getValue().get(_selectedItems.getValue().keyAt(i)));
             }
         }
         return selectedGames;
     }
 
     public int getSelectedItemCount() {
-        if (mMutableSelectedItems.getValue() != null)
-            return mMutableSelectedItems.getValue().size();
+        if (_selectedItems.getValue() != null)
+            return _selectedItems.getValue().size();
         return 0;
     }
 
     public boolean isSelectionModeVisible() {
-        if (mMutableSelectionMode.getValue() != null)
-            return mMutableSelectionMode.getValue();
+        if (_selectionMode.getValue() != null)
+            return _selectionMode.getValue();
         return false;
     }
 
     public boolean isGameSelected(int position) {
-        if (mMutableSelectedItems.getValue() != null)
-            return mMutableSelectedItems.getValue().get(position, false);
+        if (_selectedItems.getValue() != null)
+            return _selectedItems.getValue().get(position, false);
         return false;
     }
 
-    public MutableLiveData<Boolean> getSelectionModeLiveData() {
-        return mMutableSelectionMode;
+    public MutableLiveData<Boolean> getSelectionMode() {
+        return _selectionMode;
     }
 
-    public MutableLiveData<SparseBooleanArray> getSelectedItemsLiveData() {
-        return mMutableSelectedItems;
+    public MutableLiveData<SparseBooleanArray> getSelectedItems() {
+        return _selectedItems;
     }
 
 }

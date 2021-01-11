@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -55,7 +55,7 @@ public class AddGameActivity extends AppCompatActivity {
     private void setupViewModel() {
         AddGameViewModelFactory mFactory = new AddGameViewModelFactory(InstantiateUtil.initGameRepository(this),
                 InstantiateUtil.initConsoleRepository(this));
-        mViewModel = ViewModelProviders.of(this, mFactory).get(AddGameViewModel.class);
+        mViewModel = new ViewModelProvider(this, mFactory).get(AddGameViewModel.class);
         mBinding.setViewModel(mViewModel);
         mBinding.setLifecycleOwner(this);
     }
@@ -67,7 +67,7 @@ public class AddGameActivity extends AppCompatActivity {
     }
 
     private void setupMessage() {
-        mViewModel.getMessageLiveData().observe(this, integerEvent -> {
+        mViewModel.getMessage().observe(this, integerEvent -> {
             Integer mMessage = integerEvent.getContentIfNotHandled();
             if (mMessage != null)
                 Snackbar.make(mBinding.tilAddGameName, getText(mMessage), BaseTransientBottomBar.LENGTH_LONG)
@@ -76,7 +76,7 @@ public class AddGameActivity extends AppCompatActivity {
     }
 
     private void setupEventDatabase() {
-        mViewModel.getEventDatabaseLiveData().observe(this, booleanEvent -> {
+        mViewModel.getEventDatabase().observe(this, booleanEvent -> {
             Boolean mMessage = booleanEvent.getContentIfNotHandled();
             if (mMessage != null) {
                 setResult(RESULT_OK);

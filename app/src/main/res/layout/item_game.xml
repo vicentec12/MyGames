@@ -69,7 +69,7 @@
             android:layout_gravity="center"
             android:checked="@{viewModel.isGameSelected(position)}"
             android:clickable="false"
-            android:visibility="@{viewModel.selectionModeLiveData ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.selectionMode ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

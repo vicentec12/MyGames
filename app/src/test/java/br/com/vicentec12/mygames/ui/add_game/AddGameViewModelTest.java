@@ -19,7 +19,6 @@ import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.data.source.console.ConsoleDataSource;
 import br.com.vicentec12.mygames.data.source.console.ConsoleRepository;
-import br.com.vicentec12.mygames.data.source.game.GameRepository;
 
 import static org.mockito.Mockito.verify;
 
@@ -51,8 +50,8 @@ public class AddGameViewModelTest {
                 new Console("Console 2", 2), new Console("Console 3", 3),
                 new Console("Console 4", 4), new Console("Console 5", 5)
         );
-        mAddGameViewModel.getGameLiveData().observeForever(mGameLiveDataObserver);
-        mAddGameViewModel.getConsolesLiveData().observeForever(mConsolesLiveDataObserver);
+        mAddGameViewModel.getGame().observeForever(mGameLiveDataObserver);
+        mAddGameViewModel.getConsoles().observeForever(mConsolesLiveDataObserver);
 
         // Act
         mAddGameViewModel.listConsoles(mGame);

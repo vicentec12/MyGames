@@ -8,7 +8,7 @@ import br.com.vicentec12.mygames.data.source.console.ConsoleRepository;
 
 public class ConsoleViewModelFactory implements ViewModelProvider.Factory {
 
-    private ConsoleRepository mConsoleRepository;
+    private final ConsoleRepository mConsoleRepository;
 
     public ConsoleViewModelFactory(ConsoleRepository mConsoleRepository) {
         this.mConsoleRepository = mConsoleRepository;

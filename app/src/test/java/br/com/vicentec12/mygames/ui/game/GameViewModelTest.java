@@ -21,17 +21,12 @@ import br.com.vicentec12.mygames.data.source.game.GameDataSource;
 import br.com.vicentec12.mygames.data.source.game.GameRepository;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.ArgumentMatchers.isNotNull;
 import static org.mockito.ArgumentMatchers.notNull;
-import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GameViewModelTest {
@@ -61,10 +56,10 @@ public class GameViewModelTest {
         List<Game> games = Arrays.asList(new Game(1, "Game 1", "1991"), new Game(2, "Game 2", "1992"),
                 new Game(3, "Game 3", "1993"), new Game(4, "Game 4", "1994")
         );
-        mGameViewModel.getConsoleLiveData().setValue(mConsole);
-        mGameViewModel.getOrderByLiveData().setValue(1);
-        mGameViewModel.getGamesLiveData().observeForever(mGamesLiveDataObserver);
-        mGameViewModel.getViewFlipperLiveData().observeForever(mViewFlipperLiveDataObserver);
+        mGameViewModel.getConsole().setValue(mConsole);
+        mGameViewModel.getOrderBy().setValue(1);
+        mGameViewModel.getGames().observeForever(mGamesLiveDataObserver);
+        mGameViewModel.getViewFlipper().observeForever(mViewFlipperLiveDataObserver);
 
         // Act
         mGameViewModel.listSavedGames();
