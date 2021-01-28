@@ -18,17 +18,19 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.Serializable;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import br.com.vicentec12.mygames.MyGamesApp;
 import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.databinding.ActivityGameBinding;
+import br.com.vicentec12.mygames.di.ViewModelProviderFactory;
 import br.com.vicentec12.mygames.interfaces.OnItemClickListener;
 import br.com.vicentec12.mygames.interfaces.OnItemLongClickListener;
 import br.com.vicentec12.mygames.ui.add_game.AddGameActivity;
-import br.com.vicentec12.mygames.util.InstantiateUtil;
 
 public class GameActivity extends AppCompatActivity implements ActionMode.Callback, OnItemClickListener, OnItemLongClickListener {
 
@@ -37,18 +39,23 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
 
     private ActivityGameBinding mBinding;
 
+    @Inject
+    public ViewModelProviderFactory mFactory;
+    private GameViewModel mViewModel;
+
     private ActionMode mActionMode;
     private GameAdapter mGameAdapter;
-    private GameViewModel mViewModel;
 
     public static Intent newIntentInstance(Context context, Console console) {
         Intent mIntent = new Intent(context, GameActivity.class);
-        mIntent.putExtra(EXTRA_CONSOLE, (Serializable) console);
+        mIntent.putExtra(EXTRA_CONSOLE, console);
         return mIntent;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ((MyGamesApp) getApplicationContext()).getAppComponent()
+                .gameComponent().create().inject(this);
         super.onCreate(savedInstanceState);
         mBinding = ActivityGameBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
@@ -98,8 +105,6 @@ public class GameActivity extends AppCompatActivity implements ActionMode.Callba
     }
 
     private void setupViewModel() {
-        GameViewModelFactory mFactory =
-                new GameViewModelFactory(InstantiateUtil.initGameRepository(this));
         mViewModel = new ViewModelProvider(this, mFactory).get(GameViewModel.class);
         mBinding.setViewModel(mViewModel);
         mBinding.setLifecycleOwner(this);

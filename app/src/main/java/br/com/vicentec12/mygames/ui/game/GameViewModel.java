@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.data.source.game.GameDataSource;
@@ -20,8 +22,6 @@ public class GameViewModel extends ViewModel {
     private final int CHILD_PROGRESS = 0;
     private final int CHILD_RECYCLER = 1;
     private final int CHILD_TEXT = 2;
-
-    private final GameRepository mGameRepository;
 
     // Activity
     private final MutableLiveData<List<Game>> _games = new MutableLiveData<>();
@@ -36,7 +36,10 @@ public class GameViewModel extends ViewModel {
     private final MutableLiveData<Boolean> _selectionMode = new MutableLiveData<>();
     private final MutableLiveData<SparseBooleanArray> _selectedItems = new MutableLiveData<>();
 
-    public GameViewModel(GameRepository mGameRepository) {
+    private final GameDataSource mGameRepository;
+
+    @Inject
+    public GameViewModel(GameDataSource mGameRepository) {
         this.mGameRepository = mGameRepository;
     }
 

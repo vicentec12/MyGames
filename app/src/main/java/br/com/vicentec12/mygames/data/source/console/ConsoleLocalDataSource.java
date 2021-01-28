@@ -4,33 +4,26 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.ConsoleWithGames;
 import br.com.vicentec12.mygames.data.source.AppDatabase;
-import br.com.vicentec12.mygames.extensions.AppExecutors;
 import br.com.vicentec12.mygames.interfaces.Callbacks;
+import br.com.vicentec12.mygames.util.AppExecutors;
 
+@Singleton
 public class ConsoleLocalDataSource implements ConsoleDataSource {
 
-    private static volatile ConsoleLocalDataSource INSTANCE;
+    private final AppDatabase appDatabase;
+    private final AppExecutors appExecutors;
 
-    private AppDatabase appDatabase;
-    private AppExecutors appExecutors;
-
-    private ConsoleLocalDataSource(@NonNull AppDatabase appDatabase, @NonNull AppExecutors appExecutors) {
+    @Inject
+    public ConsoleLocalDataSource(@NonNull AppDatabase appDatabase, @NonNull AppExecutors appExecutors) {
         this.appDatabase = appDatabase;
         this.appExecutors = appExecutors;
-    }
-
-    public static ConsoleLocalDataSource getInstance(@NonNull AppDatabase appDatabase, @NonNull AppExecutors appExecutors) {
-        if (INSTANCE == null) {
-            synchronized (ConsoleLocalDataSource.class) {
-                if (INSTANCE == null)
-                    INSTANCE = new ConsoleLocalDataSource(appDatabase, appExecutors);
-            }
-        }
-        return INSTANCE;
     }
 
     @Override

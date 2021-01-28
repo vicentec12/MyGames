@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.extensions;
+package br.com.vicentec12.mygames.util;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -8,14 +8,16 @@ import androidx.annotation.NonNull;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * Classe responsável por executar operações fora da Thread principal.
  * Previnindo que operações de banco de dados interno e externo parem o aplicativo.
  */
+@Singleton
 public class AppExecutors {
 
-    private static final Object LOCK = new Object(); // Para instância Singleton
-    private static AppExecutors sInstance;
     /**Chamar quando executar operação que envolva armazenamento do aparelho.
      * Ex.: Requisições ao banco de dados interno. */
     private final Executor diskIO;
@@ -32,14 +34,10 @@ public class AppExecutors {
         this.mainThread = mainThread;
     }
 
-    public static AppExecutors getInstance() {
-        if (sInstance == null) {
-            synchronized (LOCK) {
-                sInstance = new AppExecutors(Executors.newSingleThreadExecutor(),
-                        Executors.newFixedThreadPool(3), new MainThreadExecutor());
-            }
-        }
-        return sInstance;
+    @Inject
+    public AppExecutors() {
+        this(Executors.newSingleThreadExecutor(), Executors.newFixedThreadPool(3),
+                new MainThreadExecutor());
     }
 
     public Executor diskIO() {
@@ -55,12 +53,14 @@ public class AppExecutors {
     }
 
     private static class MainThreadExecutor implements Executor {
-        private Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+
+        private final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
         @Override
         public void execute(@NonNull Runnable command) {
             mainThreadHandler.post(command);
         }
+
     }
 
 }

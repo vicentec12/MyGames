@@ -8,11 +8,12 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.ConsoleWithGames;
 import br.com.vicentec12.mygames.data.source.console.ConsoleDataSource;
-import br.com.vicentec12.mygames.data.source.console.ConsoleRepository;
 import br.com.vicentec12.mygames.extensions.Event;
 import br.com.vicentec12.mygames.interfaces.Callbacks;
 
@@ -21,9 +22,10 @@ public class SplashViewModel extends ViewModel {
     private final MutableLiveData<Event<Integer>> _message = new MutableLiveData<>();
     private final MutableLiveData<Event<Boolean>> _hasFinish = new MutableLiveData<>();
 
-    private final ConsoleRepository mConsoleRepository;
+    private final ConsoleDataSource mConsoleRepository;
 
-    public SplashViewModel(ConsoleRepository mConsoleRepository) {
+    @Inject
+    public SplashViewModel(ConsoleDataSource mConsoleRepository) {
         this.mConsoleRepository = mConsoleRepository;
     }
 

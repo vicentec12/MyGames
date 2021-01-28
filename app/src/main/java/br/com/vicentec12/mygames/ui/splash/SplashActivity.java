@@ -6,19 +6,26 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import javax.inject.Inject;
+
+import br.com.vicentec12.mygames.MyGamesApp;
 import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.databinding.ActivitySplashBinding;
+import br.com.vicentec12.mygames.di.ViewModelProviderFactory;
 import br.com.vicentec12.mygames.ui.console.ConsoleActivity;
-import br.com.vicentec12.mygames.util.InstantiateUtil;
 
 public class SplashActivity extends AppCompatActivity {
 
     private ActivitySplashBinding mBinding;
 
+    @Inject
+    public ViewModelProviderFactory mFactory;
     private SplashViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ((MyGamesApp) getApplicationContext()).getAppComponent().
+                splashComponent().create().inject(this);
         super.onCreate(savedInstanceState);
         mBinding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
@@ -33,8 +40,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void setupViewModel() {
-        SplashViewModelFactory mFactory =
-                new SplashViewModelFactory(InstantiateUtil.initConsoleRepository(this));
         mViewModel = new ViewModelProvider(this, mFactory).get(SplashViewModel.class);
     }
 

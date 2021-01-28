@@ -1,26 +1,22 @@
 package br.com.vicentec12.mygames.data.source.console;
 
-import androidx.annotation.NonNull;
-
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import br.com.vicentec12.mygames.data.model.Console;
+import br.com.vicentec12.mygames.data.source.Local;
 import br.com.vicentec12.mygames.interfaces.Callbacks;
 
+@Singleton
 public class ConsoleRepository implements ConsoleDataSource {
-
-    private static ConsoleRepository INSTANCE = null;
 
     private final ConsoleDataSource consoleLocalDataSource;
 
-    private ConsoleRepository(@NonNull ConsoleDataSource consoleLocalDataSource) {
+    @Inject
+    public ConsoleRepository(@Local ConsoleDataSource consoleLocalDataSource) {
         this.consoleLocalDataSource = consoleLocalDataSource;
-    }
-
-    public static ConsoleRepository getInstance(ConsoleDataSource consoleLocalDataSource) {
-        if (INSTANCE == null)
-            INSTANCE = new ConsoleRepository(consoleLocalDataSource);
-        return INSTANCE;
     }
 
     @Override

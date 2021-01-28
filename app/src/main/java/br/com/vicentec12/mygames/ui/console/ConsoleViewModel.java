@@ -5,9 +5,10 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import br.com.vicentec12.mygames.data.model.ConsoleWithGames;
 import br.com.vicentec12.mygames.data.source.console.ConsoleDataSource;
-import br.com.vicentec12.mygames.data.source.console.ConsoleRepository;
 
 public class ConsoleViewModel extends ViewModel {
 
@@ -15,13 +16,14 @@ public class ConsoleViewModel extends ViewModel {
     private final int CHILD_RECYCLER = 1;
     private final int CHILD_TEXT = 2;
 
-    private final ConsoleRepository mConsoleRepository;
-
     private final MutableLiveData<Integer> _message = new MutableLiveData<>();
     private final MutableLiveData<Integer> _viewFlipperChild = new MutableLiveData<>();
     private final MutableLiveData<List<ConsoleWithGames>> _consoles = new MutableLiveData<>();
 
-    public ConsoleViewModel(ConsoleRepository mConsoleRepository) {
+    private final ConsoleDataSource mConsoleRepository;
+
+    @Inject
+    public ConsoleViewModel(ConsoleDataSource mConsoleRepository) {
         this.mConsoleRepository = mConsoleRepository;
     }
 

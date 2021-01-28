@@ -11,11 +11,14 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import javax.inject.Inject;
+
+import br.com.vicentec12.mygames.MyGamesApp;
 import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.databinding.ActivityAddGameBinding;
-import br.com.vicentec12.mygames.util.InstantiateUtil;
+import br.com.vicentec12.mygames.di.ViewModelProviderFactory;
 import br.com.vicentec12.mygames.util.ValidationUtil;
 
 public class AddGameActivity extends AppCompatActivity {
@@ -25,9 +28,12 @@ public class AddGameActivity extends AppCompatActivity {
 
     private ActivityAddGameBinding mBinding;
 
+    @Inject
+    public ViewModelProviderFactory mFactory;
+    private AddGameViewModel mViewModel;
+
     private Game mSelectedGame;
     private Console mSelectedConsole;
-    private AddGameViewModel mViewModel;
 
     public static Intent newIntentInstance(Context context, Game mGame) {
         Intent mIntent = new Intent(context, AddGameActivity.class);
@@ -37,6 +43,8 @@ public class AddGameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ((MyGamesApp) getApplicationContext()).getAppComponent().addGameComponent()
+                .create().inject(this);
         super.onCreate(savedInstanceState);
         mBinding = ActivityAddGameBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
@@ -53,8 +61,6 @@ public class AddGameActivity extends AppCompatActivity {
     }
 
     private void setupViewModel() {
-        AddGameViewModelFactory mFactory = new AddGameViewModelFactory(InstantiateUtil.initGameRepository(this),
-                InstantiateUtil.initConsoleRepository(this));
         mViewModel = new ViewModelProvider(this, mFactory).get(AddGameViewModel.class);
         mBinding.setViewModel(mViewModel);
         mBinding.setLifecycleOwner(this);

@@ -5,11 +5,12 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.data.source.console.ConsoleDataSource;
-import br.com.vicentec12.mygames.data.source.console.ConsoleRepository;
-import br.com.vicentec12.mygames.data.source.game.GameRepository;
+import br.com.vicentec12.mygames.data.source.game.GameDataSource;
 import br.com.vicentec12.mygames.extensions.Event;
 import br.com.vicentec12.mygames.interfaces.Callbacks;
 
@@ -20,11 +21,11 @@ public class AddGameViewModel extends ViewModel {
     private final MutableLiveData<Event<Integer>> _message = new MutableLiveData<>();
     private final MutableLiveData<Event<Boolean>> _eventDatabase = new MutableLiveData<>();
 
-    private final GameRepository mGameRepository;
-    private final ConsoleRepository mConsoleRepository;
+    private final GameDataSource mGameRepository;
+    private final ConsoleDataSource mConsoleRepository;
 
-
-    public AddGameViewModel(GameRepository mGameRepository, ConsoleRepository mConsoleRepository) {
+    @Inject
+    public AddGameViewModel(GameDataSource mGameRepository, ConsoleDataSource mConsoleRepository) {
         this.mGameRepository = mGameRepository;
         this.mConsoleRepository = mConsoleRepository;
     }

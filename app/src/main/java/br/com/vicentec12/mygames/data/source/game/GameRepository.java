@@ -4,24 +4,22 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
+import br.com.vicentec12.mygames.data.source.Local;
 import br.com.vicentec12.mygames.interfaces.Callbacks;
 
+@Singleton
 public class GameRepository implements GameDataSource {
-
-    private static GameRepository INSTANCE = null;
 
     private final GameDataSource gameLocalDataSource;
 
-    private GameRepository(@NonNull GameDataSource gameLocalDataSource) {
+    @Inject
+    public GameRepository(@Local GameDataSource gameLocalDataSource) {
         this.gameLocalDataSource = gameLocalDataSource;
-    }
-
-    public static GameRepository getInstance(GameDataSource gameLocalDataSource) {
-        if (INSTANCE == null)
-            INSTANCE = new GameRepository(gameLocalDataSource);
-        return INSTANCE;
     }
 
     @Override

@@ -1,10 +1,7 @@
 package br.com.vicentec12.mygames.data.source;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.room.Database;
-import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
@@ -13,25 +10,11 @@ import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.data.source.console.ConsoleDao;
 import br.com.vicentec12.mygames.data.source.game.GameDao;
-import br.com.vicentec12.mygames.extensions.AppExecutors;
 
 @Database(entities = {Console.class, Game.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
-    private static final String LOG_TAG = AppDatabase.class.getSimpleName();
-    private static final Object LOCK = new Object();
-    private static final String DATABASE_NAME = "mygames.db";
-    private static AppDatabase sInstance;
-
-    public static AppDatabase getInstance(Context context) {
-        if (sInstance == null) {
-            synchronized (LOCK) {
-                sInstance = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, AppDatabase.DATABASE_NAME)
-                        .addMigrations(MIGRATION_1_2).fallbackToDestructiveMigration().build();
-            }
-        }
-        return sInstance;
-    }
+    public static final String DATABASE_NAME = "mygames.db";
 
     public static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
@@ -62,16 +45,4 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract GameDao getGameDao();
 
-    /**
-     * Método responsável por limpar todas as tabelas do banco de dados interno.
-     */
-    public static void clearDatabase(Context context) {
-        AppExecutors.getInstance().diskIO().execute(() -> {
-            getInstance(context).getGameDao().deleteAll();
-            getInstance(context).getConsoleDao().deleteAll();
-        });
-    }
-
 }
-
-

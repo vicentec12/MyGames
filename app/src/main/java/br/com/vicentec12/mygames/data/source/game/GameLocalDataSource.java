@@ -4,36 +4,29 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
 import br.com.vicentec12.mygames.data.source.AppDatabase;
-import br.com.vicentec12.mygames.extensions.AppExecutors;
 import br.com.vicentec12.mygames.interfaces.Callbacks;
+import br.com.vicentec12.mygames.util.AppExecutors;
 
+@Singleton
 public class GameLocalDataSource implements GameDataSource {
 
     public static final int ORDER_BY_NAME = 0;
     public static final int ORDER_BY_YEAR = 1;
 
-    private static volatile GameLocalDataSource INSTANCE;
-
     private AppDatabase appDatabase;
     private AppExecutors appExecutors;
 
-    private GameLocalDataSource(@NonNull AppDatabase appDatabase, @NonNull AppExecutors appExecutors) {
+    @Inject
+    public GameLocalDataSource(@NonNull AppDatabase appDatabase, @NonNull AppExecutors appExecutors) {
         this.appDatabase = appDatabase;
         this.appExecutors = appExecutors;
-    }
-
-    public static GameLocalDataSource getInstance(@NonNull AppDatabase appDatabase, @NonNull AppExecutors appExecutors) {
-        if (INSTANCE == null) {
-            synchronized (GameLocalDataSource.class) {
-                if (INSTANCE == null)
-                    INSTANCE = new GameLocalDataSource(appDatabase, appExecutors);
-            }
-        }
-        return INSTANCE;
     }
 
     @Override

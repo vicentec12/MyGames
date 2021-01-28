@@ -9,12 +9,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import javax.inject.Inject;
+
+import br.com.vicentec12.mygames.MyGamesApp;
 import br.com.vicentec12.mygames.data.model.ConsoleWithGames;
 import br.com.vicentec12.mygames.databinding.ActivityConsoleBinding;
+import br.com.vicentec12.mygames.di.ViewModelProviderFactory;
 import br.com.vicentec12.mygames.interfaces.OnItemClickListener;
 import br.com.vicentec12.mygames.ui.add_game.AddGameActivity;
 import br.com.vicentec12.mygames.ui.game.GameActivity;
-import br.com.vicentec12.mygames.util.InstantiateUtil;
 
 public class ConsoleActivity extends AppCompatActivity implements OnItemClickListener {
 
@@ -22,7 +25,10 @@ public class ConsoleActivity extends AppCompatActivity implements OnItemClickLis
 
     private ActivityConsoleBinding mBinding;
 
+    @Inject
+    public ViewModelProviderFactory mFactory;
     private ConsoleViewModel mViewModel;
+
     private ConsoleAdapter mAdapter;
 
     public static Intent newIntentInstance(Context context) {
@@ -31,6 +37,8 @@ public class ConsoleActivity extends AppCompatActivity implements OnItemClickLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ((MyGamesApp) getApplicationContext()).getAppComponent()
+                .consoleComponent().create().inject(this);
         super.onCreate(savedInstanceState);
         mBinding = ActivityConsoleBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
@@ -45,8 +53,6 @@ public class ConsoleActivity extends AppCompatActivity implements OnItemClickLis
     }
 
     private void setupViewModel() {
-        ConsoleViewModelFactory mFactory =
-                new ConsoleViewModelFactory(InstantiateUtil.initConsoleRepository(this));
         mViewModel = new ViewModelProvider(this, mFactory).get(ConsoleViewModel.class);
         mBinding.setViewModel(mViewModel);
         mBinding.setLifecycleOwner(this);
