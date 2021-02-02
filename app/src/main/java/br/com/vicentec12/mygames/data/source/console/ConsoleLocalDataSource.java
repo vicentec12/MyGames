@@ -17,20 +17,20 @@ import br.com.vicentec12.mygames.util.AppExecutors;
 @Singleton
 public class ConsoleLocalDataSource implements ConsoleDataSource {
 
-    private final AppDatabase appDatabase;
-    private final AppExecutors appExecutors;
+    private final ConsoleDao mConsoleDao;
+    private final AppExecutors mAppExecutors;
 
     @Inject
-    public ConsoleLocalDataSource(@NonNull AppDatabase appDatabase, @NonNull AppExecutors appExecutors) {
-        this.appDatabase = appDatabase;
-        this.appExecutors = appExecutors;
+    public ConsoleLocalDataSource(@NonNull ConsoleDao mConsoleDao, @NonNull AppExecutors mAppExecutors) {
+        this.mConsoleDao = mConsoleDao;
+        this.mAppExecutors = mAppExecutors;
     }
 
     @Override
     public void listConsoles(OnConsolesListedCallback callback) {
-        appExecutors.diskIO().execute(() -> {
-            List<Console> consoles = appDatabase.getConsoleDao().list();
-            appExecutors.mainThread().execute(() -> {
+        mAppExecutors.diskIO().execute(() -> {
+            List<Console> consoles = mConsoleDao.list();
+            mAppExecutors.mainThread().execute(() -> {
                 if (consoles.size() > 0)
                     callback.onSucess(R.string.message_consoles_listed, consoles);
                 else
@@ -41,9 +41,9 @@ public class ConsoleLocalDataSource implements ConsoleDataSource {
 
     @Override
     public void listConsolesWithGames(OnConsolesWithGamesListedCallback callback) {
-        appExecutors.diskIO().execute(() -> {
-            List<ConsoleWithGames> consolesWithGames = appDatabase.getConsoleDao().listConsolesWithGames();
-            appExecutors.mainThread().execute(() -> {
+        mAppExecutors.diskIO().execute(() -> {
+            List<ConsoleWithGames> consolesWithGames = mConsoleDao.listConsolesWithGames();
+            mAppExecutors.mainThread().execute(() -> {
                 if (consolesWithGames.size() > 0)
                     callback.onSucess(R.string.message_consoles_listed, consolesWithGames);
                 else
@@ -54,17 +54,17 @@ public class ConsoleLocalDataSource implements ConsoleDataSource {
 
     @Override
     public void insertConsoles(List<Console> consoles, Callbacks.OnLocalCallback callback) {
-        appExecutors.diskIO().execute(() -> {
-            appDatabase.getConsoleDao().insert(consoles);
-            appExecutors.mainThread().execute(() -> callback.onSuccess(R.string.message_consoles_inserted));
+        mAppExecutors.diskIO().execute(() -> {
+            mConsoleDao.insert(consoles);
+            mAppExecutors.mainThread().execute(() -> callback.onSuccess(R.string.message_consoles_inserted));
         });
     }
 
     @Override
     public void deleteConsole(Console console, Callbacks.OnLocalCallback callback) {
-        appExecutors.diskIO().execute(() -> {
-            int result = appDatabase.getConsoleDao().delete(console);
-            appExecutors.mainThread().execute(() -> {
+        mAppExecutors.diskIO().execute(() -> {
+            int result = mConsoleDao.delete(console);
+            mAppExecutors.mainThread().execute(() -> {
                 if (result > 0)
                     callback.onSuccess(R.string.message_console_deleted);
                 else
@@ -75,9 +75,9 @@ public class ConsoleLocalDataSource implements ConsoleDataSource {
 
     @Override
     public void deleteAllConsoles(Callbacks.OnLocalCallback callback) {
-        appExecutors.diskIO().execute(() -> {
-            appDatabase.getConsoleDao().deleteAll();
-            appExecutors.mainThread().execute(() -> callback.onSuccess(R.string.message_console_deleted));
+        mAppExecutors.diskIO().execute(() -> {
+            mConsoleDao.deleteAll();
+            mAppExecutors.mainThread().execute(() -> callback.onSuccess(R.string.message_console_deleted));
         });
     }
 

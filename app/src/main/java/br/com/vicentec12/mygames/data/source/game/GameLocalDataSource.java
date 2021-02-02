@@ -10,7 +10,6 @@ import javax.inject.Singleton;
 import br.com.vicentec12.mygames.R;
 import br.com.vicentec12.mygames.data.model.Console;
 import br.com.vicentec12.mygames.data.model.Game;
-import br.com.vicentec12.mygames.data.source.AppDatabase;
 import br.com.vicentec12.mygames.interfaces.Callbacks;
 import br.com.vicentec12.mygames.util.AppExecutors;
 
@@ -20,24 +19,24 @@ public class GameLocalDataSource implements GameDataSource {
     public static final int ORDER_BY_NAME = 0;
     public static final int ORDER_BY_YEAR = 1;
 
-    private AppDatabase appDatabase;
-    private AppExecutors appExecutors;
+    private final GameDao mGameDao;
+    private final AppExecutors mAppExecutors;
 
     @Inject
-    public GameLocalDataSource(@NonNull AppDatabase appDatabase, @NonNull AppExecutors appExecutors) {
-        this.appDatabase = appDatabase;
-        this.appExecutors = appExecutors;
+    public GameLocalDataSource(@NonNull GameDao mGameDao, @NonNull AppExecutors mAppExecutors) {
+        this.mGameDao = mGameDao;
+        this.mAppExecutors = mAppExecutors;
     }
 
     @Override
     public void list(@NonNull Console console, int sortBy, OnGamesListedCallback callback) {
-        appExecutors.diskIO().execute(() -> {
+        mAppExecutors.diskIO().execute(() -> {
             List<Game> games;
             if (sortBy == ORDER_BY_NAME)
-                games = appDatabase.getGameDao().list(console.getId());
+                games = mGameDao.list(console.getId());
             else
-                games = appDatabase.getGameDao().listByYear(console.getId());
-            appExecutors.mainThread().execute(() -> {
+                games = mGameDao.listByYear(console.getId());
+            mAppExecutors.mainThread().execute(() -> {
                 if (games.isEmpty())
                     callback.onFailure();
                 else
@@ -48,9 +47,9 @@ public class GameLocalDataSource implements GameDataSource {
 
     @Override
     public void get(int id, OnGameGetedCallback callback) {
-        appExecutors.diskIO().execute(() -> {
-            Game game = appDatabase.getGameDao().get(id);
-            appExecutors.mainThread().execute(() -> {
+        mAppExecutors.diskIO().execute(() -> {
+            Game game = mGameDao.get(id);
+            mAppExecutors.mainThread().execute(() -> {
                 if (game == null)
                     callback.onFailure();
                 else
@@ -61,9 +60,9 @@ public class GameLocalDataSource implements GameDataSource {
 
     @Override
     public void insert(@NonNull Game game, Callbacks.OnLocalCallback callback) {
-        appExecutors.diskIO().execute(() -> {
-            long rowIds = appDatabase.getGameDao().insert(game);
-            appExecutors.mainThread().execute(() -> {
+        mAppExecutors.diskIO().execute(() -> {
+            long rowIds = mGameDao.insert(game);
+            mAppExecutors.mainThread().execute(() -> {
                 if (rowIds > 0)
                     callback.onSuccess(R.string.message_game_inserted);
                 else
@@ -74,9 +73,9 @@ public class GameLocalDataSource implements GameDataSource {
 
     @Override
     public void update(@NonNull Game game, Callbacks.OnLocalCallback callback) {
-        appExecutors.diskIO().execute(() -> {
-            int numUpdated = appDatabase.getGameDao().update(game);
-            appExecutors.mainThread().execute(() -> {
+        mAppExecutors.diskIO().execute(() -> {
+            int numUpdated = mGameDao.update(game);
+            mAppExecutors.mainThread().execute(() -> {
                 if (numUpdated > 0)
                     callback.onSuccess(R.string.message_game_updated);
                 else
@@ -87,9 +86,9 @@ public class GameLocalDataSource implements GameDataSource {
 
     @Override
     public void delete(@NonNull List<Game> games, OnGameDeletedCallback callback) {
-        appExecutors.diskIO().execute(() -> {
-            int numDeleted = appDatabase.getGameDao().delete(games);
-            appExecutors.mainThread().execute(() -> {
+        mAppExecutors.diskIO().execute(() -> {
+            int numDeleted = mGameDao.delete(games);
+            mAppExecutors.mainThread().execute(() -> {
                 if (numDeleted > 0)
                     callback.onSuccess(R.plurals.plural_message_games_deleted, numDeleted);
                 else
@@ -100,7 +99,7 @@ public class GameLocalDataSource implements GameDataSource {
 
     @Override
     public void deleteAll() {
-        appExecutors.diskIO().execute(() -> appDatabase.getGameDao().deleteAll());
+        mAppExecutors.diskIO().execute(mGameDao::deleteAll);
     }
 
 }
