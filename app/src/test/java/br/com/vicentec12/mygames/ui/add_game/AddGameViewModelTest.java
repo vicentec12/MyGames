@@ -15,11 +15,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Arrays;
 import java.util.List;
 
-import br.com.vicentec12.mygames.data.model.Console;
-import br.com.vicentec12.mygames.data.model.Game;
-import br.com.vicentec12.mygames.data.source.console.ConsoleDataSource;
-import br.com.vicentec12.mygames.data.source.console.ConsoleRepository;
-
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)

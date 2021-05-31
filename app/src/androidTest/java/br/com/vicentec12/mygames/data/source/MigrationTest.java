@@ -1,6 +1,5 @@
 package br.com.vicentec12.mygames.data.source;
 
-import androidx.room.Room;
 import androidx.room.testing.MigrationTestHelper;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory;
@@ -12,8 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
-
-import br.com.vicentec12.mygames.data.source.AppDatabase;
 
 @RunWith(AndroidJUnit4.class)
 public class MigrationTest {

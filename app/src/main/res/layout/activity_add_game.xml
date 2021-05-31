@@ -38,7 +38,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/half_spacing"
+                    android:layout_marginBottom="@dimen/default_spacing"
                     android:hint="@string/text_game_name">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -55,7 +55,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/half_spacing"
+                    android:layout_marginBottom="@dimen/default_spacing"
                     android:hint="@string/text_game_year">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:spinnerMode="dialog"
-                    app:selection="@={viewModel.game.idConsole}"
+                    app:selection="@={viewModel.game.consoleId}"
                     app:items="@{viewModel.consoles}" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

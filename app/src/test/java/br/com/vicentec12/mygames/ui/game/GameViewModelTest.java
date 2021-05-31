@@ -15,11 +15,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Arrays;
 import java.util.List;
 
-import br.com.vicentec12.mygames.data.model.Console;
-import br.com.vicentec12.mygames.data.model.Game;
-import br.com.vicentec12.mygames.data.source.game.GameDataSource;
-import br.com.vicentec12.mygames.data.source.game.GameRepository;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNotNull;

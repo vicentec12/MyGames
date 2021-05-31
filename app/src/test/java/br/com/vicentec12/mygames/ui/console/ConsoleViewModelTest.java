@@ -17,11 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import br.com.vicentec12.mygames.R;
-import br.com.vicentec12.mygames.data.model.Console;
-import br.com.vicentec12.mygames.data.model.ConsoleWithGames;
-import br.com.vicentec12.mygames.data.model.Game;
-import br.com.vicentec12.mygames.data.source.console.ConsoleDataSource;
-import br.com.vicentec12.mygames.data.source.console.ConsoleRepository;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
