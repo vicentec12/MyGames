@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -41,6 +42,13 @@ class GameActivity : AppCompatActivity(), ActionMode.Callback {
                 { _, mItem, mPosition -> onItemCLick(mItem as Game, mPosition) },
                 { _, _, mPosition -> onItemLongCLick(mPosition) }
         ).apply { setHasStableIds(true) }
+    }
+
+    private val activityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            setResult(RESULT_OK)
+            mViewModel.listSavedGames()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -132,7 +140,7 @@ class GameActivity : AppCompatActivity(), ActionMode.Callback {
 
     private fun onItemCLick(mGame: Game, mPosition: Int) {
         if (mActionMode == null)
-            startActivityForResult(AddGameActivity.newIntentInstance(this, mGame), CODE_OPERATION_SUCCESS)
+            activityResult.launch(AddGameActivity.newIntentInstance(this, mGame))
         else
             mViewModel.select(mPosition)
     }
@@ -141,16 +149,6 @@ class GameActivity : AppCompatActivity(), ActionMode.Callback {
         if (mActionMode == null)
             mActionMode = startSupportActionMode(this)
         mViewModel.select(mPosition)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CODE_OPERATION_SUCCESS) {
-            if (resultCode == RESULT_OK) {
-                setResult(RESULT_OK)
-                mViewModel.listSavedGames()
-            }
-        }
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
@@ -193,7 +191,6 @@ class GameActivity : AppCompatActivity(), ActionMode.Callback {
 
     companion object {
 
-        const val CODE_OPERATION_SUCCESS = 2907
         private const val EXTRA_CONSOLE = "extra_console"
 
         fun newIntentInstance(mContext: Context, mConsole: Console) =

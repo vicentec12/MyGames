@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import br.com.vicentec12.mygames.MyGamesApp
@@ -26,9 +27,14 @@ class ConsoleActivity : AppCompatActivity() {
 
     private val mAdapter: ConsoleAdapter by lazy {
         ConsoleAdapter { _, consoleWithGames, _ ->
-            startActivityForResult(GameActivity.newIntentInstance(this@ConsoleActivity,
-                    (consoleWithGames as ConsoleWithGames).console), CODE_OPERATION_SUCCESS)
+            activityResult.launch(GameActivity.newIntentInstance(this@ConsoleActivity,
+                    (consoleWithGames as ConsoleWithGames).console))
         }
+    }
+
+    private val activityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK)
+            mViewModel.listConsoles()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,21 +61,10 @@ class ConsoleActivity : AppCompatActivity() {
     }
 
     fun openAddGame(v: View) {
-        startActivityForResult(AddGameActivity.newIntentInstance(this, Game()),
-                CODE_OPERATION_SUCCESS)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CODE_OPERATION_SUCCESS) {
-            if (resultCode == RESULT_OK)
-                mViewModel.listConsoles()
-        }
+        activityResult.launch(AddGameActivity.newIntentInstance(this, Game()))
     }
 
     companion object {
-
-        const val CODE_OPERATION_SUCCESS = 2907
 
         fun newIntentInstance(mContext: Context) = Intent(mContext, ConsoleActivity::class.java)
 
