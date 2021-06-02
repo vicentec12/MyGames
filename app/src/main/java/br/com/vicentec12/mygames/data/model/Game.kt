@@ -21,7 +21,7 @@ import kotlinx.parcelize.Parcelize
 )
 data class Game(
         @PrimaryKey(autoGenerate = true)
-        var id: Long = 0,
+        var id: Long = 0L,
         @NonNull
         var name: String = "",
         @NonNull

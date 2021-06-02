@@ -3,12 +3,12 @@ package br.com.vicentec12.mygames.ui.console
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import br.com.vicentec12.mygames.MyGamesApp
 import br.com.vicentec12.mygames.data.model.ConsoleWithGames
+import br.com.vicentec12.mygames.data.model.Game
 import br.com.vicentec12.mygames.databinding.ActivityConsoleBinding
 import br.com.vicentec12.mygames.di.ViewModelProviderFactory
 import br.com.vicentec12.mygames.ui.add_game.AddGameActivity
@@ -55,7 +55,7 @@ class ConsoleActivity : AppCompatActivity() {
     }
 
     fun openAddGame(v: View) {
-        startActivityForResult(AddGameActivity.newIntentInstance(this, null),
+        startActivityForResult(AddGameActivity.newIntentInstance(this, Game()),
                 CODE_OPERATION_SUCCESS)
     }
 

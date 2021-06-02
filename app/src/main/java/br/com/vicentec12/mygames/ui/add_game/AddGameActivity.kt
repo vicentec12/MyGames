@@ -28,7 +28,7 @@ class AddGameActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityAddGameBinding
 
-    private val mSelectedGame: Game? by lazy { intent.getParcelableExtra(EXTRA_GAME) }
+    private val mSelectedGame: Game by lazy { intent.getParcelableExtra(EXTRA_GAME) ?: Game() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as MyGamesApp).appComponent.addGameComponent().create()
@@ -37,7 +37,7 @@ class AddGameActivity : AppCompatActivity() {
         mBinding = ActivityAddGameBinding.inflate(layoutInflater).apply {
             setContentView(root)
             lytToolbar.toolbar.setTitle(
-                    if (mSelectedGame == null) R.string.title_activity_add_games else R.string.title_activity_edit_games)
+                    if (mSelectedGame.id == 0L) R.string.title_activity_add_games else R.string.title_activity_edit_games)
             setSupportActionBar(lytToolbar.toolbar)
             viewModel = mViewModel
             lifecycleOwner = this@AddGameActivity
@@ -57,14 +57,10 @@ class AddGameActivity : AppCompatActivity() {
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE).show()
                 }
             }
-            eventDataBase.observe(this@AddGameActivity) { mDataBaseEvent ->
+            success.observe(this@AddGameActivity) { mDataBaseEvent ->
                 mDataBaseEvent.contentIfNotHandled?.let {
                     setResult(RESULT_OK)
-                    if (mViewModel.hasInsert()) {
-                        mBinding.tilAddGameName.editText?.setText("")
-                        mBinding.tilAddGameYear.editText?.setText("")
-                        mBinding.tilAddGameName.requestFocus()
-                    }
+                    mBinding.tilAddGameName.requestFocus()
                 }
             }
             listConsoles(mSelectedGame)
@@ -96,7 +92,7 @@ class AddGameActivity : AppCompatActivity() {
 
         private const val EXTRA_GAME = "extra_game"
 
-        fun newIntentInstance(mContext: Context, mGame: Game?) = Intent(mContext, AddGameActivity::class.java).apply {
+        fun newIntentInstance(mContext: Context, mGame: Game) = Intent(mContext, AddGameActivity::class.java).apply {
             putExtra(EXTRA_GAME, mGame)
         }
 

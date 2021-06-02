@@ -30,21 +30,16 @@ class AddGameViewModel @Inject constructor(
     val message: LiveData<Event<Int>>
         get() = _message
 
-    private val _eventDatabase = MutableLiveData<Event<Boolean>>()
-    val eventDataBase: LiveData<Event<Boolean>>
-        get() = _eventDatabase
-
-    fun databaseEvent() {
-        _game.value?.run {
-            if (id > 0) updateGame(this) else insertGame(this)
-        }
-    }
+    private val _success = MutableLiveData<Event<Boolean>>()
+    val success: LiveData<Event<Boolean>>
+        get() = _success
 
     private fun insertGame(mGame: Game) = viewModelScope.launch {
         when (val mResult = mGameRepository.insert(mGame)) {
             is Result.Success -> {
                 _message.value = Event(mResult.message)
-                _eventDatabase.value = Event(true)
+                _success.value = Event(true)
+                _game.value = Game()
             }
             is Result.Error -> _message.value = Event(mResult.message)
         }
@@ -54,24 +49,28 @@ class AddGameViewModel @Inject constructor(
         when (val mResult = mGameRepository.update(mGame)) {
             is Result.Success -> {
                 _message.value = Event(mResult.message)
-                _eventDatabase.value = Event(true)
+                _success.value = Event(true)
             }
             is Result.Error -> _message.value = Event(mResult.message)
         }
     }
 
     fun listConsoles(mGame: Game?) = viewModelScope.launch {
-        when (val mResult = mConsoleRepository.list()) {
-            is Result.Success -> {
-                _consoles.value = mResult.data!!
-                _game.postValue(mGame ?: Game())
+        if (_consoles.value == null) {
+            when (val mResult = mConsoleRepository.list()) {
+                is Result.Success -> {
+                    _consoles.value = mResult.data!!
+                    _game.postValue(mGame ?: Game())
+                }
+                is Result.Error -> _message.value = Event(mResult.message)
             }
-            is Result.Error -> _message.value = Event(mResult.message)
         }
     }
 
-    fun hasInsert(): Boolean {
-        return if (_game.value != null) _game.value!!.id == 0L else false
+    fun databaseEvent() {
+        _game.value?.run {
+            if (id > 0) updateGame(this) else insertGame(this)
+        }
     }
 
 }
