@@ -8,6 +8,7 @@ import br.com.vicentec12.mygames.MyGamesApp
 import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.databinding.ActivitySplashBinding
 import br.com.vicentec12.mygames.di.ViewModelProviderFactory
+import br.com.vicentec12.mygames.extensions.viewBinding
 import br.com.vicentec12.mygames.ui.console.ConsoleActivity
 import javax.inject.Inject
 
@@ -18,22 +19,21 @@ class SplashActivity : AppCompatActivity() {
 
     private val mViewModel: SplashViewModel by viewModels { mFactory }
 
-    private lateinit var mBinding: ActivitySplashBinding
+    private val mBinding by viewBinding(ActivitySplashBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as MyGamesApp).appComponent.splashComponent().create()
                 .inject(this)
         super.onCreate(savedInstanceState)
-        mBinding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
-        init()
+        initView()
     }
 
-    private fun init() {
-        setupViewModel()
+    private fun initView() {
+        initObservers()
     }
 
-    private fun setupViewModel() {
+    private fun initObservers() {
         with(mViewModel) {
             hasFinish.observe(this@SplashActivity) { event ->
                 if (event.contentIfNotHandled == true) {

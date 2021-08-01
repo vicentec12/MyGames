@@ -42,15 +42,17 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("items")
     fun setItemsGame(mView: RecyclerView, mGames: List<Game>?) {
-        val mAdapter = mView.adapter as GameAdapter
-        mAdapter.submitList(mGames)
+        mView.adapter?.apply {
+            (this as GameAdapter).submitList(mGames)
+        }
     }
 
     @JvmStatic
     @BindingAdapter("items")
     fun setItemsConsole(mView: RecyclerView, mConsoles: List<ConsoleWithGames>?) {
-        val mAdapter = mView.adapter as ConsoleAdapter
-        mAdapter.submitList(mConsoles)
+        mView.adapter?.apply {
+            (this as ConsoleAdapter).submitList(mConsoles)
+        }
     }
 
     @JvmStatic

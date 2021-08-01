@@ -17,11 +17,11 @@ import br.com.vicentec12.mygames.data.model.Console
 import br.com.vicentec12.mygames.data.model.Game
 import br.com.vicentec12.mygames.databinding.ActivityGameBinding
 import br.com.vicentec12.mygames.di.ViewModelProviderFactory
+import br.com.vicentec12.mygames.extensions.viewBinding
 import br.com.vicentec12.mygames.ui.add_game.AddGameActivity
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
-
 
 class GameActivity : AppCompatActivity(), ActionMode.Callback {
 
@@ -30,7 +30,7 @@ class GameActivity : AppCompatActivity(), ActionMode.Callback {
 
     private val mViewModel: GameViewModel by viewModels { mFactory }
 
-    private lateinit var mBinding: ActivityGameBinding
+    private val mBinding by viewBinding(ActivityGameBinding::inflate)
 
     private var mActionMode: ActionMode? = null
 
@@ -44,7 +44,7 @@ class GameActivity : AppCompatActivity(), ActionMode.Callback {
         ).apply { setHasStableIds(true) }
     }
 
-    private val activityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private val mActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             setResult(RESULT_OK)
             mViewModel.listSavedGames()
@@ -55,13 +55,9 @@ class GameActivity : AppCompatActivity(), ActionMode.Callback {
         (applicationContext as MyGamesApp).appComponent.gameComponent().create()
                 .inject(this)
         super.onCreate(savedInstanceState)
-        mBinding = ActivityGameBinding.inflate(layoutInflater).apply {
-            setContentView(root)
-            setSupportActionBar(lytToolbar.toolbar)
-            viewModel = mViewModel
-            lifecycleOwner = this@GameActivity
-        }
-        init()
+        setContentView(mBinding.root)
+        setSupportActionBar(mBinding.lytToolbar.toolbar)
+        initView()
     }
 
     override fun onStart() {
@@ -91,12 +87,18 @@ class GameActivity : AppCompatActivity(), ActionMode.Callback {
         }
     }
 
-    private fun init() {
-        setupRecyclerView()
-        setupViewModel()
+    private fun initView() {
+        initBinding()
+        initRecyclerView()
+        initObservers()
     }
 
-    private fun setupRecyclerView() {
+    private fun initBinding() {
+        mBinding.viewModel = mViewModel
+        mBinding.lifecycleOwner = this@GameActivity
+    }
+
+    private fun initRecyclerView() {
         with(mBinding.rvwGame) {
             if (itemDecorationCount == 0)
                 addItemDecoration(DividerItemDecoration(this@GameActivity, DividerItemDecoration.VERTICAL))
@@ -105,7 +107,7 @@ class GameActivity : AppCompatActivity(), ActionMode.Callback {
         }
     }
 
-    private fun setupViewModel() {
+    private fun initObservers() {
         with(mViewModel) {
             selectedItems.observe(this@GameActivity) { mSelections ->
                 setTitleActionMode(mSelections.size())
@@ -140,7 +142,7 @@ class GameActivity : AppCompatActivity(), ActionMode.Callback {
 
     private fun onItemCLick(mGame: Game, mPosition: Int) {
         if (mActionMode == null)
-            activityResult.launch(AddGameActivity.newIntentInstance(this, mGame))
+            mActivityResult.launch(AddGameActivity.newIntentInstance(this, mGame))
         else
             mViewModel.select(mPosition)
     }

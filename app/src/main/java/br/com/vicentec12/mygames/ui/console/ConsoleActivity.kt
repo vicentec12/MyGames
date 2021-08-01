@@ -12,6 +12,7 @@ import br.com.vicentec12.mygames.data.model.ConsoleWithGames
 import br.com.vicentec12.mygames.data.model.Game
 import br.com.vicentec12.mygames.databinding.ActivityConsoleBinding
 import br.com.vicentec12.mygames.di.ViewModelProviderFactory
+import br.com.vicentec12.mygames.extensions.viewBinding
 import br.com.vicentec12.mygames.ui.add_game.AddGameActivity
 import br.com.vicentec12.mygames.ui.game.GameActivity
 import javax.inject.Inject
@@ -23,16 +24,16 @@ class ConsoleActivity : AppCompatActivity() {
 
     private val mViewModel: ConsoleViewModel by viewModels { mFactory }
 
-    private lateinit var mBinding: ActivityConsoleBinding
+    private val mBinding by viewBinding(ActivityConsoleBinding::inflate)
 
     private val mAdapter: ConsoleAdapter by lazy {
         ConsoleAdapter { _, consoleWithGames, _ ->
-            activityResult.launch(GameActivity.newIntentInstance(this@ConsoleActivity,
+            mActivityResult.launch(GameActivity.newIntentInstance(this@ConsoleActivity,
                     (consoleWithGames as ConsoleWithGames).console))
         }
     }
 
-    private val activityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private val mActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK)
             mViewModel.listConsoles()
     }
@@ -41,13 +42,9 @@ class ConsoleActivity : AppCompatActivity() {
         (applicationContext as MyGamesApp).appComponent.consoleComponent().create()
                 .inject(this)
         super.onCreate(savedInstanceState)
-        mBinding = ActivityConsoleBinding.inflate(layoutInflater).apply {
-            setContentView(root)
-            setSupportActionBar(lytToolbar.toolbar)
-            viewModel = mViewModel
-            lifecycleOwner = this@ConsoleActivity
-        }
-        init()
+        setContentView(mBinding.root)
+        setSupportActionBar(mBinding.lytToolbar.toolbar)
+        initView()
     }
 
     override fun onDestroy() {
@@ -55,13 +52,15 @@ class ConsoleActivity : AppCompatActivity() {
         mBinding.rvwConsole.adapter = null
     }
 
-    private fun init() {
+    private fun initView() {
+        mBinding.viewModel = mViewModel
+        mBinding.lifecycleOwner = this@ConsoleActivity
         mBinding.rvwConsole.adapter = mAdapter
         mViewModel.listConsoles()
     }
 
     fun openAddGame(v: View) {
-        activityResult.launch(AddGameActivity.newIntentInstance(this, Game()))
+        mActivityResult.launch(AddGameActivity.newIntentInstance(this, Game()))
     }
 
     companion object {

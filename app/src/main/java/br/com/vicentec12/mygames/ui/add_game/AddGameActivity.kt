@@ -11,10 +11,7 @@ import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.data.model.Game
 import br.com.vicentec12.mygames.databinding.ActivityAddGameBinding
 import br.com.vicentec12.mygames.di.ViewModelProviderFactory
-import br.com.vicentec12.mygames.extensions.removeError
-import br.com.vicentec12.mygames.extensions.validateEmptyField
-import br.com.vicentec12.mygames.extensions.validateQtdCharacters
-import br.com.vicentec12.mygames.extensions.validateSelection
+import br.com.vicentec12.mygames.extensions.*
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
@@ -26,7 +23,7 @@ class AddGameActivity : AppCompatActivity() {
 
     private val mViewModel: AddGameViewModel by viewModels { mFactory }
 
-    private lateinit var mBinding: ActivityAddGameBinding
+    private val mBinding by viewBinding(ActivityAddGameBinding::inflate)
 
     private val mSelectedGame: Game by lazy { intent.getParcelableExtra(EXTRA_GAME) ?: Game() }
 
@@ -34,22 +31,28 @@ class AddGameActivity : AppCompatActivity() {
         (applicationContext as MyGamesApp).appComponent.addGameComponent().create()
                 .inject(this)
         super.onCreate(savedInstanceState)
-        mBinding = ActivityAddGameBinding.inflate(layoutInflater).apply {
-            setContentView(root)
-            lytToolbar.toolbar.setTitle(
-                    if (mSelectedGame.id == 0L) R.string.title_activity_add_games else R.string.title_activity_edit_games)
-            setSupportActionBar(lytToolbar.toolbar)
-            viewModel = mViewModel
-            lifecycleOwner = this@AddGameActivity
-        }
-        init()
+        setContentView(mBinding.root)
+        initView()
     }
 
-    private fun init() {
-        setupViewModel()
+    private fun initView() {
+        initBinding()
+        initToolbar()
+        initObservers()
     }
 
-    private fun setupViewModel() {
+    private fun initBinding() {
+        mBinding.viewModel = mViewModel
+        mBinding.lifecycleOwner = this@AddGameActivity
+    }
+
+    private fun initToolbar() {
+        mBinding.lytToolbar.toolbar.setTitle(
+                if (mSelectedGame.id == 0L) R.string.title_activity_add_games else R.string.title_activity_edit_games)
+        setSupportActionBar(mBinding.lytToolbar.toolbar)
+    }
+
+    private fun initObservers() {
         with(mViewModel) {
             message.observe(this@AddGameActivity) { mMessageEvent ->
                 mMessageEvent.contentIfNotHandled?.let { mMessageId ->
