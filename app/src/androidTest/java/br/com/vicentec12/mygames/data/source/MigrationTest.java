@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
+import br.com.vicentec12.mygames.data.local.AppDatabase;
+
 @RunWith(AndroidJUnit4.class)
 public class MigrationTest {
 

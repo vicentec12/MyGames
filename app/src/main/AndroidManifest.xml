@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.splash.SplashActivity">
+        <activity android:name=".presentation.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,15 +19,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.console.ConsoleActivity"
+            android:name=".presentation.console.ConsoleActivity"
             android:label="@string/title_activity_main"
             android:launchMode="singleTop" />
         <activity
-            android:name=".ui.game.GameActivity"
+            android:name=".presentation.game.GameActivity"
             android:label="@string/title_activity_main"
             android:launchMode="singleTop" />
         <activity
-            android:name=".ui.add_game.AddGameActivity"
+            android:name=".presentation.add_game.AddGameActivity"
             android:label="@string/title_activity_add_games"
             android:launchMode="singleTop" />
     </application>

@@ -61,6 +61,8 @@
     <string name="error_message_game_delete">Erro ao excluir jogo(s)!</string>
     <string name="error_message_consoles_listed">Nenhum console encontrado!</string>
     <string name="error_message_console_delete">Erro ao excluir console.</string>
+    <string name="description_add_new_game">Adicionar Novo Jogo</string>
+    <string name="description_save_update_game">Gravar ou atualizar jogo</string>
 
     <!-- Plurals -->
     <plurals name="plural_message_games_deleted">

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="br.com.vicentec12.mygames.ui.add_game.AddGameViewModel" />
+            type="br.com.vicentec12.mygames.presentation.add_game.AddGameViewModel" />
 
     </data>
 
@@ -16,7 +16,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.add_game.AddGameActivity">
+        tools:context=".presentation.add_game.AddGameActivity">
 
         <include
             android:id="@+id/lyt_toolbar"
@@ -79,8 +79,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:spinnerMode="dialog"
-                    app:selection="@={viewModel.game.consoleId}"
-                    app:items="@{viewModel.consoles}" />
+                    app:items="@{viewModel.consoles}"
+                    app:selection="@={viewModel.game.consoleId}" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/default_spacing"
-            android:onClick="fabEvent"
+            android:contentDescription="@string/description_save_update_game"
             app:backgroundTint="@color/colorPrimary"
             app:srcVector="@{viewModel.game.id == 0 ? R.drawable.ic_save : R.drawable.ic_edit}"
             app:tint="@android:color/white" />

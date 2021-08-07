@@ -7,19 +7,15 @@
 
         <variable
             name="game"
-            type="br.com.vicentec12.mygames.data.model.Game" />
+            type="br.com.vicentec12.mygames.domain.model.Game" />
 
         <variable
             name="viewModel"
-            type="br.com.vicentec12.mygames.ui.game.GameViewModel" />
+            type="br.com.vicentec12.mygames.presentation.game.GameViewModel" />
 
         <variable
             name="position"
             type="int" />
-
-        <variable
-            name="onItemClickListener"
-            type="br.com.vicentec12.mygames.interfaces.OnItemClickListener" />
 
     </data>
 
@@ -29,7 +25,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        android:onClick="@{(view) -> onItemClickListener.onItemClick(view, game, position)}"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
