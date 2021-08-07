@@ -7,24 +7,23 @@ import androidx.lifecycle.viewModelScope
 import br.com.vicentec12.mygames.data.model.ConsoleWithGames
 import br.com.vicentec12.mygames.data.source.Result
 import br.com.vicentec12.mygames.data.source.console.ConsoleDataSource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class ConsoleViewModel @Inject constructor(
-        private val mConsoleRepository: ConsoleDataSource
+    private val mConsoleRepository: ConsoleDataSource
 ) : ViewModel() {
 
     private val _message = MutableLiveData<Int>()
-    val message: LiveData<Int>
-        get() = _message
+    val message: LiveData<Int> = _message
 
     private val _viewFlipperChild = MutableLiveData<Int>()
-    val viewFlipperChild: LiveData<Int>
-        get() = _viewFlipperChild
+    val viewFlipperChild: LiveData<Int> = _viewFlipperChild
 
     private val _consoles = MutableLiveData<List<ConsoleWithGames>>()
-    val consoles: LiveData<List<ConsoleWithGames>>
-        get() = _consoles
+    val consoles: LiveData<List<ConsoleWithGames>> = _consoles
 
     fun listConsoles() = viewModelScope.launch {
         _viewFlipperChild.value = CHILD_PROGRESS

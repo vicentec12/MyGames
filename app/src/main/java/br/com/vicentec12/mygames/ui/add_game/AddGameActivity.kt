@@ -10,26 +10,22 @@ import br.com.vicentec12.mygames.MyGamesApp
 import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.data.model.Game
 import br.com.vicentec12.mygames.databinding.ActivityAddGameBinding
-import br.com.vicentec12.mygames.di.ViewModelProviderFactory
 import br.com.vicentec12.mygames.extensions.*
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class AddGameActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var mFactory: ViewModelProviderFactory
-
-    private val mViewModel: AddGameViewModel by viewModels { mFactory }
+    private val mViewModel: AddGameViewModel by viewModels()
 
     private val mBinding by viewBinding(ActivityAddGameBinding::inflate)
 
     private val mSelectedGame: Game by lazy { intent.getParcelableExtra(EXTRA_GAME) ?: Game() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (applicationContext as MyGamesApp).appComponent.addGameComponent().create()
-                .inject(this)
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
         initView()

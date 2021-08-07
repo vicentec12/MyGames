@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.data.source
+package br.com.vicentec12.mygames.data.source.di
 
 import javax.inject.Qualifier
 

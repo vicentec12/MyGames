@@ -7,40 +7,39 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import br.com.vicentec12.mygames.MyGamesApp
 import br.com.vicentec12.mygames.data.model.ConsoleWithGames
 import br.com.vicentec12.mygames.data.model.Game
 import br.com.vicentec12.mygames.databinding.ActivityConsoleBinding
-import br.com.vicentec12.mygames.di.ViewModelProviderFactory
 import br.com.vicentec12.mygames.extensions.viewBinding
 import br.com.vicentec12.mygames.ui.add_game.AddGameActivity
 import br.com.vicentec12.mygames.ui.game.GameActivity
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ConsoleActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var mFactory: ViewModelProviderFactory
-
-    private val mViewModel: ConsoleViewModel by viewModels { mFactory }
+    private val mViewModel: ConsoleViewModel by viewModels()
 
     private val mBinding by viewBinding(ActivityConsoleBinding::inflate)
 
     private val mAdapter: ConsoleAdapter by lazy {
         ConsoleAdapter { _, consoleWithGames, _ ->
-            mActivityResult.launch(GameActivity.newIntentInstance(this@ConsoleActivity,
-                    (consoleWithGames as ConsoleWithGames).console))
+            mActivityResult.launch(
+                GameActivity.newIntentInstance(
+                    this@ConsoleActivity,
+                    (consoleWithGames as ConsoleWithGames).console
+                )
+            )
         }
     }
 
-    private val mActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK)
-            mViewModel.listConsoles()
-    }
+    private val mActivityResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK)
+                mViewModel.listConsoles()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (applicationContext as MyGamesApp).appComponent.consoleComponent().create()
-                .inject(this)
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
         setSupportActionBar(mBinding.lytToolbar.toolbar)

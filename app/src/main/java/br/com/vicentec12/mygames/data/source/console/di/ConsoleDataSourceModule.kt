@@ -1,13 +1,20 @@
-package br.com.vicentec12.mygames.data.source.console
+package br.com.vicentec12.mygames.data.source.console.di
 
 import br.com.vicentec12.mygames.data.source.AppDatabase
-import br.com.vicentec12.mygames.data.source.Local
+import br.com.vicentec12.mygames.data.source.di.Local
+import br.com.vicentec12.mygames.data.source.console.ConsoleDao
+import br.com.vicentec12.mygames.data.source.console.ConsoleDataSource
+import br.com.vicentec12.mygames.data.source.console.ConsoleLocalDataSource
+import br.com.vicentec12.mygames.data.source.console.ConsoleRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class ConsoleDataSourceModule {
 
     @Binds
@@ -19,7 +26,6 @@ abstract class ConsoleDataSourceModule {
     @Singleton
     abstract fun bindsConsoleRepository(mRepository: ConsoleRepository): ConsoleDataSource
 
-    @Module
     companion object {
 
         @Provides

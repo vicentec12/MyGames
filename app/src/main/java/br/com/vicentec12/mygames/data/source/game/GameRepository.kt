@@ -1,7 +1,7 @@
 package br.com.vicentec12.mygames.data.source.game
 
 import br.com.vicentec12.mygames.data.model.Game
-import br.com.vicentec12.mygames.data.source.Local
+import br.com.vicentec12.mygames.data.source.di.Local
 import javax.inject.Inject
 
 class GameRepository @Inject constructor(

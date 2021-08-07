@@ -12,48 +12,42 @@ import br.com.vicentec12.mygames.data.model.Game.Companion.COLUMN_NAME
 import br.com.vicentec12.mygames.data.source.Result
 import br.com.vicentec12.mygames.data.source.game.GameDataSource
 import br.com.vicentec12.mygames.util.Event
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class GameViewModel @Inject constructor(
-        private val mRepository: GameDataSource
+    private val mRepository: GameDataSource
 ) : ViewModel() {
 
     // Activity
-    private val _games = MutableLiveData<List<Game?>>()
-    val games: LiveData<List<Game?>>
-        get() = _games
-
-    private val _console = MutableLiveData<Console>()
-    val console: LiveData<Console>
-        get() = _console
-
     private val _orderBy = MutableLiveData<Int>()
 
+    private val _games = MutableLiveData<List<Game?>>()
+    val games: LiveData<List<Game?>> = _games
+
+    private val _console = MutableLiveData<Console>()
+    val console: LiveData<Console> = _console
+
     private val _viewFlipper = MutableLiveData<Int>()
-    val viewFlipper: LiveData<Int>
-        get() = _viewFlipper
+    val viewFlipper: LiveData<Int> = _viewFlipper
 
     private val _message = MutableLiveData<Event<Int>>()
-    val message: LiveData<Event<Int>>
-        get() = _message
+    val message: LiveData<Event<Int>> = _message
 
     private val _pluralMessage = MutableLiveData<Event<List<Int>>>()
-    val pluralMessage: LiveData<Event<List<Int>>>
-        get() = _pluralMessage
+    val pluralMessage: LiveData<Event<List<Int>>> = _pluralMessage
 
     private val _hasActionModeFinish = MutableLiveData<Event<Boolean>>()
-    val hasActionModeFinish: LiveData<Event<Boolean>>
-        get() = _hasActionModeFinish
+    val hasActionModeFinish: LiveData<Event<Boolean>> = _hasActionModeFinish
 
     // Adapter
     private val _selectionMode = MutableLiveData(false)
-    val selectionMode: LiveData<Boolean>
-        get() = _selectionMode
+    val selectionMode: LiveData<Boolean> = _selectionMode
 
     private val _selectedItems = MutableLiveData<SparseBooleanArray>()
-    val selectedItems: LiveData<SparseBooleanArray>
-        get() = _selectedItems
+    val selectedItems: LiveData<SparseBooleanArray> = _selectedItems
 
     fun setConsole(mConsole: Console) {
         _console.value = mConsole
@@ -61,8 +55,10 @@ class GameViewModel @Inject constructor(
 
     fun listSavedGames() = viewModelScope.launch {
         _viewFlipper.value = CHILD_PROGRESS
-        when (val result = mRepository.list(_console.value?.id ?: 0,
-                _orderBy.value ?: COLUMN_NAME)) {
+        when (val result = mRepository.list(
+            _console.value?.id ?: 0,
+            _orderBy.value ?: COLUMN_NAME
+        )) {
             is Result.Success -> {
                 _viewFlipper.value = CHILD_GAMES
                 _games.value = result.data ?: ArrayList()
@@ -94,7 +90,7 @@ class GameViewModel @Inject constructor(
     }
 
     private fun createPluralMessage(mMessage: Int, mQuantity: Int) =
-            listOf(mMessage, mQuantity)
+        listOf(mMessage, mQuantity)
 
     private fun getSelectedGames(): List<Game> {
         val selectedGames = ArrayList<Game>()
@@ -145,7 +141,7 @@ class GameViewModel @Inject constructor(
 
     fun isSelectionModeVisible() = _selectionMode.value
 
-    fun isGameSelected(mPosition: Int) = _selectedItems.value?.get(mPosition, false) ?: false
+    fun isGameSelected(mPosition: Int) = _selectedItems.value?.get(mPosition) ?: false
 
     fun setOrderBy(orderBy: Int) {
         _orderBy.value = orderBy

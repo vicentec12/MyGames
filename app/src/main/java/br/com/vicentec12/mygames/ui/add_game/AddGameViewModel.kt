@@ -10,29 +10,27 @@ import br.com.vicentec12.mygames.data.source.Result
 import br.com.vicentec12.mygames.data.source.console.ConsoleDataSource
 import br.com.vicentec12.mygames.data.source.game.GameDataSource
 import br.com.vicentec12.mygames.util.Event
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class AddGameViewModel @Inject constructor(
-        private val mConsoleRepository: ConsoleDataSource,
-        private val mGameRepository: GameDataSource
+    private val mConsoleRepository: ConsoleDataSource,
+    private val mGameRepository: GameDataSource
 ) : ViewModel() {
 
     private val _game = MutableLiveData<Game>()
-    val game: LiveData<Game>
-        get() = _game
+    val game: LiveData<Game> = _game
 
     private val _consoles = MutableLiveData<List<Console>>()
-    val consoles: LiveData<List<Console>>
-        get() = _consoles
+    val consoles: LiveData<List<Console>> = _consoles
 
     private val _message = MutableLiveData<Event<Int>>()
-    val message: LiveData<Event<Int>>
-        get() = _message
+    val message: LiveData<Event<Int>> = _message
 
     private val _success = MutableLiveData<Event<Boolean>>()
-    val success: LiveData<Event<Boolean>>
-        get() = _success
+    val success: LiveData<Event<Boolean>> = _success
 
     private fun insertGame(mGame: Game) = viewModelScope.launch {
         when (val mResult = mGameRepository.insert(mGame)) {

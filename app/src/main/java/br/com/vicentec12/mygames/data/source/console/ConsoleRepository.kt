@@ -1,7 +1,7 @@
 package br.com.vicentec12.mygames.data.source.console
 
 import br.com.vicentec12.mygames.data.model.Console
-import br.com.vicentec12.mygames.data.source.Local
+import br.com.vicentec12.mygames.data.source.di.Local
 import javax.inject.Inject
 
 class ConsoleRepository @Inject constructor(

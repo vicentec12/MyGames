@@ -4,26 +4,20 @@ import android.app.AlertDialog
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import br.com.vicentec12.mygames.MyGamesApp
 import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.databinding.ActivitySplashBinding
-import br.com.vicentec12.mygames.di.ViewModelProviderFactory
 import br.com.vicentec12.mygames.extensions.viewBinding
 import br.com.vicentec12.mygames.ui.console.ConsoleActivity
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var mFactory: ViewModelProviderFactory
-
-    private val mViewModel: SplashViewModel by viewModels { mFactory }
+    private val mViewModel: SplashViewModel by viewModels()
 
     private val mBinding by viewBinding(ActivitySplashBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (applicationContext as MyGamesApp).appComponent.splashComponent().create()
-                .inject(this)
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
         initView()
@@ -44,7 +38,8 @@ class SplashActivity : AppCompatActivity() {
             message.observe(this@SplashActivity) { messageEvent ->
                 messageEvent.contentIfNotHandled?.let { messageId ->
                     AlertDialog.Builder(this@SplashActivity).setTitle(R.string.title_alert_error)
-                            .setMessage(messageId).setPositiveButton(R.string.label_alert_button_ok, null).show()
+                        .setMessage(messageId)
+                        .setPositiveButton(R.string.label_alert_button_ok, null).show()
                 }
             }
             loadOrCreateConsoles()
