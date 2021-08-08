@@ -35,14 +35,14 @@ class SplashViewModel @Inject constructor(
 
     private fun insertConsoles() = viewModelScope.launch {
         val mConsoles = listOf(
-            Console(name = "Nintendo", image = R.drawable.lg_nes),
+            Console(name = "Nintendo Entertainment System", image = R.drawable.lg_nes),
             Console(name = "Super Nintendo", image = R.drawable.lg_snes),
             Console(name = "Nintendo 64", image = R.drawable.lg_n64),
             Console(name = "Nintendo Gamecube", image = R.drawable.lg_gc),
             Console(name = "Nintendo Wii", image = R.drawable.lg_wii),
             Console(name = "Nintendo 3DS", image = R.drawable.lg_3ds),
             Console(name = "Nintendo DS", image = R.drawable.lg_nds),
-            Console(name = "Nintendo Switch", image = R.drawable.lg_switch),
+            Console(name = "Nintendo Switch", image = R.drawable.lg_ns),
             Console(name = "Playstation", image = R.drawable.lg_ps1),
             Console(name = "Playstation 2", image = R.drawable.lg_ps2),
             Console(name = "Playstation 3", image = R.drawable.lg_ps3),
