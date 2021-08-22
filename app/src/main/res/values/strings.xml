@@ -3,17 +3,17 @@
     <string name="app_name">MyGames</string>
 
     <!-- Labels -->
-    <string name="text_game_name">Nome do Jogo</string>
-    <string name="text_game_year">Ano de Lançamento</string>
+    <string name="text_game_name">Nome do jogo</string>
+    <string name="text_game_year">Ano de lançamento</string>
     <string name="text_delete">Excluir</string>
     <string name="text_select_all">Selecionar tudo</string>
     <string name="text_console">Console</string>
     <string name="text_select">Selecione</string>
 
-    <!-- Activities Titles -->
-    <string name="title_activity_add_games">Adicionar Jogo</string>
-    <string name="title_activity_edit_games">Editar Jogo</string>
-    <string name="title_activity_main">Meus Jogos</string>
+    <!-- Screen Titles -->
+    <string name="title_add_games">Adicionar Jogo</string>
+    <string name="title_edit_games">Editar Jogo</string>
+    <string name="title_main">Meus Jogos</string>
 
     <!-- Actions Titles -->
     <string name="action_about">Sobre</string>
@@ -61,6 +61,8 @@
     <string name="error_message_game_delete">Erro ao excluir jogo(s)!</string>
     <string name="error_message_consoles_listed">Nenhum console encontrado!</string>
     <string name="error_message_console_delete">Erro ao excluir console.</string>
+    <string name="description_add_new_game">Adicionar Novo Jogo</string>
+    <string name="description_save_update_game">Gravar ou atualizar jogo</string>
 
     <!-- Plurals -->
     <plurals name="plural_message_games_deleted">
@@ -79,5 +81,11 @@
         <item quantity="one">%1$d jogo</item>
         <item quantity="other">%1$d jogos</item>
     </plurals>
+
+    <!-- Arrays -->
+    <string-array name="game_order_by_options">
+        <item>Nome</item>
+        <item>Ano de lançamento</item>
+    </string-array>
 
 </resources>

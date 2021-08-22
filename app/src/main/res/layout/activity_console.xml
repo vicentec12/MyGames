@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="br.com.vicentec12.mygames.ui.console.ConsoleViewModel" />
+            type="br.com.vicentec12.mygames.presentation.console.ConsoleViewModel" />
 
     </data>
 
@@ -14,7 +14,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.console.ConsoleActivity">
+        tools:context=".presentation.console.ConsoleActivity">
 
         <include
             android:id="@+id/lyt_toolbar"
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/default_spacing"
-            android:onClick="openAddGame"
+            android:contentDescription="@string/description_add_new_game"
             app:backgroundTint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_add"
             app:tint="@android:color/white" />

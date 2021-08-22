@@ -4,6 +4,6 @@ import android.view.View
 
 fun interface OnItemLongClickListener {
 
-    fun onItemLongClick(mView: View, mItem: Any?, mPosition: Int)
+    operator fun invoke(mView: View, mItem: Any?, mPosition: Int)
 
 }

@@ -4,16 +4,8 @@
     <data>
 
         <variable
-            name="position"
-            type="int" />
-
-        <variable
-            name="consoleWithGames"
-            type="br.com.vicentec12.mygames.data.model.ConsoleWithGames" />
-
-        <variable
-            name="onItemClickListener"
-            type="br.com.vicentec12.mygames.interfaces.OnItemClickListener" />
+            name="console"
+            type="br.com.vicentec12.mygames.domain.model.Console" />
 
     </data>
 
@@ -25,7 +17,6 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
-        android:onClick="@{(v) -> onItemClickListener.onItemClick(v, consoleWithGames, position)}"
         app:cardCornerRadius="@dimen/corner_radius_cardview">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -40,14 +31,14 @@
                 android:layout_height="164dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                app:srcVector="@{consoleWithGames.console.image}" />
+                app:srcVector="@{console.image}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/minor_spacing"
                 android:gravity="center"
-                android:text="@{consoleWithGames.console.name}"
+                android:text="@{console.name}"
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -57,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@{@plurals/plural_games(consoleWithGames.games.size, consoleWithGames.games.size)}"
+                android:text="@{@plurals/plural_games(console.games.size, console.games.size)}"
                 android:textSize="16sp"
                 tools:text="100 jogos" />
 
