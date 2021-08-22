@@ -3,12 +3,13 @@ package br.com.vicentec12.mygames.domain.model
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.DiffUtil
+import br.com.vicentec12.mygames.extensions.EMPTY
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Console(
     val id: Long = 0L,
-    val name: String = "",
+    val name: String = String.EMPTY,
     @DrawableRes val image: Int = 0,
     val games: ArrayList<Game>? = null
 ) : Parcelable {

@@ -2,13 +2,14 @@ package br.com.vicentec12.mygames.domain.model
 
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
+import br.com.vicentec12.mygames.extensions.EMPTY
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Game(
     var id: Long = 0L,
-    var name: String = "",
-    var year: String = "",
+    var name: String = String.EMPTY,
+    var year: String = String.EMPTY,
     var consoleId: Long = 0
 ) : Parcelable {
 

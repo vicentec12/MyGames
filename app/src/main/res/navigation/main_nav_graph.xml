@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/console_fragment">
+
+    <fragment
+        android:id="@+id/console_fragment"
+        android:name="br.com.vicentec12.mygames.presentation.console.ConsoleFragment"
+        android:label="@string/title_main"
+        tools:layout="@layout/fragment_console">
+
+        <action
+            android:id="@+id/navigate_add_game"
+            app:destination="@id/add_game_fragment" />
+
+        <action
+            android:id="@+id/navigate_game"
+            app:destination="@id/game_fragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/add_game_fragment"
+        android:name="br.com.vicentec12.mygames.presentation.add_game.AddGameFragment"
+        tools:layout="@layout/fragment_add_game">
+        <argument
+            android:name="selected_game"
+            app:argType="br.com.vicentec12.mygames.domain.model.Game"
+            app:nullable="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/game_fragment"
+        android:name="br.com.vicentec12.mygames.presentation.game.GameFragment"
+        android:label="@string/title_main"
+        tools:layout="@layout/fragment_game">
+
+        <action
+            android:id="@+id/navigate_add_game"
+            app:destination="@id/add_game_fragment" />
+
+        <argument
+            android:name="console"
+            app:argType="br.com.vicentec12.mygames.domain.model.Console"
+            app:nullable="false" />
+
+    </fragment>
+
+</navigation>
