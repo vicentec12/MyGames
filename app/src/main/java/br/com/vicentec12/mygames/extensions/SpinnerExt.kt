@@ -12,6 +12,6 @@ import br.com.vicentec12.mygames.R
  */
 fun Spinner.validateSelection(errorMessage: String) = if (selectedItemPosition == 0) {
     AlertDialog.Builder(context).setTitle(R.string.title_alert_warning).setMessage(errorMessage)
-            .setPositiveButton(R.string.label_alert_button_ok, null).show()
+        .setPositiveButton(R.string.label_alert_button_ok, null).show()
     false
 } else true

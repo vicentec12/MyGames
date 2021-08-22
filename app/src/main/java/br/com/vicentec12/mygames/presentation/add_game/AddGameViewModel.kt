@@ -55,13 +55,10 @@ class AddGameViewModel @Inject constructor(
         }
     }
 
-    fun listConsoles(mGame: Game?) = viewModelScope.launch {
+    fun listConsoles() = viewModelScope.launch {
         if (_consoles.value == null) {
             when (val mResult = mListConsolesUseCase()) {
-                is Result.Success -> {
-                    _consoles.value = mResult.data ?: arrayListOf()
-                    _game.postValue(mGame ?: Game())
-                }
+                is Result.Success -> _consoles.value = mResult.data ?: arrayListOf()
                 is Result.Error -> _message.value = Event(mResult.message)
             }
         }
@@ -69,6 +66,10 @@ class AddGameViewModel @Inject constructor(
 
     fun databaseEvent() {
         _game.value?.run { if (id > 0) updateGame(this) else insertGame(this) }
+    }
+
+    fun setGame(mGame: Game) {
+        _game.postValue(mGame)
     }
 
 }

@@ -16,11 +16,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.add_game.AddGameFragment">
-
-        <include
-            android:id="@+id/lyt_toolbar"
-            layout="@layout/layout_toolbar" />
+        tools:context=".presentation.add_game.AddGameActivity">
 
         <ScrollView
             android:layout_width="match_parent"

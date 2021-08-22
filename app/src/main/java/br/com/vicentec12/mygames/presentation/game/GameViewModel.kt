@@ -38,8 +38,8 @@ class GameViewModel @Inject constructor(
     private val _message = MutableLiveData<Event<Int>>()
     val message: LiveData<Event<Int>> = _message
 
-    private val _pluralMessage = MutableLiveData<Event<List<Int>>>()
-    val pluralMessage: LiveData<Event<List<Int>>> = _pluralMessage
+    private val _pluralMessage = MutableLiveData<Event<Pair<Int, Int>>>()
+    val pluralMessage: LiveData<Event<Pair<Int, Int>>> = _pluralMessage
 
     private val _hasActionModeFinish = MutableLiveData<Event<Boolean>>()
     val hasActionModeFinish: LiveData<Event<Boolean>> = _hasActionModeFinish
@@ -78,15 +78,13 @@ class GameViewModel @Inject constructor(
                     if (newList.isEmpty())
                         _viewFlipper.value = CHILD_TEXT
                     _games.value = newList
-                    _pluralMessage.value = Event(createPluralMessage(result.message, result.data!!))
+                    _pluralMessage.value = Event(result.message to (result.data ?: 0))
                     _hasActionModeFinish.value = Event(true)
                 }
             }
             is Result.Error -> _message.value = Event(result.message)
         }
     }
-
-    private fun createPluralMessage(mMessage: Int, mQuantity: Int) = listOf(mMessage, mQuantity)
 
     private fun getSelectedGames(): List<Game> {
         val selectedGames = ArrayList<Game>()
@@ -103,12 +101,13 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    fun showChecks(isSelectionModeVisible: Boolean) {
+    fun setSelectionModeVisible(isSelectionModeVisible: Boolean) {
         _selectionMode.value = isSelectionModeVisible
     }
 
     fun select(mPosition: Int) {
-        if (_selectedItems.value == null) _selectedItems.value = SparseBooleanArray()
+        if (_selectedItems.value == null)
+            _selectedItems.value = SparseBooleanArray()
         _selectedItems.value?.let { selections ->
             if (selections.get(mPosition, false))
                 selections.delete(mPosition)
@@ -120,20 +119,16 @@ class GameViewModel @Inject constructor(
 
     fun selectAll() {
         _selectedItems.value?.let { selections ->
-            val hasAllSelected = _games.value?.size != selections.size()
+            val hasAllSelected = _games.value?.size == selections.size()
             selections.clear()
-            if (hasAllSelected) {
-                _games.value?.forEachIndexed { index, _ ->
-                    selections.put(index, true)
-                }
+            if (!hasAllSelected) {
+                _games.value?.forEachIndexed { index, _ -> selections.put(index, true) }
             }
             _selectedItems.value = selections
         }
     }
 
     fun getSelectedItemCount() = _selectedItems.value?.size()
-
-    fun isSelectionModeVisible() = _selectionMode.value
 
     fun isGameSelected(mPosition: Int) = _selectedItems.value?.get(mPosition) ?: false
 

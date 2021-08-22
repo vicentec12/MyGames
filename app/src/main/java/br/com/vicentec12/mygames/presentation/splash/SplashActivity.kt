@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.databinding.ActivitySplashBinding
 import br.com.vicentec12.mygames.extensions.viewBinding
-import br.com.vicentec12.mygames.presentation.console.ConsoleActivity
+import br.com.vicentec12.mygames.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
         with(mViewModel) {
             hasFinish.observe(this@SplashActivity) { event ->
                 if (event.contentIfNotHandled == true) {
-                    startActivity(ConsoleActivity.newIntentInstance(this@SplashActivity))
+                    startActivity(MainActivity.newIntentInstance(this@SplashActivity))
                     finish()
                 }
             }
