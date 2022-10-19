@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.domain.use_case.console.ListWithGamesUseCase
 import br.com.vicentec12.mygames.extensions.error
-import br.com.vicentec12.mygames.extensions.sucess
+import br.com.vicentec12.mygames.extensions.success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,7 +32,7 @@ class ConsoleViewModel @Inject constructor(
             mListWithGamesUseCase().error { mResult ->
                 _message.value = mResult.message
                 _viewFlipperChild.value = CHILD_MESSAGE
-            }.sucess { result ->
+            }.success { result ->
                 _consoles.value = result.data.orEmpty()
                 _viewFlipperChild.value = CHILD_CONSOLES
             }
