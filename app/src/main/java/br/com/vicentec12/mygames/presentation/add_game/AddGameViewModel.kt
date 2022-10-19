@@ -10,7 +10,7 @@ import br.com.vicentec12.mygames.domain.use_case.console.ListConsolesUseCase
 import br.com.vicentec12.mygames.domain.use_case.game.InsertGameUseCase
 import br.com.vicentec12.mygames.domain.use_case.game.UpdateGameUseCase
 import br.com.vicentec12.mygames.extensions.error
-import br.com.vicentec12.mygames.extensions.sucess
+import br.com.vicentec12.mygames.extensions.success
 import br.com.vicentec12.mygames.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -39,7 +39,7 @@ class AddGameViewModel @Inject constructor(
         viewModelScope.launch {
             mInsertGameUseCase(mGame).error { mResult ->
                 _message.value = Event(mResult.message)
-            }.sucess { mResult ->
+            }.success { mResult ->
                 _message.value = Event(mResult.message)
                 _success.value = Event(true)
                 _game.value = Game()
@@ -51,7 +51,7 @@ class AddGameViewModel @Inject constructor(
         viewModelScope.launch {
             mUpdateGameUseCase(mGame).error { mResult ->
                 _message.value = Event(mResult.message)
-            }.sucess { mResult ->
+            }.success { mResult ->
                 _message.value = Event(mResult.message)
                 _success.value = Event(true)
             }
@@ -63,7 +63,7 @@ class AddGameViewModel @Inject constructor(
             if (_consoles.value == null) {
                 mListConsolesUseCase().error { mResult ->
                     _message.value = Event(mResult.message)
-                }.sucess { mResult ->
+                }.success { mResult ->
                     _consoles.value = mResult.data.orEmpty()
                 }
             }

@@ -5,12 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.vicentec12.mygames.R
-import br.com.vicentec12.mygames.data.Result
 import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.domain.use_case.console.InsertAllConsolesUseCase
 import br.com.vicentec12.mygames.domain.use_case.console.ListWithGamesUseCase
 import br.com.vicentec12.mygames.extensions.error
-import br.com.vicentec12.mygames.extensions.sucess
+import br.com.vicentec12.mygames.extensions.success
 import br.com.vicentec12.mygames.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -31,9 +30,9 @@ class SplashViewModel @Inject constructor(
     fun loadOrCreateConsoles() {
         viewModelScope.launch {
             mListWithGamesUseCase().error {
-                _hasFinish.value = Event(true)
-            }.sucess {
                 insertConsoles()
+            }.success {
+                _hasFinish.value = Event(true)
             }
         }
     }
@@ -58,7 +57,7 @@ class SplashViewModel @Inject constructor(
         )
         mInsertAllConsolesUseCase(mConsoles).error { mResult ->
             _message.value = Event(mResult.message)
-        }.sucess {
+        }.success {
             _hasFinish.value = Event(true)
         }
     }

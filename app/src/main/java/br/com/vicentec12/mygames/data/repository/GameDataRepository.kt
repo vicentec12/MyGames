@@ -1,13 +1,13 @@
 package br.com.vicentec12.mygames.data.repository
 
-import br.com.vicentec12.mygames.data.Result
-import br.com.vicentec12.mygames.di.Local
 import br.com.vicentec12.mygames.data.mapper.toEntity
 import br.com.vicentec12.mygames.data.mapper.toEntityList
 import br.com.vicentec12.mygames.data.mapper.toModelList
 import br.com.vicentec12.mygames.data.source.GameDataSource
+import br.com.vicentec12.mygames.di.Local
 import br.com.vicentec12.mygames.domain.model.Game
 import br.com.vicentec12.mygames.domain.repository.GameRepository
+import br.com.vicentec12.mygames.extensions.map
 import javax.inject.Inject
 
 class GameDataRepository @Inject constructor(
@@ -15,10 +15,7 @@ class GameDataRepository @Inject constructor(
 ) : GameRepository {
 
     override suspend fun list(mConsoleId: Long, mOrderBy: Int) =
-        when (val result = gameLocalDataSource.list(mConsoleId, mOrderBy)) {
-            is Result.Success -> Result.Success(result.data?.toModelList(), result.message)
-            is Result.Error -> result
-        }
+        gameLocalDataSource.list(mConsoleId, mOrderBy).map { data -> data?.toModelList() }
 
     override suspend fun insert(mGame: Game) = gameLocalDataSource.insert(mGame.toEntity())
 

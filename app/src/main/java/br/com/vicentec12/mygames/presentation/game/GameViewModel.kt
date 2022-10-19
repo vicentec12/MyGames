@@ -6,14 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.vicentec12.mygames.data.Result
 import br.com.vicentec12.mygames.data.local.entities.GameEntity.Companion.COLUMN_NAME
 import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.domain.model.Game
 import br.com.vicentec12.mygames.domain.use_case.game.DeleteGamesUseCase
 import br.com.vicentec12.mygames.domain.use_case.game.ListGamesUseCase
 import br.com.vicentec12.mygames.extensions.error
-import br.com.vicentec12.mygames.extensions.sucess
+import br.com.vicentec12.mygames.extensions.success
 import br.com.vicentec12.mygames.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -62,7 +61,7 @@ class GameViewModel @Inject constructor(
             _viewFlipper.value = CHILD_PROGRESS
             mListGamesUseCase(_console.value?.id ?: 0, _orderBy.value ?: COLUMN_NAME).error {
                 _viewFlipper.value = CHILD_TEXT
-            }.sucess { result ->
+            }.success { result ->
                 _viewFlipper.value = CHILD_GAMES
                 _games.value = result.data.orEmpty()
             }
@@ -73,7 +72,7 @@ class GameViewModel @Inject constructor(
         val selectedGames = getSelectedGames()
         mDeleteGamesUseCase(selectedGames).error { mResult ->
             _message.value = Event(mResult.message)
-        }.sucess { mResult ->
+        }.success { mResult ->
             _games.value?.let { listGames ->
                 val newList = ArrayList(listGames)
                 newList.removeAll(selectedGames)
