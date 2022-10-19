@@ -12,6 +12,8 @@ import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.domain.model.Game
 import br.com.vicentec12.mygames.domain.use_case.game.DeleteGamesUseCase
 import br.com.vicentec12.mygames.domain.use_case.game.ListGamesUseCase
+import br.com.vicentec12.mygames.extensions.error
+import br.com.vicentec12.mygames.extensions.sucess
 import br.com.vicentec12.mygames.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -26,8 +28,8 @@ class GameViewModel @Inject constructor(
     // Activity
     private val _orderBy = MutableLiveData<Int>()
 
-    private val _games = MutableLiveData<ArrayList<Game>>()
-    val games: LiveData<ArrayList<Game>> = _games
+    private val _games = MutableLiveData<List<Game>>()
+    val games: LiveData<List<Game>> = _games
 
     private val _console = MutableLiveData<Console>()
     val console: LiveData<Console> = _console
@@ -55,34 +57,32 @@ class GameViewModel @Inject constructor(
         _console.value = mConsole
     }
 
-    fun listSavedGames() = viewModelScope.launch {
-        _viewFlipper.value = CHILD_PROGRESS
-        when (val result = mListGamesUseCase(
-            _console.value?.id ?: 0, _orderBy.value ?: COLUMN_NAME
-        )) {
-            is Result.Success -> {
+    fun listSavedGames() {
+        viewModelScope.launch {
+            _viewFlipper.value = CHILD_PROGRESS
+            mListGamesUseCase(_console.value?.id ?: 0, _orderBy.value ?: COLUMN_NAME).error {
+                _viewFlipper.value = CHILD_TEXT
+            }.sucess { result ->
                 _viewFlipper.value = CHILD_GAMES
-                _games.value = result.data ?: arrayListOf()
+                _games.value = result.data.orEmpty()
             }
-            is Result.Error -> _viewFlipper.value = CHILD_TEXT
         }
     }
 
     fun deleteGames() = viewModelScope.launch {
         val selectedGames = getSelectedGames()
-        when (val result = mDeleteGamesUseCase(selectedGames)) {
-            is Result.Success -> {
-                _games.value?.let { listGames ->
-                    val newList = ArrayList(listGames)
-                    newList.removeAll(selectedGames)
-                    if (newList.isEmpty())
-                        _viewFlipper.value = CHILD_TEXT
-                    _games.value = newList
-                    _pluralMessage.value = Event(result.message to (result.data ?: 0))
-                    _hasActionModeFinish.value = Event(true)
-                }
+        mDeleteGamesUseCase(selectedGames).error { mResult ->
+            _message.value = Event(mResult.message)
+        }.sucess { mResult ->
+            _games.value?.let { listGames ->
+                val newList = ArrayList(listGames)
+                newList.removeAll(selectedGames)
+                if (newList.isEmpty())
+                    _viewFlipper.value = CHILD_TEXT
+                _games.value = newList
+                _pluralMessage.value = Event(mResult.message to (mResult.data ?: 0))
+                _hasActionModeFinish.value = Event(true)
             }
-            is Result.Error -> _message.value = Event(result.message)
         }
     }
 

@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.data.di
+package br.com.vicentec12.mygames.di
 
 import android.app.Application
 import androidx.room.Room

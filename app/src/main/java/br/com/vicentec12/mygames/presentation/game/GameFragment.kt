@@ -5,8 +5,11 @@ import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -37,11 +40,6 @@ class GameFragment : Fragment(), ActionMode.Callback {
         ).apply { setHasStableIds(true) }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ) = mBinding.root
@@ -57,24 +55,29 @@ class GameFragment : Fragment(), ActionMode.Callback {
             startSupportActionMode()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_main, menu)
-    }
+    private fun initMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_main, menu)
+            }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_sort -> {
-            AlertDialog.Builder(requireContext()).setTitle(R.string.title_alert_order_by)
-                .setItems(R.array.game_order_by_options) { _, which ->
-                    mViewModel.setOrderBy(which)
-                    mViewModel.listSavedGames()
-                }.show()
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
+            override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
+                R.id.action_sort -> {
+                    AlertDialog.Builder(requireContext()).setTitle(R.string.title_alert_order_by)
+                        .setItems(R.array.game_order_by_options) { _, which ->
+                            mViewModel.setOrderBy(which)
+                            mViewModel.listSavedGames()
+                        }.show()
+                    true
+                }
+                else -> false
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun initView() {
         initBinding()
+        initMenu()
         initRecyclerView()
         initObservers()
     }

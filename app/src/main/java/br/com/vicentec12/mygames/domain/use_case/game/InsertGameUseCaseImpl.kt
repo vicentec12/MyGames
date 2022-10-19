@@ -10,6 +10,6 @@ class InsertGameUseCaseImpl @Inject constructor(
     private val mRepository: GameRepository
 ) : InsertGameUseCase {
 
-    override suspend fun invoke(mGame: Game): Result<Nothing> = mRepository.insert(mGame.toEntity())
+    override suspend fun invoke(mGame: Game): Result<Nothing> = mRepository.insert(mGame)
 
 }

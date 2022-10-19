@@ -11,6 +11,6 @@ class DeleteGamesUseCaseImpl @Inject constructor(
 ) : DeleteGamesUseCase {
 
     override suspend fun invoke(mGames: List<Game>): Result<Int> =
-        mRepository.delete(mGames.toEntityList())
+        mRepository.delete(mGames)
 
 }
