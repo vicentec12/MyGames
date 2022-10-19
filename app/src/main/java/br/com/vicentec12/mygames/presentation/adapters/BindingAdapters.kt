@@ -40,7 +40,7 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("items")
-    fun setItemsGame(mView: RecyclerView, mGames: ArrayList<Game>?) {
+    fun setItemsGame(mView: RecyclerView, mGames: List<Game>?) {
         mView.adapter?.apply {
             (this as GameAdapter).submitList(mGames)
         }
@@ -48,7 +48,7 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("items")
-    fun setItemsConsole(mView: RecyclerView, mConsoles: ArrayList<Console>?) {
+    fun setItemsConsole(mView: RecyclerView, mConsoles: List<Console>?) {
         mView.adapter?.apply {
             (this as ConsoleAdapter).submitList(mConsoles)
         }
@@ -56,12 +56,13 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("items")
-    fun setItemsConsoleSpinner(mView: AppCompatSpinner, mConsoles: ArrayList<Console>?) {
+    fun setItemsConsoleSpinner(mView: AppCompatSpinner, mConsoles: List<Console>?) {
+        val mConsolesArrayList = ArrayList(mConsoles.orEmpty())
         mConsoles?.let {
-            if (mConsoles.size == 0 || mConsoles[0].id != 0L)
-                mConsoles.add(0, Console(name = mView.context.getString(R.string.text_select)))
+            if (mConsolesArrayList.size == 0 || mConsoles[0].id != 0L)
+                mConsolesArrayList.add(0, Console(name = mView.context.getString(R.string.text_select)))
             mView.adapter = ArrayAdapter(
-                mView.context, R.layout.support_simple_spinner_dropdown_item, mConsoles.toList()
+                mView.context, R.layout.support_simple_spinner_dropdown_item, mConsolesArrayList
             ).apply {
                 setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             }

@@ -10,6 +10,6 @@ class UpdateGameUseCaseImpl @Inject constructor(
     private val mRepository: GameRepository
 ) : UpdateGameUseCase {
 
-    override suspend fun invoke(mGame: Game): Result<Nothing> = mRepository.update(mGame.toEntity())
+    override suspend fun invoke(mGame: Game): Result<Nothing> = mRepository.update(mGame)
 
 }

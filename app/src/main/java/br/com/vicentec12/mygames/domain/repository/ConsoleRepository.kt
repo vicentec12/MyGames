@@ -1,16 +1,15 @@
 package br.com.vicentec12.mygames.domain.repository
 
-import br.com.vicentec12.mygames.data.local.entities.ConsoleEntity
-import br.com.vicentec12.mygames.data.local.entities.ConsoleWithGamesEntity
 import br.com.vicentec12.mygames.data.Result
+import br.com.vicentec12.mygames.domain.model.Console
 
 interface ConsoleRepository {
 
-    suspend fun list(): Result<List<ConsoleEntity>>
+    suspend fun list(): Result<List<Console>>
 
-    suspend fun listWithGames(): Result<List<ConsoleWithGamesEntity>>
+    suspend fun listWithGames(): Result<List<Console>>
 
-    suspend fun insert(mConsoles: List<ConsoleEntity>): Result<Nothing>
+    suspend fun insert(mConsoles: List<Console>): Result<Nothing>
 
     suspend fun deleteAll(): Result<Nothing>
 

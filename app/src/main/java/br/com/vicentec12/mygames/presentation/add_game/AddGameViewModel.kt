@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.vicentec12.mygames.data.Result
 import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.domain.model.Game
 import br.com.vicentec12.mygames.domain.use_case.console.ListConsolesUseCase
 import br.com.vicentec12.mygames.domain.use_case.game.InsertGameUseCase
 import br.com.vicentec12.mygames.domain.use_case.game.UpdateGameUseCase
+import br.com.vicentec12.mygames.extensions.error
+import br.com.vicentec12.mygames.extensions.sucess
 import br.com.vicentec12.mygames.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,8 +26,8 @@ class AddGameViewModel @Inject constructor(
     private val _game = MutableLiveData<Game>()
     val game: LiveData<Game> = _game
 
-    private val _consoles = MutableLiveData<ArrayList<Console>>()
-    val consoles: LiveData<ArrayList<Console>> = _consoles
+    private val _consoles = MutableLiveData<List<Console>>()
+    val consoles: LiveData<List<Console>> = _consoles
 
     private val _message = MutableLiveData<Event<Int>>()
     val message: LiveData<Event<Int>> = _message
@@ -34,32 +35,37 @@ class AddGameViewModel @Inject constructor(
     private val _success = MutableLiveData<Event<Boolean>>()
     val success: LiveData<Event<Boolean>> = _success
 
-    private fun insertGame(mGame: Game) = viewModelScope.launch {
-        when (val mResult = mInsertGameUseCase(mGame)) {
-            is Result.Success -> {
+    private fun insertGame(mGame: Game) {
+        viewModelScope.launch {
+            mInsertGameUseCase(mGame).error { mResult ->
+                _message.value = Event(mResult.message)
+            }.sucess { mResult ->
                 _message.value = Event(mResult.message)
                 _success.value = Event(true)
                 _game.value = Game()
             }
-            is Result.Error -> _message.value = Event(mResult.message)
         }
     }
 
-    private fun updateGame(mGame: Game) = viewModelScope.launch {
-        when (val mResult = mUpdateGameUseCase(mGame)) {
-            is Result.Success -> {
+    private fun updateGame(mGame: Game) {
+        viewModelScope.launch {
+            mUpdateGameUseCase(mGame).error { mResult ->
+                _message.value = Event(mResult.message)
+            }.sucess { mResult ->
                 _message.value = Event(mResult.message)
                 _success.value = Event(true)
             }
-            is Result.Error -> _message.value = Event(mResult.message)
         }
     }
 
-    fun listConsoles() = viewModelScope.launch {
-        if (_consoles.value == null) {
-            when (val mResult = mListConsolesUseCase()) {
-                is Result.Success -> _consoles.value = mResult.data ?: arrayListOf()
-                is Result.Error -> _message.value = Event(mResult.message)
+    fun listConsoles() {
+        viewModelScope.launch {
+            if (_consoles.value == null) {
+                mListConsolesUseCase().error { mResult ->
+                    _message.value = Event(mResult.message)
+                }.sucess { mResult ->
+                    _consoles.value = mResult.data.orEmpty()
+                }
             }
         }
     }

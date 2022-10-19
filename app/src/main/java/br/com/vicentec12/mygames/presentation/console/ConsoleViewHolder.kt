@@ -3,7 +3,7 @@ package br.com.vicentec12.mygames.presentation.console
 import androidx.recyclerview.widget.RecyclerView
 import br.com.vicentec12.mygames.databinding.ItemConsoleBinding
 import br.com.vicentec12.mygames.domain.model.Console
-import br.com.vicentec12.mygames.interfaces.OnItemClickListener
+import br.com.vicentec12.mygames.util.OnItemClickListener
 
 class ConsoleViewHolder(
     private val mBinding: ItemConsoleBinding,

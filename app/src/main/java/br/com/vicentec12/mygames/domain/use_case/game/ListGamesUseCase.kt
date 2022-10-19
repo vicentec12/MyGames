@@ -4,5 +4,5 @@ import br.com.vicentec12.mygames.data.Result
 import br.com.vicentec12.mygames.domain.model.Game
 
 interface ListGamesUseCase {
-    suspend operator fun invoke(mConsoleId: Long, mOrderBy: Int): Result<ArrayList<Game>>
+    suspend operator fun invoke(mConsoleId: Long, mOrderBy: Int): Result<List<Game>?>
 }

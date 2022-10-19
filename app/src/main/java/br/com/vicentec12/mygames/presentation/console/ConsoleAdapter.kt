@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import br.com.vicentec12.mygames.databinding.ItemConsoleBinding
 import br.com.vicentec12.mygames.domain.model.Console
-import br.com.vicentec12.mygames.interfaces.OnItemClickListener
+import br.com.vicentec12.mygames.util.OnItemClickListener
 
 class ConsoleAdapter(
     private val mOnItemClick: OnItemClickListener?

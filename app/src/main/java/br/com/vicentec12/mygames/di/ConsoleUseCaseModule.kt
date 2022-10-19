@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.domain.di
+package br.com.vicentec12.mygames.di
 
 import br.com.vicentec12.mygames.domain.use_case.console.*
 import dagger.Binds

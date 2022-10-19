@@ -3,8 +3,8 @@ package br.com.vicentec12.mygames.presentation.game
 import androidx.recyclerview.widget.RecyclerView
 import br.com.vicentec12.mygames.databinding.ItemGameBinding
 import br.com.vicentec12.mygames.domain.model.Game
-import br.com.vicentec12.mygames.interfaces.OnItemClickListener
-import br.com.vicentec12.mygames.interfaces.OnItemLongClickListener
+import br.com.vicentec12.mygames.util.OnItemClickListener
+import br.com.vicentec12.mygames.util.OnItemLongClickListener
 
 class GameViewHolder(
     private val mBinding: ItemGameBinding,
