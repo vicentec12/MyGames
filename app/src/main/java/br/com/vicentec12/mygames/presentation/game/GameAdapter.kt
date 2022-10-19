@@ -3,11 +3,10 @@ package br.com.vicentec12.mygames.presentation.game
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import br.com.vicentec12.mygames.data.local.entities.GameEntity
 import br.com.vicentec12.mygames.databinding.ItemGameBinding
 import br.com.vicentec12.mygames.domain.model.Game
-import br.com.vicentec12.mygames.interfaces.OnItemClickListener
-import br.com.vicentec12.mygames.interfaces.OnItemLongClickListener
+import br.com.vicentec12.mygames.util.OnItemClickListener
+import br.com.vicentec12.mygames.util.OnItemLongClickListener
 
 class GameAdapter(
     private val mViewModel: GameViewModel,

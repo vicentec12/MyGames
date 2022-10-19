@@ -11,6 +11,6 @@ class InsertAllConsolesUseCaseImpl @Inject constructor(
 ) : InsertAllConsolesUseCase {
 
     override suspend fun invoke(mConsoles: List<Console>): Result<Nothing> =
-        mRepository.insert(mConsoles.toEntityList())
+        mRepository.insert(mConsoles)
     
 }

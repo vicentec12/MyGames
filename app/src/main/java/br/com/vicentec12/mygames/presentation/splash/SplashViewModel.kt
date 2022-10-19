@@ -9,6 +9,8 @@ import br.com.vicentec12.mygames.data.Result
 import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.domain.use_case.console.InsertAllConsolesUseCase
 import br.com.vicentec12.mygames.domain.use_case.console.ListWithGamesUseCase
+import br.com.vicentec12.mygames.extensions.error
+import br.com.vicentec12.mygames.extensions.sucess
 import br.com.vicentec12.mygames.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -26,10 +28,13 @@ class SplashViewModel @Inject constructor(
     private val _hasFinish = MutableLiveData<Event<Boolean>>()
     val hasFinish: LiveData<Event<Boolean>> = _hasFinish
 
-    fun loadOrCreateConsoles() = viewModelScope.launch {
-        when (mListWithGamesUseCase()) {
-            is Result.Success -> _hasFinish.value = Event(true)
-            is Result.Error -> insertConsoles()
+    fun loadOrCreateConsoles() {
+        viewModelScope.launch {
+            mListWithGamesUseCase().error {
+                _hasFinish.value = Event(true)
+            }.sucess {
+                insertConsoles()
+            }
         }
     }
 
@@ -51,9 +56,10 @@ class SplashViewModel @Inject constructor(
             Console(name = "Xbox 360", image = R.drawable.lg_x360),
             Console(name = "Xbox One", image = R.drawable.lg_xone)
         )
-        when (val result = mInsertAllConsolesUseCase(mConsoles)) {
-            is Result.Success -> _hasFinish.value = Event(true)
-            is Result.Error -> _message.value = Event(result.message)
+        mInsertAllConsolesUseCase(mConsoles).error { mResult ->
+            _message.value = Event(mResult.message)
+        }.sucess {
+            _hasFinish.value = Event(true)
         }
     }
 

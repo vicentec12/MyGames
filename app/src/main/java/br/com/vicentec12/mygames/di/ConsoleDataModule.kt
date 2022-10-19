@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.data.di
+package br.com.vicentec12.mygames.di
 
 import br.com.vicentec12.mygames.data.local.AppDatabase
 import br.com.vicentec12.mygames.data.local.source.ConsoleLocalDataSource
