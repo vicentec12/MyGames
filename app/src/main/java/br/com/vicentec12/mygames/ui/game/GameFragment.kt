@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.presentation.game
+package br.com.vicentec12.mygames.ui.game
 
 import android.os.Bundle
 import android.view.*
@@ -35,8 +35,8 @@ class GameFragment : Fragment(), ActionMode.Callback {
     private val mAdapter: GameAdapter by lazy {
         GameAdapter(
             mViewModel,
-            { mView, mItem, mPosition -> onItemCLick(mView, mItem as Game, mPosition) },
-            { _, _, mPosition -> onItemLongCLick(mPosition) }
+            { mItem, mPosition -> onItemCLick(mItem as Game, mPosition) },
+            { _, mPosition -> onItemLongCLick(mPosition) }
         ).apply { setHasStableIds(true) }
     }
 
@@ -133,9 +133,9 @@ class GameFragment : Fragment(), ActionMode.Callback {
             mActionMode = (activity as? AppCompatActivity)?.startSupportActionMode(this)
     }
 
-    private fun onItemCLick(mView: View, mGame: Game, mPosition: Int) {
+    private fun onItemCLick(mGame: Game, mPosition: Int) {
         if (mActionMode == null) {
-            mView.findNavController()
+            requireView().findNavController()
                 .navigateWithAnim(GameFragmentDirections.navigateAddGame(mGame))
         } else
             mViewModel.select(mPosition)

@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.presentation.adapters
+package br.com.vicentec12.mygames.ui.adapters
 
 import android.view.View
 import android.widget.AdapterView
@@ -13,8 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.domain.model.Game
-import br.com.vicentec12.mygames.presentation.console.ConsoleAdapter
-import br.com.vicentec12.mygames.presentation.game.GameAdapter
+import br.com.vicentec12.mygames.ui.game.GameAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 object BindingAdapters {
@@ -43,14 +42,6 @@ object BindingAdapters {
     fun setItemsGame(mView: RecyclerView, mGames: List<Game>?) {
         mView.adapter?.apply {
             (this as GameAdapter).submitList(mGames)
-        }
-    }
-
-    @JvmStatic
-    @BindingAdapter("items")
-    fun setItemsConsole(mView: RecyclerView, mConsoles: List<Console>?) {
-        mView.adapter?.apply {
-            (this as ConsoleAdapter).submitList(mConsoles)
         }
     }
 

@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.presentation.main
+package br.com.vicentec12.mygames.ui.main
 
 import android.content.Context
 import android.content.Intent

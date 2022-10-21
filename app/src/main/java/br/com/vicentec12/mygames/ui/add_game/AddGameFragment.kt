@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.presentation.add_game
+package br.com.vicentec12.mygames.ui.add_game
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.presentation.game
+package br.com.vicentec12.mygames.ui.game
 
 import android.util.SparseBooleanArray
 import androidx.core.util.forEach

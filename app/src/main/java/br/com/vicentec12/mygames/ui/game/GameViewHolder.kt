@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.presentation.game
+package br.com.vicentec12.mygames.ui.game
 
 import androidx.recyclerview.widget.RecyclerView
 import br.com.vicentec12.mygames.databinding.ItemGameBinding
@@ -8,8 +8,8 @@ import br.com.vicentec12.mygames.util.OnItemLongClickListener
 
 class GameViewHolder(
     private val mBinding: ItemGameBinding,
-    private val mOnItemClick: OnItemClickListener?,
-    private val mOnItemLongClick: OnItemLongClickListener?
+    private val mOnItemClick: OnItemClickListener<Game>?,
+    private val mOnItemLongClick: OnItemLongClickListener<Game>?
 ) : RecyclerView.ViewHolder(mBinding.root) {
 
     fun bind(mGame: Game, mViewModel: GameViewModel) {
@@ -18,10 +18,10 @@ class GameViewHolder(
             viewModel = mViewModel
             position = adapterPosition
             root.setOnLongClickListener {
-                mOnItemLongClick?.invoke(it, mGame, adapterPosition)
+                mOnItemLongClick?.invoke(mGame, adapterPosition)
                 mOnItemLongClick != null
             }
-            root.setOnClickListener { mOnItemClick?.invoke(it, mGame, adapterPosition) }
+            root.setOnClickListener { mOnItemClick?.invoke(mGame, adapterPosition) }
         }
     }
 

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="br.com.vicentec12.mygames.presentation.add_game.AddGameViewModel" />
+            type="br.com.vicentec12.mygames.ui.add_game.AddGameViewModel" />
 
     </data>
 
@@ -16,7 +16,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.add_game.AddGameFragment">
+        tools:context=".ui.add_game.AddGameFragment">
 
         <include
             android:id="@+id/lyt_toolbar"

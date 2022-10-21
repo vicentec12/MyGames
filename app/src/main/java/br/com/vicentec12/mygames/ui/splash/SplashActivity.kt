@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.presentation.splash
+package br.com.vicentec12.mygames.ui.splash
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.databinding.ActivitySplashBinding
 import br.com.vicentec12.mygames.extensions.viewBinding
-import br.com.vicentec12.mygames.presentation.main.MainActivity
+import br.com.vicentec12.mygames.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

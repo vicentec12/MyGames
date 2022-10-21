@@ -1,17 +1,18 @@
-package br.com.vicentec12.mygames.presentation.game
+package br.com.vicentec12.mygames.ui.game
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import br.com.vicentec12.mygames.databinding.ItemGameBinding
+import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.domain.model.Game
 import br.com.vicentec12.mygames.util.OnItemClickListener
 import br.com.vicentec12.mygames.util.OnItemLongClickListener
 
 class GameAdapter(
     private val mViewModel: GameViewModel,
-    private val mOnItemClick: OnItemClickListener?,
-    private val mOnItemLongClick: OnItemLongClickListener?
+    private val mOnItemClick: OnItemClickListener<Game>?,
+    private val mOnItemLongClick: OnItemLongClickListener<Game>?
 ) : ListAdapter<Game, GameViewHolder>(Game.DIFF_UTIL_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = GameViewHolder(
