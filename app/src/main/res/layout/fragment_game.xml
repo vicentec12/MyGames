@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="br.com.vicentec12.mygames.presentation.game.GameViewModel" />
+            type="br.com.vicentec12.mygames.ui.game.GameViewModel" />
 
     </data>
 
@@ -14,7 +14,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.game.GameFragment">
+        tools:context=".ui.game.GameFragment">
 
         <ViewFlipper
             android:id="@+id/vwf_game"

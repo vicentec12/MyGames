@@ -1,5 +1,6 @@
-package br.com.vicentec12.mygames.presentation.console
+package br.com.vicentec12.mygames.ui.console
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,15 +27,21 @@ class ConsoleViewModel @Inject constructor(
     private val _consoles = MutableLiveData<List<Console>>()
     val consoles: LiveData<List<Console>> = _consoles
 
+    private val _uiState = MutableLiveData<UiState>(UiState.Loading)
+    val uiState: LiveData<UiState> = _uiState
+
     fun listConsoles() {
         viewModelScope.launch {
             _viewFlipperChild.value = CHILD_PROGRESS
+            _uiState.value = UiState.Loading
             mListWithGamesUseCase().error { mResult ->
                 _message.value = mResult.message
                 _viewFlipperChild.value = CHILD_MESSAGE
+                _uiState.value = UiState.Error(mResult.message)
             }.success { result ->
                 _consoles.value = result.data.orEmpty()
                 _viewFlipperChild.value = CHILD_CONSOLES
+                _uiState.value = UiState.Consoles(result.data.orEmpty(), result.message)
             }
         }
     }
@@ -45,6 +52,12 @@ class ConsoleViewModel @Inject constructor(
         private const val CHILD_CONSOLES = 1
         private const val CHILD_MESSAGE = 2
 
+    }
+
+    sealed class UiState {
+        object Loading : UiState()
+        class Consoles(val mConsoles: List<Console>, @StringRes val mMessage: Int) : UiState()
+        class Error(@StringRes val mMessage: Int) : UiState()
     }
 
 }

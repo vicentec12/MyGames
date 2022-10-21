@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.presentation.add_game
+package br.com.vicentec12.mygames.ui.add_game
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

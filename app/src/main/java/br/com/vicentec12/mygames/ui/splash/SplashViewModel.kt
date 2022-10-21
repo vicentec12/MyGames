@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.presentation.splash
+package br.com.vicentec12.mygames.ui.splash
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
