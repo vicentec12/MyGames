@@ -6,4 +6,5 @@
     <dimen name="corner_radius_cardview">4dp</dimen>
     <dimen name="activity_with_fab_spacing">96dp</dimen>
     <dimen name="shrine_tall_toolbar_height">224dp</dimen>
+    <dimen name="console_item_icon">164dp</dimen>
 </resources>

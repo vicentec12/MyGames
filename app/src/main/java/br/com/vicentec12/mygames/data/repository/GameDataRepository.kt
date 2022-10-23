@@ -8,22 +8,32 @@ import br.com.vicentec12.mygames.di.Local
 import br.com.vicentec12.mygames.domain.model.Game
 import br.com.vicentec12.mygames.domain.repository.GameRepository
 import br.com.vicentec12.mygames.extensions.map
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GameDataRepository @Inject constructor(
     @Local val gameLocalDataSource: GameDataSource
 ) : GameRepository {
 
-    override suspend fun list(mConsoleId: Long, mOrderBy: Int) =
+    override suspend fun list(mConsoleId: Long, mOrderBy: Int) = withContext(Dispatchers.IO) {
         gameLocalDataSource.list(mConsoleId, mOrderBy).map { data -> data?.toModelList() }
+    }
 
-    override suspend fun insert(mGame: Game) = gameLocalDataSource.insert(mGame.toEntity())
+    override suspend fun insert(mGame: Game) = withContext(Dispatchers.IO) {
+        gameLocalDataSource.insert(mGame.toEntity())
+    }
 
-    override suspend fun update(mGame: Game) = gameLocalDataSource.update(mGame.toEntity())
+    override suspend fun update(mGame: Game) = withContext(Dispatchers.IO) {
+        gameLocalDataSource.update(mGame.toEntity())
+    }
 
-    override suspend fun delete(mGames: List<Game>) =
+    override suspend fun delete(mGames: List<Game>) = withContext(Dispatchers.IO) {
         gameLocalDataSource.delete(mGames.toEntityList())
+    }
 
-    override suspend fun deleteAll() = gameLocalDataSource.deleteAll()
+    override suspend fun deleteAll() = withContext(Dispatchers.IO) {
+        gameLocalDataSource.deleteAll()
+    }
 
 }
