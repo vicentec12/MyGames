@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/console_fragment">
 
     <fragment
         android:id="@+id/console_fragment"
         android:name="br.com.vicentec12.mygames.ui.console.ConsoleFragment"
-        android:label="@string/title_main"
-        tools:layout="@layout/fragment_console">
+        android:label="@string/title_main">
 
         <action
             android:id="@+id/navigate_add_game"
@@ -24,7 +22,7 @@
     <fragment
         android:id="@+id/add_game_fragment"
         android:name="br.com.vicentec12.mygames.ui.add_game.AddGameFragment"
-        tools:layout="@layout/fragment_add_game">
+        android:label="@string/title_add_games">
         <argument
             android:name="selected_game"
             app:argType="br.com.vicentec12.mygames.domain.model.Game"
@@ -34,8 +32,7 @@
     <fragment
         android:id="@+id/game_fragment"
         android:name="br.com.vicentec12.mygames.ui.game.GameFragment"
-        android:label="@string/title_main"
-        tools:layout="@layout/fragment_game">
+        android:label="@string/title_main">
 
         <action
             android:id="@+id/navigate_add_game"

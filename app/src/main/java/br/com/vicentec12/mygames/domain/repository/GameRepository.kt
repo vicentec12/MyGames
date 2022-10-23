@@ -1,6 +1,5 @@
 package br.com.vicentec12.mygames.domain.repository
 
-import br.com.vicentec12.mygames.data.local.entities.GameEntity
 import br.com.vicentec12.mygames.data.Result
 import br.com.vicentec12.mygames.domain.model.Game
 

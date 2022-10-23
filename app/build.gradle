@@ -79,6 +79,7 @@ dependencies {
     implementation "androidx.compose.material:material:$compose"
     implementation "androidx.compose.animation:animation:$compose"
     implementation "androidx.compose.ui:ui-tooling:$compose"
+    implementation "androidx.compose.ui:ui-viewbinding:$compose"
     implementation "androidx.compose.runtime:runtime-livedata:$compose"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose"
 
@@ -99,7 +100,7 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-
+    implementation "androidx.navigation:navigation-compose:$nav_version"
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'android.arch.core:core-testing:2.1.0'

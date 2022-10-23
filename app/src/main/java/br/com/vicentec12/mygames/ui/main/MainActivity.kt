@@ -3,42 +3,48 @@ package br.com.vicentec12.mygames.ui.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupActionBarWithNavController
-import br.com.vicentec12.mygames.R
-import br.com.vicentec12.mygames.databinding.ActivityMainBinding
-import br.com.vicentec12.mygames.extensions.viewBinding
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.navigation.NavController
+import br.com.vicentec12.mygames.ui.theme.MyGamesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val mBinding by viewBinding(ActivityMainBinding::inflate)
-
     private val mViewModel: MainViewModel by viewModels()
+
+    private var mNavController: NavController? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(mBinding.root)
-        initView()
+        setContent {
+            MyGamesTheme {
+                val mAppBarTitle = mViewModel.appBarTitle.observeAsState()
+                val mIsShowAppBarNavigationIcon =
+                    mViewModel.isShownAppBarNavigationIcon.observeAsState()
+                MainScreen(
+                    appBarTitle = { mAppBarTitle.value },
+                    appBarNavigationIconClick = { mNavController?.navigateUp() },
+                    isShownAppBarNavigationIcon = mIsShowAppBarNavigationIcon.value,
+                    navController = ::addOnDestinationChangedListener
+                )
+            }
+        }
     }
 
-    private fun initView() {
-        initToolbar()
+    private fun addOnDestinationChangedListener(navController: NavController?) {
+        mNavController = navController
+        mNavController?.addOnDestinationChangedListener { controller, dest, _ ->
+            mViewModel.configAppBar(
+                dest.label.toString(),
+                controller.previousBackStackEntry != null
+            )
+        }
     }
-
-    private fun initToolbar() {
-        setSupportActionBar(mBinding.lytToolbar.toolbar)
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.fcv_nav_host_main) as NavHostFragment
-        setupActionBarWithNavController(navHostFragment.navController)
-    }
-
-    override fun onSupportNavigateUp() = findNavController(R.id.fcv_nav_host_main).navigateUp() ||
-            super.onSupportNavigateUp()
 
     companion object {
         fun newIntentInstance(mContext: Context) = Intent(mContext, MainActivity::class.java)

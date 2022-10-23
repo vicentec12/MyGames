@@ -26,9 +26,14 @@ class ConsoleFragment : Fragment() {
             val uiState by mViewModel.uiState.observeAsState()
             ConsoleScreen(
                 mUiState = uiState,
-                mOnItemClick = { mConsole, _ -> navigateItemFragment(mConsole) },
+                mOnItemClick = { mConsole, _ ->
+                    if (mConsole != null) {
+                        findNavController()
+                            .navigateWithAnim(ConsoleFragmentDirections.navigateGame(mConsole))
+                    }
+                },
                 mFabOnClick = {
-                    requireView().findNavController()
+                    findNavController()
                         .navigateWithAnim(ConsoleFragmentDirections.navigateAddGame(Game()))
                 }
             )
@@ -38,13 +43,6 @@ class ConsoleFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         mViewModel.listConsoles()
-    }
-
-    private fun navigateItemFragment(mConsole: Console?) {
-        if (mConsole != null) {
-            requireView().findNavController()
-                .navigateWithAnim(ConsoleFragmentDirections.navigateGame(mConsole))
-        }
     }
 
 }
