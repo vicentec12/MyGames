@@ -18,16 +18,14 @@ fun MyGamesTopAppBar(
     TopAppBar(
         title = { Text(text = appBarTitle().orEmpty()) },
         navigationIcon = if (isShownAppBarNavigationIcon.orFalse()) {
-            {
-                IconButton(onClick = { appBarNavigationIconClick() }) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "Voltar"
-                    )
-                }
-            }
-        } else {
-            null
-        }
+            { NavigationIcon(appBarNavigationIconClick) }
+        } else null
     )
+}
+
+@Composable
+fun NavigationIcon(appBarNavigationIconClick: () -> Unit) {
+    IconButton(onClick = { appBarNavigationIconClick() }) {
+        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Voltar")
+    }
 }

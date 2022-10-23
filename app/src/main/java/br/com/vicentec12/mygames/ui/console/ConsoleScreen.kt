@@ -1,5 +1,6 @@
 package br.com.vicentec12.mygames.ui.console
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,6 +25,7 @@ import br.com.vicentec12.mygames.ui.theme.*
 import br.com.vicentec12.mygames.util.FunctionEmpty
 import br.com.vicentec12.mygames.util.OnItemClickListener
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ConsoleScreen(
     mUiState: ConsoleViewModel.UiState?,
@@ -40,19 +42,17 @@ fun ConsoleScreen(
                 Icon(Icons.Filled.Add, "", tint = Color.White)
             }
         },
-        content = { mPadding -> ConsoleContent(mPadding, mUiState, mOnItemClick) }
+        content = { ConsoleContent( mUiState, mOnItemClick) }
     )
 }
 
 @Composable
 fun ConsoleContent(
-    mPadding: PaddingValues,
     uiState: ConsoleViewModel.UiState?,
     mOnItemClick: OnItemClickListener<Console>? = null
 ) {
     when (uiState) {
         is ConsoleViewModel.UiState.Consoles -> ConsolesListed(
-            mPadding = mPadding,
             uiState = uiState,
             mOnItemClick = mOnItemClick
         )
@@ -74,7 +74,6 @@ fun ConsolesLoading() {
 
 @Composable
 fun ConsolesListed(
-    mPadding: PaddingValues,
     uiState: ConsoleViewModel.UiState.Consoles,
     mOnItemClick: OnItemClickListener<Console>? = null
 ) {
