@@ -27,16 +27,18 @@ fun <R> Result<R>.success(body: (Result.Success<R>) -> Unit) {
 }
 
 /**
- * Return mapped object.
- * @param Result.Success mapped
+ * Return @{Result.Success} mapped object.
+ * @param body: map function body
+ * @return Result.Success mapped
  */
 fun <R, T> Result.Success<R>.map(body: (R?) -> T): Result.Success<T> {
     return Result.Success(body(this.data), this.message)
 }
 
 /**
- * Return mapped object.
- * @param Result mapped
+ * Return @{Result} mapped object.
+ * @param body: map function body
+ * @return Result mapped
  */
 @Suppress("UNCHECKED_CAST")
 fun <R, T> Result<R>.map(body: (R?) -> T): Result<T> {

@@ -5,6 +5,8 @@ import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -33,16 +35,19 @@ class GameFragment : Fragment(), ActionMode.Callback {
     private var mActionMode: ActionMode? = null
 
     private val mAdapter: GameAdapter by lazy {
-        GameAdapter(
-            mViewModel,
-            { mItem, mPosition -> onItemCLick(mItem as Game, mPosition) },
-            { _, mPosition -> onItemLongCLick(mPosition) }
-        ).apply { setHasStableIds(true) }
+        GameAdapter(mViewModel, ::onItemCLick) { _, mPosition ->
+            onItemLongCLick(mPosition)
+        }.apply { setHasStableIds(true) }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ) = mBinding.root
+    ) = ComposeView(requireContext()).apply {
+        setContent {
+            val uiState = mViewModel.uiState.collectAsState()
+            GameScreen(mUiState = uiState.value, mOnItemClickListener = ::onItemCLick)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -129,16 +134,20 @@ class GameFragment : Fragment(), ActionMode.Callback {
     }
 
     private fun startSupportActionMode() {
-        if (mActionMode == null)
+        if (mActionMode == null) {
             mActionMode = (activity as? AppCompatActivity)?.startSupportActionMode(this)
+        }
     }
 
-    private fun onItemCLick(mGame: Game, mPosition: Int) {
-        if (mActionMode == null) {
-            requireView().findNavController()
-                .navigateWithAnim(GameFragmentDirections.navigateAddGame(mGame))
-        } else
-            mViewModel.select(mPosition)
+    private fun onItemCLick(mGame: Game?, mPosition: Int) {
+        if (mGame != null) {
+            if (mActionMode == null) {
+                requireView().findNavController()
+                    .navigateWithAnim(GameFragmentDirections.navigateAddGame(mGame))
+            } else {
+                mViewModel.select(mPosition)
+            }
+        }
     }
 
     private fun onItemLongCLick(mPosition: Int) {
@@ -160,7 +169,7 @@ class GameFragment : Fragment(), ActionMode.Callback {
             true
         }
         R.id.action_main_delete -> {
-            val mSelectedItemCount = mViewModel.getSelectedItemCount() ?: 0
+            val mSelectedItemCount = mViewModel.getSelectedItemCount()
             if (mSelectedItemCount > 0)
                 AlertDialog.Builder(requireContext()).setTitle(R.string.title_alert_warning)
                     .setMessage(
@@ -183,5 +192,4 @@ class GameFragment : Fragment(), ActionMode.Callback {
         mViewModel.setSelectionModeVisible(false)
         mActionMode = null
     }
-
 }

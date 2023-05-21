@@ -2,9 +2,9 @@ package br.com.vicentec12.mygames.di
 
 import br.com.vicentec12.mygames.data.local.AppDatabase
 import br.com.vicentec12.mygames.data.local.source.GameLocalDataSource
-import br.com.vicentec12.mygames.data.repository.GameDataRepository
+import br.com.vicentec12.mygames.data.repository.GameRepositoryImpl
 import br.com.vicentec12.mygames.data.source.GameDataSource
-import br.com.vicentec12.mygames.domain.repository.GameRepository
+import br.com.vicentec12.mygames.data.repository.GameRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -23,7 +23,7 @@ abstract class GameDataModule {
 
     @Binds
     @Singleton
-    abstract fun bindsGameRepository(mRepository: GameDataRepository): GameRepository
+    abstract fun bindsGameRepository(mRepository: GameRepositoryImpl): GameRepository
 
     companion object {
         @Provides

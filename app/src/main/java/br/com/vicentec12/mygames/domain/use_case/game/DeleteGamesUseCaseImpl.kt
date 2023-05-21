@@ -1,9 +1,8 @@
 package br.com.vicentec12.mygames.domain.use_case.game
 
 import br.com.vicentec12.mygames.data.Result
-import br.com.vicentec12.mygames.data.mapper.toEntityList
 import br.com.vicentec12.mygames.domain.model.Game
-import br.com.vicentec12.mygames.domain.repository.GameRepository
+import br.com.vicentec12.mygames.data.repository.GameRepository
 import javax.inject.Inject
 
 class DeleteGamesUseCaseImpl @Inject constructor(

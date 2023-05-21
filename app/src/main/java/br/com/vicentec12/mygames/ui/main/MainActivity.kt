@@ -3,7 +3,6 @@ package br.com.vicentec12.mygames.ui.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity() {
                 MainScreen(
                     appBarTitle = { mAppBarTitle.value },
                     appBarNavigationIconClick = { mNavController?.navigateUp() },
-                    isShownAppBarNavigationIcon = mIsShowAppBarNavigationIcon.value,
+                    isShownAppBarNavigationIcon = { mIsShowAppBarNavigationIcon.value },
                     navController = ::addOnDestinationChangedListener
                 )
             }

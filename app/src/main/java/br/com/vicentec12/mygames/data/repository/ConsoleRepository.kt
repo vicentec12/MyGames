@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.domain.repository
+package br.com.vicentec12.mygames.data.repository
 
 import br.com.vicentec12.mygames.data.Result
 import br.com.vicentec12.mygames.domain.model.Console

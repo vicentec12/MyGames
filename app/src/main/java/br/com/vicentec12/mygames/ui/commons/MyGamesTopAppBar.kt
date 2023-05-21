@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.ui.views
+package br.com.vicentec12.mygames.ui.commons
 
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -13,11 +13,11 @@ import br.com.vicentec12.mygames.extensions.orFalse
 fun MyGamesTopAppBar(
     appBarTitle: () -> String?,
     appBarNavigationIconClick: () -> Unit,
-    isShownAppBarNavigationIcon: Boolean?,
+    isShownAppBarNavigationIcon: () -> Boolean?
 ) {
     TopAppBar(
         title = { Text(text = appBarTitle().orEmpty()) },
-        navigationIcon = if (isShownAppBarNavigationIcon.orFalse()) {
+        navigationIcon = if (isShownAppBarNavigationIcon().orFalse()) {
             { NavigationIcon(appBarNavigationIconClick) }
         } else null
     )

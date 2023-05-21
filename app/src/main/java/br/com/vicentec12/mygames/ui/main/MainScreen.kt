@@ -8,14 +8,14 @@ import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import br.com.vicentec12.mygames.databinding.AppFragmentContainerViewBinding
-import br.com.vicentec12.mygames.ui.views.MyGamesTopAppBar
+import br.com.vicentec12.mygames.ui.commons.MyGamesTopAppBar
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
     appBarTitle: () -> String?,
     appBarNavigationIconClick: () -> Unit,
-    isShownAppBarNavigationIcon: Boolean?,
+    isShownAppBarNavigationIcon: () -> Boolean?,
     navController: (NavController?) -> Unit
 ) {
     Scaffold(

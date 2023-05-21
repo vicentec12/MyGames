@@ -6,15 +6,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.data.local.entities.GameEntity.Companion.COLUMN_NAME
 import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.domain.model.Game
 import br.com.vicentec12.mygames.domain.use_case.game.DeleteGamesUseCase
 import br.com.vicentec12.mygames.domain.use_case.game.ListGamesUseCase
 import br.com.vicentec12.mygames.extensions.error
+import br.com.vicentec12.mygames.extensions.orFalse
+import br.com.vicentec12.mygames.extensions.orZero
 import br.com.vicentec12.mygames.extensions.success
+import br.com.vicentec12.mygames.ui.commons.UiState
 import br.com.vicentec12.mygames.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,6 +31,10 @@ class GameViewModel @Inject constructor(
 ) : ViewModel() {
 
     // Activity
+
+    private val _uiState = MutableStateFlow<UiState<List<Game>>?>(null)
+    val uiState = _uiState.asStateFlow()
+
     private val _orderBy = MutableLiveData<Int>()
 
     private val _games = MutableLiveData<List<Game>>()
@@ -58,12 +68,15 @@ class GameViewModel @Inject constructor(
 
     fun listSavedGames() {
         viewModelScope.launch {
+            _uiState.value = UiState.Loading
             _viewFlipper.value = CHILD_PROGRESS
             mListGamesUseCase(_console.value?.id ?: 0, _orderBy.value ?: COLUMN_NAME).error {
                 _viewFlipper.value = CHILD_TEXT
+                _uiState.value = UiState.Error(R.string.message_games_empty)
             }.success { result ->
                 _viewFlipper.value = CHILD_GAMES
                 _games.value = result.data.orEmpty()
+                _uiState.value = UiState.Success(result.data.orEmpty())
             }
         }
     }
@@ -127,9 +140,9 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    fun getSelectedItemCount() = _selectedItems.value?.size()
+    fun getSelectedItemCount() = selectedItems.value?.size().orZero()
 
-    fun isGameSelected(mPosition: Int) = _selectedItems.value?.get(mPosition) ?: false
+    fun isGameSelected(mPosition: Int) = selectedItems.value?.get(mPosition).orFalse()
 
     fun setOrderBy(orderBy: Int) {
         _orderBy.value = orderBy

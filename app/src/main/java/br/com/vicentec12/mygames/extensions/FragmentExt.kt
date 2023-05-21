@@ -18,9 +18,6 @@ inline fun <T : ViewBinding> Fragment.viewBinding(crossinline bindingInflater: (
 inline fun Fragment.withArgs(argsBundle: Bundle.() -> Unit) =
     apply { arguments = Bundle().apply(argsBundle) }
 
-inline fun <reified T> Fragment.arguments(key: String, fallback: T): Lazy<T> =
-    lazy { this.arguments?.get(key) as? T ?: fallback }
-
 fun Fragment.makeSnackbar(@StringRes message: Int) = makeSnackbar(getString(message))
 
 fun Fragment.makeSnackbar(message: String) = Snackbar.make(requireView(), message, LENGTH_LONG)
