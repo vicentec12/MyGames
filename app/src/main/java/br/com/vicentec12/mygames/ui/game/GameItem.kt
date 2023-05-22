@@ -1,6 +1,7 @@
 package br.com.vicentec12.mygames.ui.game
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,22 +17,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import br.com.vicentec12.mygames.domain.model.Game
 import br.com.vicentec12.mygames.ui.theme.*
 import br.com.vicentec12.mygames.util.OnItemClickListener
+import br.com.vicentec12.mygames.util.OnItemLongClickListener
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GameItem(
     game: Game,
     index: Int,
-    mOnItemClickListener: OnItemClickListener<Game>? = null
+    mOnItemClickListener: OnItemClickListener<Game>? = null,
+    mOnItemLongClickListener: OnItemLongClickListener<Game>? = null
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(
+            .combinedClickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple(bounded = true)
-            ) {
-                mOnItemClickListener?.invoke(game, index)
-            },
+                indication = rememberRipple(bounded = true),
+                onClick = { mOnItemClickListener?.invoke(game, index) },
+                onLongClick = { mOnItemLongClickListener?.invoke(game, index) }
+            ),
         shape = RoundedCornerShape(dimen2x)
     ) {
         Column(

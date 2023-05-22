@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import br.com.vicentec12.mygames.ui.theme.primary
 
 @Composable
-fun Loading() {
+fun LoadingScreen() {
     Column(
         Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,

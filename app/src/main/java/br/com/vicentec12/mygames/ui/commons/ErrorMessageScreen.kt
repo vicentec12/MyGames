@@ -17,7 +17,7 @@ import br.com.vicentec12.mygames.ui.theme.MyGamesTheme
 import br.com.vicentec12.mygames.ui.theme.dimen8x
 
 @Composable
-fun ErrorMessage(
+fun ErrorMessageScreen(
     @StringRes message: Int
 ) {
     Column(
@@ -38,6 +38,6 @@ fun ErrorMessage(
 @Composable
 fun ErrorMessagePreview() {
     MyGamesTheme {
-        ErrorMessage(R.string.error_message_empty_field)
+        ErrorMessageScreen(R.string.error_message_empty_field)
     }
 }

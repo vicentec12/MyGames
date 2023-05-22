@@ -2,13 +2,10 @@ package br.com.vicentec12.mygames.ui.console
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -17,13 +14,11 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.domain.model.Console
-import br.com.vicentec12.mygames.ui.commons.Loading
+import br.com.vicentec12.mygames.ui.commons.LoadingScreen
 import br.com.vicentec12.mygames.ui.theme.*
 import br.com.vicentec12.mygames.util.FunctionEmpty
 import br.com.vicentec12.mygames.util.OnItemClickListener
@@ -59,7 +54,7 @@ fun ConsoleContent(
             uiState = uiState,
             mOnItemClick = mOnItemClick
         )
-        is ConsoleViewModel.UiState.Loading -> Loading()
+        is ConsoleViewModel.UiState.Loading -> LoadingScreen()
         else -> {}
     }
 }

@@ -45,7 +45,11 @@ class GameFragment : Fragment(), ActionMode.Callback {
     ) = ComposeView(requireContext()).apply {
         setContent {
             val uiState = mViewModel.uiState.collectAsState()
-            GameScreen(mUiState = uiState.value, mOnItemClickListener = ::onItemCLick)
+            GameScreen(
+                mUiState = uiState.value,
+                mOnItemClickListener = ::onItemCLick,
+                mOnItemLongClickListener = { _, position -> onItemLongCLick(position) }
+            )
         }
     }
 
@@ -119,7 +123,7 @@ class GameFragment : Fragment(), ActionMode.Callback {
             }
             hasActionModeFinish.observe(viewLifecycleOwner) { mHasActionModeFinish ->
                 if (mHasActionModeFinish.contentIfNotHandled == true)
-                    mActionMode!!.finish()
+                    mActionMode?.finish()
             }
             setConsole(mArgs.console)
             listSavedGames()

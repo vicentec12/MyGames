@@ -11,36 +11,49 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import br.com.vicentec12.mygames.domain.model.Game
-import br.com.vicentec12.mygames.ui.commons.ErrorMessage
-import br.com.vicentec12.mygames.ui.commons.Loading
+import br.com.vicentec12.mygames.ui.commons.ErrorMessageScreen
+import br.com.vicentec12.mygames.ui.commons.LoadingScreen
 import br.com.vicentec12.mygames.ui.commons.UiState
 import br.com.vicentec12.mygames.ui.theme.MyGamesTheme
 import br.com.vicentec12.mygames.ui.theme.backgroundRecycler
 import br.com.vicentec12.mygames.ui.theme.dimen4x
 import br.com.vicentec12.mygames.util.OnItemClickListener
+import br.com.vicentec12.mygames.util.OnItemLongClickListener
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun GameScreen(
     mUiState: UiState<List<Game>>?,
-    mOnItemClickListener: OnItemClickListener<Game>? = null
+    mOnItemClickListener: OnItemClickListener<Game>? = null,
+    mOnItemLongClickListener: OnItemLongClickListener<Game>? = null
 ) {
     Scaffold(
         backgroundColor = backgroundRecycler,
-        content = { GameContent(mUiState = mUiState, mOnItemClickListener) }
+        content = {
+            GameContent(
+                mUiState = mUiState,
+                mOnItemClickListener = mOnItemClickListener,
+                mOnItemLongClickListener = mOnItemLongClickListener
+            )
+        }
     )
 }
 
 @Composable
 fun GameContent(
     mUiState: UiState<List<Game>>?,
-    mOnItemClickListener: OnItemClickListener<Game>? = null
+    mOnItemClickListener: OnItemClickListener<Game>? = null,
+    mOnItemLongClickListener: OnItemLongClickListener<Game>? = null
 ) {
     mUiState?.also {
         when (it) {
-            is UiState.Loading -> Loading()
-            is UiState.Success -> GameList(it.data, mOnItemClickListener)
-            is UiState.Error -> ErrorMessage(message = it.message)
+            is UiState.Loading -> LoadingScreen()
+            is UiState.Success -> GameList(
+                games = it.data,
+                mOnItemClickListener = mOnItemClickListener,
+                mOnItemLongClickListener = mOnItemLongClickListener
+            )
+            is UiState.Error -> ErrorMessageScreen(message = it.message)
         }
     }
 }
@@ -48,7 +61,8 @@ fun GameContent(
 @Composable
 fun GameList(
     games: List<Game>,
-    mOnItemClickListener: OnItemClickListener<Game>? = null
+    mOnItemClickListener: OnItemClickListener<Game>? = null,
+    mOnItemLongClickListener: OnItemLongClickListener<Game>? = null
 ) {
     LazyColumn(
         modifier = Modifier
@@ -60,7 +74,12 @@ fun GameList(
             items = games,
             key = { _, game -> game.id }
         ) { index, game ->
-            GameItem(game = game, index = index, mOnItemClickListener = mOnItemClickListener)
+            GameItem(
+                game = game,
+                index = index,
+                mOnItemClickListener = mOnItemClickListener,
+                mOnItemLongClickListener = mOnItemLongClickListener
+            )
         }
     }
 }
@@ -69,9 +88,13 @@ fun GameList(
 @Preview(showBackground = true)
 fun GameScreenPreview() {
     MyGamesTheme {
-        GameContent(mUiState = UiState.Success(listOf(
-            Game(1, "The Legend of Zelda", "1986", 1),
-            Game(2, "The Legend of Zelda 2", "1988", 1)
-        )))
+        GameContent(
+            mUiState = UiState.Success(
+                listOf(
+                    Game(1, "The Legend of Zelda", "1986", 1),
+                    Game(2, "The Legend of Zelda 2", "1988", 1)
+                )
+            )
+        )
     }
 }
