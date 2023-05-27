@@ -6,42 +6,22 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.navigation.NavController
+import androidx.compose.ui.viewinterop.AndroidViewBinding
+import br.com.vicentec12.mygames.databinding.AppFragmentContainerViewBinding
 import br.com.vicentec12.mygames.ui.theme.MyGamesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val mViewModel: MainViewModel by viewModels()
-
-    private var mNavController: NavController? = null
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MyGamesTheme {
-                val mAppBarTitle = mViewModel.appBarTitle.observeAsState()
-                val mIsShowAppBarNavigationIcon =
-                    mViewModel.isShownAppBarNavigationIcon.observeAsState()
-                MainScreen(
-                    appBarTitle = { mAppBarTitle.value },
-                    appBarNavigationIconClick = { mNavController?.navigateUp() },
-                    isShownAppBarNavigationIcon = { mIsShowAppBarNavigationIcon.value },
-                    navController = ::addOnDestinationChangedListener
-                )
+                AndroidViewBinding(AppFragmentContainerViewBinding::inflate)
             }
-        }
-    }
-
-    private fun addOnDestinationChangedListener(navController: NavController?) {
-        mNavController = navController
-        mNavController?.addOnDestinationChangedListener { controller, dest, _ ->
-            mViewModel.configAppBar(
-                dest.label.toString(),
-                controller.previousBackStackEntry != null
-            )
         }
     }
 

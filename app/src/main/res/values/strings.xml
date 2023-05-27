@@ -89,6 +89,7 @@
     </string-array>
 
     <!-- Accessibility -->
-    <string name="content_description_console_image">Imagem do console.</string>
+    <string name="content_description_console_image">Imagem do console</string>
+    <string name="content_description_order_by">Ordenar por</string>
 
 </resources>

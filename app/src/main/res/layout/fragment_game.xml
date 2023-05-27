@@ -21,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inAnimation="@android:anim/fade_in"
-            app:displayedChild="@{viewModel.viewFlipper}"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <ProgressBar
@@ -35,7 +34,6 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:paddingBottom="@dimen/activity_with_fab_spacing"
-                app:items="@{viewModel.games}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_game" />
 

@@ -15,10 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.ui.commons.LoadingScreen
+import br.com.vicentec12.mygames.ui.commons.MyGamesTopAppBar
 import br.com.vicentec12.mygames.ui.theme.*
 import br.com.vicentec12.mygames.util.FunctionEmpty
 import br.com.vicentec12.mygames.util.OnItemClickListener
@@ -31,6 +35,7 @@ fun ConsoleScreen(
     mFabOnClick: FunctionEmpty? = null
 ) {
     Scaffold(
+        topBar = { ConsoleTopBar() },
         backgroundColor = backgroundRecycler,
         floatingActionButton = {
             FloatingActionButton(
@@ -41,6 +46,13 @@ fun ConsoleScreen(
             }
         },
         content = { ConsoleContent(mUiState, mOnItemClick) }
+    )
+}
+
+@Composable
+fun ConsoleTopBar( ) {
+    MyGamesTopAppBar(
+        appBarTitle = { LocalContext.current.getString(R.string.app_name) }
     )
 }
 

@@ -1,8 +1,6 @@
 package br.com.vicentec12.mygames.ui.game
 
 import android.util.SparseBooleanArray
-import androidx.core.util.forEach
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,12 +10,8 @@ import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.domain.model.Game
 import br.com.vicentec12.mygames.domain.use_case.game.DeleteGamesUseCase
 import br.com.vicentec12.mygames.domain.use_case.game.ListGamesUseCase
-import br.com.vicentec12.mygames.extensions.error
-import br.com.vicentec12.mygames.extensions.orFalse
-import br.com.vicentec12.mygames.extensions.orZero
-import br.com.vicentec12.mygames.extensions.success
+import br.com.vicentec12.mygames.extensions.*
 import br.com.vicentec12.mygames.ui.commons.UiState
-import br.com.vicentec12.mygames.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,45 +31,25 @@ class GameViewModel @Inject constructor(
 
     private val _orderBy = MutableLiveData<Int>()
 
-    private val _games = MutableLiveData<List<Game>>()
-    val games: LiveData<List<Game>> = _games
+    private val _message = MutableStateFlow<Int?>(null)
+    val message = _message.asStateFlow()
 
-    private val _console = MutableLiveData<Console>()
-    val console: LiveData<Console> = _console
-
-    private val _viewFlipper = MutableLiveData<Int>()
-    val viewFlipper: LiveData<Int> = _viewFlipper
-
-    private val _message = MutableLiveData<Event<Int>>()
-    val message: LiveData<Event<Int>> = _message
-
-    private val _pluralMessage = MutableLiveData<Event<Pair<Int, Int>>>()
-    val pluralMessage: LiveData<Event<Pair<Int, Int>>> = _pluralMessage
-
-    private val _hasActionModeFinish = MutableLiveData<Event<Boolean>>()
-    val hasActionModeFinish: LiveData<Event<Boolean>> = _hasActionModeFinish
+    private val _pluralMessage = MutableStateFlow<Pair<Int, Int>?>(null)
+    val pluralMessage = _pluralMessage.asStateFlow()
 
     // Adapter
-    private val _selectionMode = MutableLiveData(false)
-    val selectionMode: LiveData<Boolean> = _selectionMode
+    private val _selectionMode = MutableStateFlow(false)
+    val selectionMode = _selectionMode.asStateFlow()
 
-    private val _selectedItems = MutableLiveData<SparseBooleanArray>()
-    val selectedItems: LiveData<SparseBooleanArray> = _selectedItems
+    private val _selectedItems = MutableStateFlow<SparseBooleanArray?>(null)
+    val selectedItems = _selectedItems.asStateFlow()
 
-    fun setConsole(mConsole: Console) {
-        _console.value = mConsole
-    }
-
-    fun listSavedGames() {
+    fun listSavedGames(mConsole: Console) {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
-            _viewFlipper.value = CHILD_PROGRESS
-            mListGamesUseCase(_console.value?.id ?: 0, _orderBy.value ?: COLUMN_NAME).error {
-                _viewFlipper.value = CHILD_TEXT
+            mListGamesUseCase(mConsole.id, _orderBy.value.orValue(COLUMN_NAME)).error {
                 _uiState.value = UiState.Error(R.string.message_games_empty)
             }.success { result ->
-                _viewFlipper.value = CHILD_GAMES
-                _games.value = result.data.orEmpty()
                 _uiState.value = UiState.Success(result.data.orEmpty())
             }
         }
@@ -84,59 +58,54 @@ class GameViewModel @Inject constructor(
     fun deleteGames() = viewModelScope.launch {
         val selectedGames = getSelectedGames()
         mDeleteGamesUseCase(selectedGames).error { mResult ->
-            _message.value = Event(mResult.message)
+            _message.value = mResult.message
         }.success { mResult ->
-            _games.value?.let { listGames ->
+            getGameList().also { listGames ->
                 val newList = ArrayList(listGames)
-                newList.removeAll(selectedGames)
-                if (newList.isEmpty())
-                    _viewFlipper.value = CHILD_TEXT
-                _games.value = newList
-                _pluralMessage.value = Event(mResult.message to (mResult.data ?: 0))
-                _hasActionModeFinish.value = Event(true)
+                newList.removeAll(selectedGames.toSet())
+                if (newList.isEmpty()) {
+                    _uiState.value = UiState.Error(R.string.message_games_empty)
+                } else {
+                    _uiState.value = UiState.Success(newList)
+                }
+                _pluralMessage.value = mResult.message to mResult.data.orZero()
+                finishSelectionMode()
             }
         }
     }
 
-    private fun getSelectedGames(): List<Game> {
-        val selectedGames = ArrayList<Game>()
-        _selectedItems.value?.forEach { key, _ ->
-            _games.value?.get(key)?.let { game -> selectedGames.add(game) }
-        }
-        return selectedGames
+    private fun getSelectedGames() = getGameList().filterIndexed { index, _ ->
+        _selectedItems.value?.get(index).orFalse()
     }
 
-    fun clearSelection() {
-        _selectedItems.value?.let { selections ->
-            selections.clear()
-            _selectedItems.value = selections
-        }
+    fun initSelectionMode(mPosition: Int) {
+        _selectionMode.value = true
+        select(mPosition)
     }
 
-    fun setSelectionModeVisible(isSelectionModeVisible: Boolean) {
-        _selectionMode.value = isSelectionModeVisible
+    fun finishSelectionMode() {
+        _selectionMode.value = false
+        _selectedItems.value = null
     }
 
     fun select(mPosition: Int) {
         if (_selectedItems.value == null)
             _selectedItems.value = SparseBooleanArray()
-        _selectedItems.value?.let { selections ->
-            if (selections.get(mPosition, false))
-                selections.delete(mPosition)
+        _selectedItems.value = _selectedItems.value?.clone()?.apply {
+            if (get(mPosition, false))
+                delete(mPosition)
             else
-                selections.put(mPosition, true)
-            _selectedItems.value = selections
+                put(mPosition, true)
         }
     }
 
     fun selectAll() {
-        _selectedItems.value?.let { selections ->
-            val hasAllSelected = _games.value?.size == selections.size()
-            selections.clear()
+        _selectedItems.value = _selectedItems.value?.clone()?.apply {
+            val hasAllSelected = getGameList().size == size()
+            clear()
             if (!hasAllSelected) {
-                _games.value?.forEachIndexed { index, _ -> selections.put(index, true) }
+                getGameList().forEachIndexed { index, _ -> put(index, true) }
             }
-            _selectedItems.value = selections
         }
     }
 
@@ -147,6 +116,16 @@ class GameViewModel @Inject constructor(
     fun setOrderBy(orderBy: Int) {
         _orderBy.value = orderBy
     }
+
+    fun messageShown() {
+        _message.value = null
+    }
+
+    fun pluralMessageShown() {
+        _pluralMessage.value = null
+    }
+
+    private fun getGameList() = (_uiState.value as? UiState.Success)?.data.orEmpty()
 
     companion object {
         private const val CHILD_PROGRESS = 0
