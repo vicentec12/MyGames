@@ -7,13 +7,12 @@ import br.com.vicentec12.mygames.data.mapper.toModelList
 import br.com.vicentec12.mygames.data.source.ConsoleDataSource
 import br.com.vicentec12.mygames.di.Local
 import br.com.vicentec12.mygames.domain.model.Console
-import br.com.vicentec12.mygames.domain.repository.ConsoleRepository
 import br.com.vicentec12.mygames.extensions.map
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ConsoleDataRepository @Inject constructor(
+class ConsoleRepositoryImpl @Inject constructor(
     @Local val consoleLocalDataSource: ConsoleDataSource
 ) : ConsoleRepository {
 

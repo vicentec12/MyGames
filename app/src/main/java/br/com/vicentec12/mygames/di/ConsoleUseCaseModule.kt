@@ -27,5 +27,4 @@ abstract class ConsoleUseCaseModule {
     @ViewModelScoped
     abstract fun bindDeleteAllConsolesUseCase(mUseCase: DeleteAllConsolesUseCaseImpl): DeleteAllConsolesUseCase
 
-
 }

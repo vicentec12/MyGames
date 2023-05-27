@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -32,7 +33,7 @@ fun ConsoleItem(
 ) {
     val gamesCount = mConsole.games?.size.orZero()
     Card(
-        shape = RoundedCornerShape(smallDimen),
+        shape = RoundedCornerShape(dimen4x),
         modifier = Modifier.clickable(
             interactionSource = remember { MutableInteractionSource() },
             indication = rememberRipple(bounded = true)
@@ -41,27 +42,27 @@ fun ConsoleItem(
         }
     ) {
         Column(
-            modifier = Modifier.padding(defaultDimen),
+            modifier = Modifier.padding(dimen8x),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
                 painter = painterResource(id = mConsole.image),
-                contentDescription = "Imagem do console.",
+                contentDescription = LocalContext.current.getString(R.string.content_description_console_image),
                 modifier = Modifier.size(itemConsoleItemHeightDimen)
             )
             Text(
                 text = mConsole.name,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = verySmallDimen),
+                    .padding(top = dimen2x),
                 textAlign = TextAlign.Center,
-                style = titleText
+                style = TitleText
             )
             Text(
                 text = pluralStringResource(R.plurals.plural_games, gamesCount, gamesCount),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                style = subtitleText
+                style = SubtitleText
             )
         }
     }

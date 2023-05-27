@@ -2,9 +2,9 @@ package br.com.vicentec12.mygames.di
 
 import br.com.vicentec12.mygames.data.local.AppDatabase
 import br.com.vicentec12.mygames.data.local.source.ConsoleLocalDataSource
-import br.com.vicentec12.mygames.data.repository.ConsoleDataRepository
+import br.com.vicentec12.mygames.data.repository.ConsoleRepositoryImpl
 import br.com.vicentec12.mygames.data.source.ConsoleDataSource
-import br.com.vicentec12.mygames.domain.repository.ConsoleRepository
+import br.com.vicentec12.mygames.data.repository.ConsoleRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -23,7 +23,7 @@ abstract class ConsoleDataModule {
 
     @Binds
     @Singleton
-    abstract fun bindsConsoleRepository(mRepository: ConsoleDataRepository): ConsoleRepository
+    abstract fun bindsConsoleRepository(mRepository: ConsoleRepositoryImpl): ConsoleRepository
 
     companion object {
         @Provides

@@ -6,7 +6,7 @@ import androidx.navigation.navOptions
 import br.com.vicentec12.mygames.R
 
 fun NavController.navigateWithAnim(directions: NavDirections) {
-    navigate(directions, getDefaultAnimationOptions())
+    navigate(directions)
 }
 
 fun NavController.getDefaultAnimationOptions() = navOptions {

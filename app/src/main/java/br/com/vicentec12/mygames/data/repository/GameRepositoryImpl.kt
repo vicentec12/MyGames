@@ -6,13 +6,12 @@ import br.com.vicentec12.mygames.data.mapper.toModelList
 import br.com.vicentec12.mygames.data.source.GameDataSource
 import br.com.vicentec12.mygames.di.Local
 import br.com.vicentec12.mygames.domain.model.Game
-import br.com.vicentec12.mygames.domain.repository.GameRepository
 import br.com.vicentec12.mygames.extensions.map
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class GameDataRepository @Inject constructor(
+class GameRepositoryImpl @Inject constructor(
     @Local val gameLocalDataSource: GameDataSource
 ) : GameRepository {
 

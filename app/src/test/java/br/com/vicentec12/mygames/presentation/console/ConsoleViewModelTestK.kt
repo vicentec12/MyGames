@@ -6,7 +6,7 @@ import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.data.local.entities.ConsoleEntity
 import br.com.vicentec12.mygames.data.local.entities.ConsoleWithGamesEntity
 import br.com.vicentec12.mygames.data.local.entities.GameEntity
-import br.com.vicentec12.mygames.data.repository.ConsoleDataRepository
+import br.com.vicentec12.mygames.data.repository.ConsoleRepositoryImpl
 import br.com.vicentec12.mygames.ui.console.ConsoleViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -33,7 +33,7 @@ class ConsoleViewModelTestK {
     lateinit var mMessageLiveDataObserver: Observer<Int>
 
     @Mock
-    lateinit var mConsoleRepository: ConsoleDataRepository
+    lateinit var mConsoleRepository: ConsoleRepositoryImpl
 
     @InjectMocks
     lateinit var mConsoleViewModel: ConsoleViewModel
@@ -63,7 +63,7 @@ class ConsoleViewModelTestK {
         // Arrange
         val message = R.string.message_consoles_listed
 //        mConsoleViewModel.consoles.observeForever(mConsolesLiveDataObserver)
-        mConsoleViewModel.viewFlipperChild.observeForever(mViewFLipperLiveDataObserver)
+//        mConsoleViewModel.viewFlipperChild.observeForever(mViewFLipperLiveDataObserver)
 
         // Act
         mConsoleViewModel.listConsoles()
