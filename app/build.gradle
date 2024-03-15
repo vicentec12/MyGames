@@ -9,13 +9,13 @@ plugins {
 
 android {
 
-    compileSdkVersion 33
+    compileSdk 34
     buildToolsVersion '30.0.3'
 
     defaultConfig {
         applicationId "br.com.vicentec12.mygames"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 2
         versionName "1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -43,7 +43,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.3'
+        kotlinCompilerExtensionVersion = "1.4.8"
     }
 
     buildFeatures {
@@ -74,15 +74,15 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.1'
 
-    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    def compose_BoM_version = '2023.01.00'
+    def compose_BoM_version = '2024.02.02'
     implementation platform("androidx.compose:compose-bom:$compose_BoM_version")
-    implementation "androidx.compose.material:material"
+    implementation "androidx.compose.material3:material3"
     implementation "androidx.compose.animation:animation"
     implementation "androidx.compose.ui:ui-tooling"
     implementation "androidx.compose.ui:ui-viewbinding"
+    implementation "androidx.compose.runtime:runtime"
     implementation "androidx.compose.runtime:runtime-livedata"
     testImplementation "androidx.compose.ui:ui-test-junit4"
 

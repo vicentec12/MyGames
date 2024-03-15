@@ -6,12 +6,8 @@
 
     <fragment
         android:id="@+id/console_fragment"
-        android:name="br.com.vicentec12.mygames.ui.console.ConsoleFragment"
+        android:name="br.com.vicentec12.mygames.presentation.ui.console.ConsoleFragment"
         android:label="@string/title_main">
-
-        <action
-            android:id="@+id/navigate_add_game"
-            app:destination="@id/add_game_fragment" />
 
         <action
             android:id="@+id/navigate_game"
@@ -21,27 +17,17 @@
 
     <fragment
         android:id="@+id/add_game_fragment"
-        android:name="br.com.vicentec12.mygames.ui.add_game.AddGameFragment"
-        android:label="@string/title_add_games">
-        <argument
-            android:name="selected_game"
-            app:argType="br.com.vicentec12.mygames.domain.model.Game"
-            app:nullable="false" />
-    </fragment>
+        android:name="br.com.vicentec12.mygames.presentation.ui.add_game.AddGameFragment"
+        android:label="@string/title_add_games" />
 
     <fragment
         android:id="@+id/game_fragment"
-        android:name="br.com.vicentec12.mygames.ui.game.GameFragment"
+        android:name="br.com.vicentec12.mygames.presentation.ui.game.GameFragment"
         android:label="@string/title_main">
 
         <action
             android:id="@+id/navigate_add_game"
             app:destination="@id/add_game_fragment" />
-
-        <argument
-            android:name="console"
-            app:argType="br.com.vicentec12.mygames.domain.model.Console"
-            app:nullable="false" />
 
     </fragment>
 

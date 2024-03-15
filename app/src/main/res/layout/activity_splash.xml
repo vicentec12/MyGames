@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/default_spacing"
-    tools:context=".ui.splash.SplashActivity">
+    tools:context=".presentation.ui.splash.SplashActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivw_app_icon"

@@ -5,10 +5,6 @@
 
         <import type="br.com.vicentec12.mygames.R" />
 
-        <variable
-            name="viewModel"
-            type="br.com.vicentec12.mygames.ui.add_game.AddGameViewModel" />
-
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -41,8 +37,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
-                        android:inputType="textCapWords"
-                        android:text="@={viewModel.game.name}" />
+                        android:inputType="textCapWords" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,8 +53,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="4"
-                        android:text="@={viewModel.game.year}" />
+                        android:maxLength="4" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,9 +68,7 @@
                     style="@style/Widget.AppCompat.Spinner.Underlined"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:spinnerMode="dialog"
-                    app:items="@{viewModel.consoles}"
-                    app:selection="@={viewModel.game.consoleId}" />
+                    android:spinnerMode="dialog" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -90,7 +82,6 @@
             android:layout_margin="@dimen/default_spacing"
             android:contentDescription="@string/description_save_update_game"
             app:backgroundTint="@color/colorPrimary"
-            app:srcVector="@{viewModel.game.id == 0 ? R.drawable.ic_save : R.drawable.ic_edit}"
             app:tint="@android:color/white" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

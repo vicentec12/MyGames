@@ -30,5 +30,4 @@ abstract class GameDataModule {
         @Singleton
         fun providesGameDao(appDatabase: AppDatabase) = appDatabase.getGameDao()
     }
-
 }

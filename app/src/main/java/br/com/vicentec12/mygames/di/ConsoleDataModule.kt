@@ -30,5 +30,4 @@ abstract class ConsoleDataModule {
         @Singleton
         fun provideConsoleDao(appDatabase: AppDatabase) = appDatabase.getConsoleDao()
     }
-
 }

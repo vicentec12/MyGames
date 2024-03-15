@@ -18,5 +18,4 @@ object DataModule {
     fun providesAppDatabase(app: Application) = Room.databaseBuilder(
         app.applicationContext, AppDatabase::class.java, AppDatabase.DATABASE_NAME
     ).build()
-
 }

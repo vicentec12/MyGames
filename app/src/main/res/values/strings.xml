@@ -9,6 +9,9 @@
     <string name="text_select_all">Selecionar tudo</string>
     <string name="text_console">Console</string>
     <string name="text_select">Selecione</string>
+    <string name="text_my_games">Meus jogos</string>
+    <string name="text_back">Voltar</string>
+
 
     <!-- Screen Titles -->
     <string name="title_add_games">Adicionar Jogo</string>
@@ -47,8 +50,8 @@
     <string name="message_console_deleted">Console excluído com sucesso!</string>
 
     <!-- Error Messages -->
-    <string name="error_message_empty_field">Por favor, preencha o campo \"%s\".</string>
-    <string name="error_message_invalid_date">A data informada é inválida.</string>
+    <string name="error_message_empty_field">Por favor, preencha este campo.</string>
+    <string name="error_message_invalid_year">O ano informado é inválido.</string>
     <string name="error_message_invalid_time">O horário informado é inválido.</string>
     <string name="error_message_invalid_cpf">O CPF informado é inválido.</string>
     <string name="error_message_invalid_cnpj">O CNPJ informado é inválido.</string>
