@@ -47,12 +47,14 @@ class GameFragment : Fragment(), ActionMode.Callback {
                 onItemClickListener = ::onItemClick,
                 onItemLongClickListener = { _, position -> onItemLongClick(position) },
                 onItemOrderByClick = ::onItemOrderByClick,
-                onClickFab = ::navigateToAddGame
+                onClickFab = ::navigateToAddGame,
+                showSnackbar = {
+                    getSnackBarPluralMessage(pluralMessage.value)
+                        ?: getSnackBarMessage(message.value)
+                }
             )
             setupActionMode(isSelectionMode.value)
             setTitleActionMode(selectedItems.value)
-            showSnackBarMessage(message.value)
-            showSnackBarPluralMessage(pluralMessage.value)
         }
     }
 
@@ -91,21 +93,34 @@ class GameFragment : Fragment(), ActionMode.Callback {
             }.show()
     }
 
-    private fun showSnackBarMessage(mMessage: Int?) {
-        if (mMessage != null) {
-            makeSnackbar(mMessage).show()
-            mViewModel.messageShown()
+    private fun getSnackBarMessage(pluralMessage: Pair<Int, Int>?, message: String?) {
+        if (pluralMessage != null) {
+
         }
+        pluralMessage?.let {
+            mViewModel.pluralMessageShown()
+
+        } ?: message.orEmpty()
     }
 
-    private fun showSnackBarPluralMessage(mMessage: Pair<Int, Int>?) {
+    private fun getSnackBarMessage(mMessage: Int?) =
         if (mMessage != null) {
-            makeSnackbar(
-                resources.getQuantityString(mMessage.first, mMessage.second, mMessage.second)
-            ).show()
-            mViewModel.pluralMessageShown()
+            val messageValue = getString(mMessage)
+            mViewModel.messageShown()
+            messageValue
+        } else {
+            null
         }
-    }
+
+    private fun getSnackBarPluralMessage(message: Pair<Int, Int>?) =
+        if (message != null) {
+            val messageValue =
+                resources.getQuantityString(message.first, message.second, message.second)
+            mViewModel.pluralMessageShown()
+            messageValue
+        } else {
+            null
+        }
 
     private fun setupActionMode(isActionMode: Boolean) {
         if (isActionMode) {

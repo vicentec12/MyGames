@@ -14,7 +14,12 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -38,6 +43,7 @@ import br.com.vicentec12.mygames.util.FunctionEmpty
 import br.com.vicentec12.mygames.util.FunctionReturn
 import br.com.vicentec12.mygames.util.OnItemClickListener
 import br.com.vicentec12.mygames.util.OnItemLongClickListener
+import kotlinx.coroutines.launch
 
 @Composable
 fun GameScreen(
@@ -48,8 +54,19 @@ fun GameScreen(
     onItemClickListener: OnItemClickListener<Game>? = null,
     onItemLongClickListener: OnItemLongClickListener<Game>? = null,
     onItemOrderByClick: FunctionEmpty = { },
-    onClickFab: FunctionEmpty? = null
+    onClickFab: FunctionEmpty? = null,
+    showSnackbar: FunctionReturn<String?> = { null }
 ) {
+    val scope = rememberCoroutineScope()
+    val mSnackbarHostState = remember { SnackbarHostState() }
+    val message = showSnackbar()
+    println("Mensagem: $message")
+    if (message.orEmpty().isNotEmpty()) {
+        println("Mensagem: $message")
+        LaunchedEffect(mSnackbarHostState) {
+            scope.launch { mSnackbarHostState.showSnackbar(message.orEmpty()) }
+        }
+    }
     Scaffold(
         topBar = {
             GameTopBar(
@@ -58,6 +75,7 @@ fun GameScreen(
             )
         },
         containerColor = backgroundRecycler,
+        snackbarHost = { SnackbarHost(hostState = mSnackbarHostState) },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { onClickFab?.invoke() }
