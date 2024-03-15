@@ -7,7 +7,7 @@ import br.com.vicentec12.mygames.data.local.entities.ConsoleEntity
 import br.com.vicentec12.mygames.data.local.entities.ConsoleWithGamesEntity
 import br.com.vicentec12.mygames.data.local.entities.GameEntity
 import br.com.vicentec12.mygames.data.repository.ConsoleRepositoryImpl
-import br.com.vicentec12.mygames.ui.console.ConsoleViewModel
+import br.com.vicentec12.mygames.presentation.ui.console.ConsoleViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="br.com.vicentec12.mygames.ui.game.GameViewModel" />
+            type="br.com.vicentec12.mygames.presentation.ui.game.GameViewModel" />
 
         <variable
             name="position"

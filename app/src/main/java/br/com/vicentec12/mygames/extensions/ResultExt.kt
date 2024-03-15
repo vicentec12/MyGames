@@ -8,22 +8,24 @@ import br.com.vicentec12.mygames.data.Result
 
 /**
  * Return error if this happens.
- * @param function body with error param
+ * @param body: function with error param
  * @return same object
  */
 fun <R> Result<R>.error(body: (Result.Error) -> Unit): Result<R> {
-    if (this is Result.Error)
+    if (this is Result.Error) {
         body(this)
+    }
     return this
 }
 
 /**
  * Return success if this happens.
- * @param function body with success param and data
+ * @param body: function with success param and data
  */
 fun <R> Result<R>.success(body: (Result.Success<R>) -> Unit) {
-    if (this is Result.Success)
+    if (this is Result.Success) {
         body(this)
+    }
 }
 
 /**
@@ -31,9 +33,8 @@ fun <R> Result<R>.success(body: (Result.Success<R>) -> Unit) {
  * @param body: map function body
  * @return Result.Success mapped
  */
-fun <R, T> Result.Success<R>.map(body: (R?) -> T): Result.Success<T> {
-    return Result.Success(body(this.data), this.message)
-}
+fun <R, T> Result.Success<R>.map(body: (R?) -> T): Result.Success<T> =
+    Result.Success(body(this.data), this.message)
 
 /**
  * Return @{Result} mapped object.
@@ -41,9 +42,9 @@ fun <R, T> Result.Success<R>.map(body: (R?) -> T): Result.Success<T> {
  * @return Result mapped
  */
 @Suppress("UNCHECKED_CAST")
-fun <R, T> Result<R>.map(body: (R?) -> T): Result<T> {
-    return when (this) {
+fun <R, T> Result<R>.map(body: (R?) -> T): Result<T> =
+    when (this) {
         is Result.Success -> this.map(body)
         else -> this as Result<T>
     }
-}
+

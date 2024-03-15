@@ -30,5 +30,4 @@ abstract class GameUseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bindDeleteAllGamesUseCase(mUseCase: DeleteAllGamesUseCaseImpl): DeleteAllGamesUseCase
-
 }
