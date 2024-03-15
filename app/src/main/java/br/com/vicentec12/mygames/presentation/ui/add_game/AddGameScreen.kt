@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons.Filled
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -34,7 +34,8 @@ import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.domain.model.Game
 import br.com.vicentec12.mygames.extensions.EMPTY
 import br.com.vicentec12.mygames.extensions.orZero
-import br.com.vicentec12.mygames.presentation.commons.MyGamesTopAppBar
+import br.com.vicentec12.mygames.presentation.components.MyGamesOutlinedTextField
+import br.com.vicentec12.mygames.presentation.components.MyGamesTopAppBar
 import br.com.vicentec12.mygames.presentation.theme.MyGamesTheme
 import br.com.vicentec12.mygames.presentation.theme.dimen0x
 import br.com.vicentec12.mygames.presentation.theme.dimen4x
@@ -42,20 +43,21 @@ import br.com.vicentec12.mygames.presentation.theme.dimen8x
 import br.com.vicentec12.mygames.util.FunctionReturn
 import kotlinx.coroutines.launch
 
-const val YEAR_SIZE = 4
+const val YEAR_LENGTH = 4
 
 @Composable
 fun AddGameScreen(
-    mNavController: NavController? = null,
+    navController: NavController? = null,
     mGame: Game? = null,
     consoleSelected: Console? = null,
-    mTitle: String = String.EMPTY,
+    title: String = String.EMPTY,
     onClickFab: ((Game?, String, String, Long) -> Unit)? = null,
     successInsert: FunctionReturn<Boolean> = { false },
     nameFieldError: FunctionReturn<String> = { String.EMPTY },
+    yearFieldError: FunctionReturn<String> = { String.EMPTY },
     showSnackbar: FunctionReturn<String?> = { null }
 ) {
-    val mScope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
     val mSnackbarHostState = remember { SnackbarHostState() }
     val name = remember { mutableStateOf(mGame?.name.orEmpty()) }
     val year = remember { mutableStateOf(mGame?.year.orEmpty()) }
@@ -68,23 +70,17 @@ fun AddGameScreen(
     }
     if (message.orEmpty().isNotEmpty()) {
         LaunchedEffect(mSnackbarHostState) {
-            mScope.launch {
-                println("Mensagem: ${message?.isNotEmpty()}")
-                println("Mensagem: $message")
-                mSnackbarHostState.showSnackbar(message.orEmpty())
-            }
+            scope.launch { mSnackbarHostState.showSnackbar(message.orEmpty()) }
         }
     }
     Scaffold(
         topBar = {
             AddGameTopBar(
-                navController = mNavController,
-                title = mTitle
+                navController = navController,
+                title = title
             )
         },
-        snackbarHost = {
-            SnackbarHost(hostState = mSnackbarHostState)
-        },
+        snackbarHost = { SnackbarHost(hostState = mSnackbarHostState) },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
@@ -97,7 +93,7 @@ fun AddGameScreen(
                 }
             ) {
                 Icon(
-                    imageVector = if (mGame != null) Filled.Edit else Filled.Add,
+                    imageVector = if (mGame != null) Filled.Edit else Filled.Check,
                     contentDescription = String.EMPTY,
                     tint = Color.White
                 )
@@ -110,6 +106,7 @@ fun AddGameScreen(
             year = year,
             consoleSelected = consoleSelected,
             nameFieldError = nameFieldError(),
+            yearFieldError = yearFieldError(),
             focusRequester = focusRequester
         )
     }
@@ -133,6 +130,7 @@ fun AddGameContent(
     year: MutableState<String>? = null,
     consoleSelected: Console? = null,
     nameFieldError: String = String.EMPTY,
+    yearFieldError: String = String.EMPTY,
     focusRequester: FocusRequester,
 ) {
     Column(
@@ -152,41 +150,35 @@ fun AddGameContent(
             enabled = false,
             label = { Text(text = LocalContext.current.getString(string.text_console)) }
         )
-        OutlinedTextField(
+        MyGamesOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
                     top = dimen4x,
                     start = dimen8x,
-                    end = dimen8x,
-                    bottom = dimen0x
+                    end = dimen8x
                 )
                 .focusRequester(focusRequester),
-            value = name?.value.orEmpty(),
-            onValueChange = { name?.value = it },
-            isError = nameFieldError.isNotEmpty(),
-            label = { Text(text = LocalContext.current.getString(string.text_game_name)) }
+            value = name,
+            error = nameFieldError,
+            label = LocalContext.current.getString(string.text_game_name)
         )
-        OutlinedTextField(
+        MyGamesOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
                     top = dimen4x,
                     start = dimen8x,
                     end = dimen8x,
-                    bottom = dimen0x
                 ),
-            value = year?.value.orEmpty(),
-            onValueChange = {
-                if (it.length <= YEAR_SIZE) {
-                    year?.value = it
-                }
-            },
+            value = year,
             singleLine = true,
+            maxLength = YEAR_LENGTH,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
             ),
-            label = { Text(text = LocalContext.current.getString(string.text_game_year)) }
+            label = LocalContext.current.getString(string.text_game_year),
+            error = yearFieldError
         )
     }
 }
@@ -196,7 +188,7 @@ fun AddGameContent(
 fun AddGameScreenPreview() {
     MyGamesTheme {
         AddGameScreen(
-            mTitle = "Adicionar jogo"
+            title = "Adicionar jogo"
         )
     }
 }

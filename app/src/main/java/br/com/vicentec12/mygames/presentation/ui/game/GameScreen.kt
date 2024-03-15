@@ -22,12 +22,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import br.com.vicentec12.mygames.R
+import br.com.vicentec12.mygames.R.drawable
+import br.com.vicentec12.mygames.R.string
 import br.com.vicentec12.mygames.domain.model.Game
 import br.com.vicentec12.mygames.extensions.EMPTY
 import br.com.vicentec12.mygames.presentation.commons.ErrorMessageScreen
 import br.com.vicentec12.mygames.presentation.commons.LoadingScreen
-import br.com.vicentec12.mygames.presentation.commons.MyGamesTopAppBar
+import br.com.vicentec12.mygames.presentation.components.MyGamesTopAppBar
 import br.com.vicentec12.mygames.presentation.commons.UiState
 import br.com.vicentec12.mygames.presentation.theme.MyGamesTheme
 import br.com.vicentec12.mygames.presentation.theme.backgroundRecycler
@@ -82,13 +83,13 @@ fun GameTopBar(
     mOnItemOrderByClick: FunctionEmpty = { }
 ) {
     MyGamesTopAppBar(
-        mAppBarTitle = { LocalContext.current.getString(R.string.text_my_games) },
+        mAppBarTitle = { LocalContext.current.getString(string.text_my_games) },
         mNavController = mNavController,
         mActions = {
             IconButton(onClick = mOnItemOrderByClick) {
                 Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_sort),
-                    contentDescription = LocalContext.current.getString(R.string.content_description_order_by)
+                    imageVector = ImageVector.vectorResource(id = drawable.ic_sort),
+                    contentDescription = LocalContext.current.getString(string.content_description_order_by)
                 )
             }
         }

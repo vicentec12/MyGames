@@ -17,7 +17,7 @@ import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.R.string
 import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.presentation.commons.LoadingScreen
-import br.com.vicentec12.mygames.presentation.commons.MyGamesTopAppBar
+import br.com.vicentec12.mygames.presentation.components.MyGamesTopAppBar
 import br.com.vicentec12.mygames.presentation.theme.MyGamesTheme
 import br.com.vicentec12.mygames.presentation.theme.backgroundRecycler
 import br.com.vicentec12.mygames.presentation.theme.dimen4x

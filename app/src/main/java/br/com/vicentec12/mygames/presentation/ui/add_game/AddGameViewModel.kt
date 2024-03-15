@@ -8,6 +8,7 @@ import br.com.vicentec12.mygames.domain.use_case.console.ListConsolesUseCase
 import br.com.vicentec12.mygames.domain.use_case.game.InsertGameUseCase
 import br.com.vicentec12.mygames.domain.use_case.game.UpdateGameUseCase
 import br.com.vicentec12.mygames.extensions.error
+import br.com.vicentec12.mygames.extensions.isYear
 import br.com.vicentec12.mygames.extensions.success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,8 +29,11 @@ class AddGameViewModel @Inject constructor(
     private val _message = MutableStateFlow<Int?>(null)
     val message = _message.asStateFlow()
 
-    private val _nameError = MutableStateFlow<Int?>(null)
-    val nameFieldError = _nameError.asStateFlow()
+    private val _nameFieldError = MutableStateFlow<Int?>(null)
+    val nameFieldError = _nameFieldError.asStateFlow()
+
+    private val _yearFieldError = MutableStateFlow<Int?>(null)
+    val yearFieldError = _yearFieldError.asStateFlow()
 
     private fun insertGame(mGame: Game) {
         viewModelScope.launch {
@@ -58,6 +62,7 @@ class AddGameViewModel @Inject constructor(
         mYear: String,
         mConsoleId: Long
     ) {
+        removeFieldsError()
         if (validateFields(mName, mYear)) {
             val mCopyGame = mGame?.copy(
                 name = mName,
@@ -71,15 +76,25 @@ class AddGameViewModel @Inject constructor(
         }
     }
 
-    fun validateFields(
+    private fun validateFields(
         mName: String,
         mYear: String,
-    ): Boolean {
-        return if (mName.isEmpty()) {
-            _nameError.value = R.string.error_message_empty_field
-            false
-        } else
-            true
+    ) = if (mName.isEmpty()) {
+        _nameFieldError.value = R.string.error_message_empty_field
+        false
+    } else if (mYear.isEmpty()) {
+        _yearFieldError.value = R.string.error_message_empty_field
+        false
+    } else if (mYear.isYear().not()) {
+        _yearFieldError.value = R.string.error_message_invalid_year
+        false
+    } else {
+        true
+    }
+
+    private fun removeFieldsError() {
+        _nameFieldError.value = null
+        _yearFieldError.value = null
     }
 
     fun successInsert() {

@@ -25,26 +25,26 @@ class AddGameFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ) = ComposeView(requireContext()).apply {
         setContent {
-            val mSuccessInsert = mViewModel.successInsert.collectAsStateWithLifecycle()
-            val mMessage = mViewModel.message.collectAsStateWithLifecycle()
-            val mNameFieldError = mViewModel.nameFieldError.collectAsStateWithLifecycle()
+            val successInsert = mViewModel.successInsert.collectAsStateWithLifecycle()
+            val message = mViewModel.message.collectAsStateWithLifecycle()
+            val nameFieldError = mViewModel.nameFieldError.collectAsStateWithLifecycle()
+            val yearFieldError = mViewModel.yearFieldError.collectAsStateWithLifecycle()
             MyGamesTheme {
                 AddGameScreen(
-                    mNavController = findNavController(),
+                    navController = findNavController(),
                     mGame = mActivityViewModel.mSelectedGame,
                     consoleSelected = mActivityViewModel.mSelectedConsole,
-                    mTitle = getTitle(),
+                    title = getTitle(),
                     onClickFab = mViewModel::saveOrUpdateGame,
                     successInsert = {
-                        val mSuccessInsertValue = mSuccessInsert.value.orFalse()
+                        val mSuccessInsertValue = successInsert.value.orFalse()
                         mViewModel.successInsert()
                         mSuccessInsertValue
                     },
-                    nameFieldError = {
-                        mNameFieldError.value?.let(::getString).orEmpty()
-                    },
+                    nameFieldError = { nameFieldError.value?.let(::getString).orEmpty() },
+                    yearFieldError = { yearFieldError.value?.let(::getString).orEmpty() },
                     showSnackbar = {
-                        val mMessageValue = mMessage.value
+                        val mMessageValue = message.value
                         mViewModel.messageShown()
                         mMessageValue?.let(::getString).orEmpty()
                     }
