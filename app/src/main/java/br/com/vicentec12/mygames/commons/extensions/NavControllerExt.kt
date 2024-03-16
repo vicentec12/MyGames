@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.extensions
+package br.com.vicentec12.mygames.commons.extensions
 
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections

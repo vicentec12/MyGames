@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.extensions
+package br.com.vicentec12.mygames.commons.extensions
 
 import br.com.vicentec12.mygames.R
 import com.google.android.material.textfield.TextInputLayout

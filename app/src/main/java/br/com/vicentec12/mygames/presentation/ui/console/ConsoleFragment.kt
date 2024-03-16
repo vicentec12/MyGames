@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import br.com.vicentec12.mygames.extensions.navigateWithAnim
+import br.com.vicentec12.mygames.commons.extensions.navigateWithAnim
 import br.com.vicentec12.mygames.presentation.ui.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

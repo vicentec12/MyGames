@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.domain.model.Game
-import br.com.vicentec12.mygames.extensions.EMPTY
+import br.com.vicentec12.mygames.commons.extensions.EMPTY
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor() : ViewModel() {
@@ -24,7 +24,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
         }
 
     private var _mSelectedGame: Game? = null
-    var mSelectedGame: Game?
+    var selectedGame: Game?
         get() = _mSelectedGame
         set(value) {
             _mSelectedGame = value

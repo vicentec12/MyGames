@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.util
+package br.com.vicentec12.mygames.commons.util
 
 /**
  * Responsável por usar o valor apenas uma vez e limpar a variável LiveData.

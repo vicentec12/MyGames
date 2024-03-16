@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.extensions
+package br.com.vicentec12.mygames.commons.extensions
 
 import android.os.Bundle
 import android.view.LayoutInflater

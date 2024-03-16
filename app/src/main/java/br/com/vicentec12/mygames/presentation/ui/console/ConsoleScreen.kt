@@ -24,7 +24,7 @@ import br.com.vicentec12.mygames.presentation.theme.dimen4x
 import br.com.vicentec12.mygames.presentation.ui.console.ConsoleViewModel.UiState
 import br.com.vicentec12.mygames.presentation.ui.console.ConsoleViewModel.UiState.Consoles
 import br.com.vicentec12.mygames.presentation.ui.console.ConsoleViewModel.UiState.Loading
-import br.com.vicentec12.mygames.util.OnItemClickListener
+import br.com.vicentec12.mygames.commons.util.OnItemClickListener
 
 @Composable
 fun ConsoleScreen(

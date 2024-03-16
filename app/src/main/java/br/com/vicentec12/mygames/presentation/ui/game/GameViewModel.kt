@@ -5,12 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.vicentec12.mygames.R
+import br.com.vicentec12.mygames.commons.extensions.error
+import br.com.vicentec12.mygames.commons.extensions.orFalse
+import br.com.vicentec12.mygames.commons.extensions.orValue
+import br.com.vicentec12.mygames.commons.extensions.orZero
+import br.com.vicentec12.mygames.commons.extensions.success
 import br.com.vicentec12.mygames.data.local.entities.GameEntity.Companion.COLUMN_NAME
 import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.domain.model.Game
 import br.com.vicentec12.mygames.domain.use_case.game.DeleteGamesUseCase
 import br.com.vicentec12.mygames.domain.use_case.game.ListGamesUseCase
-import br.com.vicentec12.mygames.extensions.*
 import br.com.vicentec12.mygames.presentation.commons.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

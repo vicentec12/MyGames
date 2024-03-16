@@ -1,4 +1,4 @@
-package br.com.vicentec12.mygames.util
+package br.com.vicentec12.mygames.commons.util
 
 typealias FunctionEmpty = () -> Unit
 typealias FunctionParam<I> = (I) -> Unit

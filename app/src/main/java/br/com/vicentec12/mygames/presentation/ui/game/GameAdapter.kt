@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import br.com.vicentec12.mygames.databinding.ItemGameBinding
 import br.com.vicentec12.mygames.domain.model.Game
-import br.com.vicentec12.mygames.util.OnItemClickListener
-import br.com.vicentec12.mygames.util.OnItemLongClickListener
+import br.com.vicentec12.mygames.commons.util.OnItemClickListener
+import br.com.vicentec12.mygames.commons.util.OnItemLongClickListener
 
 class GameAdapter(
     private val mViewModel: GameViewModel,

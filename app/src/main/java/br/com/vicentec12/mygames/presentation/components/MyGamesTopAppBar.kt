@@ -20,9 +20,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.R.string
-import br.com.vicentec12.mygames.extensions.EMPTY
+import br.com.vicentec12.mygames.commons.extensions.EMPTY
 import br.com.vicentec12.mygames.presentation.theme.MyGamesTheme
-import br.com.vicentec12.mygames.util.FunctionReturn
+import br.com.vicentec12.mygames.commons.util.FunctionReturn
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

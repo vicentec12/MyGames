@@ -4,9 +4,9 @@ import br.com.vicentec12.mygames.data.mapper.toEntity
 import br.com.vicentec12.mygames.data.mapper.toEntityList
 import br.com.vicentec12.mygames.data.mapper.toModelList
 import br.com.vicentec12.mygames.data.source.GameDataSource
-import br.com.vicentec12.mygames.di.Local
+import br.com.vicentec12.mygames.commons.di.Local
 import br.com.vicentec12.mygames.domain.model.Game
-import br.com.vicentec12.mygames.extensions.map
+import br.com.vicentec12.mygames.commons.extensions.map
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

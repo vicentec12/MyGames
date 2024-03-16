@@ -17,9 +17,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.findNavController
 import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.domain.model.Game
-import br.com.vicentec12.mygames.extensions.makeSnackbar
-import br.com.vicentec12.mygames.extensions.navigateWithAnim
-import br.com.vicentec12.mygames.extensions.orZero
+import br.com.vicentec12.mygames.commons.extensions.makeSnackbar
+import br.com.vicentec12.mygames.commons.extensions.navigateWithAnim
+import br.com.vicentec12.mygames.commons.extensions.orZero
 import br.com.vicentec12.mygames.presentation.ui.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -131,7 +131,7 @@ class GameFragment : Fragment(), ActionMode.Callback {
     }
 
     private fun navigateToAddGame(mGame: Game? = null) {
-        mActivityViewModel.mSelectedGame = mGame
+        mActivityViewModel.selectedGame = mGame
         requireView().findNavController()
             .navigateWithAnim(GameFragmentDirections.navigateAddGame())
     }

@@ -13,13 +13,15 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import br.com.vicentec12.mygames.extensions.EMPTY
-import br.com.vicentec12.mygames.extensions.orFalse
+import br.com.vicentec12.mygames.commons.extensions.EMPTY
+import br.com.vicentec12.mygames.commons.extensions.orFalse
+import br.com.vicentec12.mygames.commons.util.FunctionParam
 
 @Composable
 fun MyGamesOutlinedTextField(
     modifier: Modifier = Modifier,
-    value: MutableState<String>? = null,
+    value: String? = null,
+    setValue: FunctionParam<String>? = null,
     label: String? = null,
     error: String? = null,
     maxLength: Int? = null,
@@ -28,10 +30,10 @@ fun MyGamesOutlinedTextField(
 ) {
     OutlinedTextField(
         modifier = modifier,
-        value = value?.value.orEmpty(),
+        value = value.orEmpty(),
         onValueChange = {
             if (maxLength == null || it.length <= maxLength) {
-                value?.value = it
+                setValue?.invoke(it)
             }
         },
         isError = error?.isNotEmpty().orFalse(),
@@ -67,7 +69,7 @@ fun MyGamesOutlinedTextField(
 @Composable
 fun MyGamesOutlinedTextFieldPreview() {
     MyGamesOutlinedTextField(
-        value = mutableStateOf("test"),
+        value = "test",
         label = "Test",
         error = "Error"
     )

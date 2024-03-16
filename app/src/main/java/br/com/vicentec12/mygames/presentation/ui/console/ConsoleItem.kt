@@ -23,9 +23,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import br.com.vicentec12.mygames.R
 import br.com.vicentec12.mygames.R.drawable
 import br.com.vicentec12.mygames.domain.model.Console
-import br.com.vicentec12.mygames.extensions.orZero
+import br.com.vicentec12.mygames.commons.extensions.orZero
 import br.com.vicentec12.mygames.presentation.theme.*
-import br.com.vicentec12.mygames.util.OnItemClickListener
+import br.com.vicentec12.mygames.commons.util.OnItemClickListener
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

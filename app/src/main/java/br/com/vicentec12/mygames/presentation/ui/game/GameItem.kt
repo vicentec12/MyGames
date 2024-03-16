@@ -21,11 +21,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import br.com.vicentec12.mygames.domain.model.Game
-import br.com.vicentec12.mygames.extensions.orFalse
+import br.com.vicentec12.mygames.commons.extensions.orFalse
 import br.com.vicentec12.mygames.presentation.theme.*
-import br.com.vicentec12.mygames.util.FunctionReturn
-import br.com.vicentec12.mygames.util.OnItemClickListener
-import br.com.vicentec12.mygames.util.OnItemLongClickListener
+import br.com.vicentec12.mygames.commons.util.FunctionReturn
+import br.com.vicentec12.mygames.commons.util.OnItemClickListener
+import br.com.vicentec12.mygames.commons.util.OnItemLongClickListener
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

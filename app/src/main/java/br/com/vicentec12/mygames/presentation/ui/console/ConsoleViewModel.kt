@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.vicentec12.mygames.domain.model.Console
 import br.com.vicentec12.mygames.domain.use_case.console.ListWithGamesUseCase
-import br.com.vicentec12.mygames.extensions.error
-import br.com.vicentec12.mygames.extensions.success
+import br.com.vicentec12.mygames.commons.extensions.error
+import br.com.vicentec12.mygames.commons.extensions.success
 import br.com.vicentec12.mygames.presentation.ui.console.ConsoleViewModel.UiState.Consoles
 import br.com.vicentec12.mygames.presentation.ui.console.ConsoleViewModel.UiState.Error
 import br.com.vicentec12.mygames.presentation.ui.console.ConsoleViewModel.UiState.Loading

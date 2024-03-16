@@ -2,7 +2,7 @@ package br.com.vicentec12.mygames.domain.model
 
 import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
-import br.com.vicentec12.mygames.extensions.EMPTY
+import br.com.vicentec12.mygames.commons.extensions.EMPTY
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

@@ -30,7 +30,7 @@ import androidx.navigation.NavController
 import br.com.vicentec12.mygames.R.drawable
 import br.com.vicentec12.mygames.R.string
 import br.com.vicentec12.mygames.domain.model.Game
-import br.com.vicentec12.mygames.extensions.EMPTY
+import br.com.vicentec12.mygames.commons.extensions.EMPTY
 import br.com.vicentec12.mygames.presentation.commons.ErrorMessageScreen
 import br.com.vicentec12.mygames.presentation.commons.LoadingScreen
 import br.com.vicentec12.mygames.presentation.components.MyGamesTopAppBar
@@ -39,10 +39,10 @@ import br.com.vicentec12.mygames.presentation.theme.MyGamesTheme
 import br.com.vicentec12.mygames.presentation.theme.backgroundRecycler
 import br.com.vicentec12.mygames.presentation.theme.dimen4x
 import br.com.vicentec12.mygames.presentation.theme.recyclerBottomWithFabDimen
-import br.com.vicentec12.mygames.util.FunctionEmpty
-import br.com.vicentec12.mygames.util.FunctionReturn
-import br.com.vicentec12.mygames.util.OnItemClickListener
-import br.com.vicentec12.mygames.util.OnItemLongClickListener
+import br.com.vicentec12.mygames.commons.util.FunctionEmpty
+import br.com.vicentec12.mygames.commons.util.FunctionReturn
+import br.com.vicentec12.mygames.commons.util.OnItemClickListener
+import br.com.vicentec12.mygames.commons.util.OnItemLongClickListener
 import kotlinx.coroutines.launch
 
 @Composable
